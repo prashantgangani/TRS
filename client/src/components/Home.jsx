@@ -8,7 +8,7 @@ import DiscordTeaser from './DiscordTeaser';
 const Home = ({ isAdmin }) => {
     return (
         <main>
-            <Hero />
+            <Hero isAdmin={isAdmin} />
             <UpcomingMeets isAdmin={isAdmin} />
             <FeaturedCars />
             <CrewIdentity />

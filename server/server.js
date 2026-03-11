@@ -9,6 +9,7 @@ const memberRoutes = require('./routes/memberRoutes');
 const lawRoutes = require('./routes/lawRoutes');
 const timezoneRoutes = require('./routes/timezoneRoutes');
 const authRoutes = require('./routes/authRoutes');
+const heroRoutes = require('./routes/heroRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +30,7 @@ app.use('/api/members', memberRoutes);
 app.use('/api/laws', lawRoutes);
 app.use('/api/timezones', timezoneRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/hero', heroRoutes);
 
 // Base route for server testing
 app.get('/', (req, res) => {

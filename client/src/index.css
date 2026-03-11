@@ -31,6 +31,63 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    33% { transform: translateY(-30px) translateX(20px); }
+    66% { transform: translateY(20px) translateX(-15px); }
+  }
+
+  @keyframes gradient-x {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(200%); }
+  }
+
+  .animate-float-slow {
+    animation: float-slow 15s ease-in-out infinite;
+  }
+  
+  .animate-gradient-x {
+    animation: gradient-x 6s ease infinite;
+    background-size: 200% 200%;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+  .animate-scanline {
+    animation: scanline 3s linear infinite;
+  }
+  
+  /* 3D Transform Utilities for the Image Collage */
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .translate-z-10 { transform: translateZ(10px); }
+  .translate-z-20 { transform: translateZ(20px); }
+  .translate-z-30 { transform: translateZ(30px); }
+  .translate-z-40 { transform: translateZ(40px); }
+
   .neon-glow {
     filter: drop-shadow(0 0 10px rgba(176, 38, 255, 0.5));
   }
