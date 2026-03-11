@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Globe2, Clock } from 'lucide-react';
+import { API_URL } from '../config';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,7 +26,7 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
 
     const fetchTimezones = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/timezones');
+            const response = await fetch(`${API_URL}/timezones`);
             const data = await response.json();
             setTimezones(data);
             setLoading(false);
@@ -43,7 +44,7 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const response = await fetch('http://localhost:5000/api/timezones', {
+            const response = await fetch(`${API_URL}/timezones`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ region, time, day, offset })
@@ -61,7 +62,7 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/timezones/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/timezones/${id}`, { method: 'DELETE' });
             setTimezones(timezones.filter(tz => tz._id !== id));
         } catch (error) {
             console.error(error);

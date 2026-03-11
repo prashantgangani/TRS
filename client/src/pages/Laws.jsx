@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ShieldAlert } from 'lucide-react';
+import { API_URL } from '../config';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -24,7 +25,7 @@ const Laws = ({ isAdmin, isSuperAdmin }) => {
 
     const fetchLaws = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/laws');
+            const response = await fetch(`${API_URL}/laws`);
             const data = await response.json();
             setLaws(data);
             setLoading(false);
@@ -42,7 +43,7 @@ const Laws = ({ isAdmin, isSuperAdmin }) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const response = await fetch('http://localhost:5000/api/laws', {
+            const response = await fetch(`${API_URL}/laws`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title, description, category, order: laws.length })
@@ -60,7 +61,7 @@ const Laws = ({ isAdmin, isSuperAdmin }) => {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`http://localhost:5000/api/laws/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/laws/${id}`, { method: 'DELETE' });
             setLaws(laws.filter(law => law._id !== id));
         } catch (error) {
             console.error(error);

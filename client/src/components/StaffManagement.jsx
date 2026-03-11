@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Trash2, KeyRound } from 'lucide-react';
+import { UserPlus, Shield, ShieldCheck, Trash2, X, AlertTriangle, ListFilter, Search } from 'lucide-react';
+import { API_URL } from '../config';
 
 const StaffManagement = () => {
     const [admins, setAdmins] = useState([]);
@@ -15,7 +16,7 @@ const StaffManagement = () => {
 
     const fetchAdmins = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/auth/admins', {
+            const response = await fetch(`${API_URL}/auth/admins`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
@@ -41,7 +42,7 @@ const StaffManagement = () => {
         setError('');
         
         try {
-            const response = await fetch('http://localhost:5000/api/auth/register-admin', {
+            const response = await fetch(`${API_URL}/auth/register-admin`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ const StaffManagement = () => {
         if (!window.confirm("Revoke admin access for this user?")) return;
         
         try {
-            const response = await fetch(`http://localhost:5000/api/auth/admins/${id}`, {
+            const response = await fetch(`${API_URL}/auth/admins/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

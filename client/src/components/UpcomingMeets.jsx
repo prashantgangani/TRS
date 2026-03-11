@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Target, Plus, Car, User, Clock, ShieldAlert, X, Info, Edit2, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
+import { API_URL } from '../config';
 
 const UpcomingMeets = ({ isAdmin }) => {
     const [meets, setMeets] = useState([]);
@@ -33,7 +34,7 @@ const UpcomingMeets = ({ isAdmin }) => {
     useEffect(() => {
         const fetchMeets = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/meets');
+                const response = await fetch(`${API_URL}/meets`);
                 const data = await response.json();
                 setMeets(data);
                 setLoading(false);
@@ -105,7 +106,7 @@ const UpcomingMeets = ({ isAdmin }) => {
                                     e.stopPropagation();
                                     if (!window.confirm("Delete this meet?")) return;
                                     try {
-                                        const response = await fetch(`http://localhost:5000/api/meets/${meet._id}`, { method: 'DELETE' });
+                                        const response = await fetch(`${API_URL}/meets/${meet._id}`, { method: 'DELETE' });
                                         if (response.ok) {
                                             setMeets(meets.filter(m => m._id !== meet._id));
                                         }

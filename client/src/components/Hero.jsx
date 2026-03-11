@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Edit2, X, Save } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import { API_URL } from '../config';
 
 const Hero = ({ isAdmin }) => {
     const [heroData, setHeroData] = useState({
-        tonightsMeetTitle: 'Tokyo Nights',
-        tonightsMeetLocation: 'Vinewood Hills',
-        tonightsMeetTime: '10:30 PM',
+        tonightsMeetTitle: 'Weekly Showcase',
+        tonightsMeetLocation: 'Los Santos Custom',
+        tonightsMeetTime: '8:00 PM',
         atmosphereImage: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800',
         meetImage: 'https://images.unsplash.com/photo-1596489394602-0e427ed4caeb?auto=format&fit=crop&q=80&w=800',
         featuredBuildImage: 'https://images.unsplash.com/photo-1611821064430-0d40220e4b98?auto=format&fit=crop&q=80&w=1000',
@@ -22,7 +23,7 @@ const Hero = ({ isAdmin }) => {
     useEffect(() => {
         const fetchHeroData = async () => {
             try {
-                const res = await fetch('http://localhost:5000/api/hero');
+                const res = await fetch(`${API_URL}/hero`);
                 const data = await res.json();
                 if (data && data._id) {
                     setHeroData(data);
@@ -39,7 +40,7 @@ const Hero = ({ isAdmin }) => {
         e.preventDefault();
         setIsSaving(true);
         try {
-            const res = await fetch('http://localhost:5000/api/hero', {
+            const res = await fetch(`${API_URL}/hero`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(editForm)

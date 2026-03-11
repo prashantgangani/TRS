@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ShieldCheck, UserPlus, Lock, User, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Lock, Shield, UserPlus } from 'lucide-react';
+import { API_URL } from '../config';
 
 const AdminLogin = ({ setAuthContext }) => {
     const [name, setName] = useState('');
@@ -17,7 +18,7 @@ const AdminLogin = ({ setAuthContext }) => {
         setLoading(true);
         
         try {
-            const response = await fetch(`http://localhost:5000/api/auth/login`, {
+            const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, password })

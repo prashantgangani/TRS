@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { API_URL } from '../config';
 
 const Showroom = ({ isAdmin }) => {
     const [showroomCars, setShowroomCars] = useState([]);
@@ -19,7 +20,7 @@ const Showroom = ({ isAdmin }) => {
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/cars');
+                const response = await fetch(`${API_URL}/cars`);
                 const data = await response.json();
                 setShowroomCars(data);
                 setLoading(false);
@@ -44,7 +45,7 @@ const Showroom = ({ isAdmin }) => {
             };
 
             if (editingId) {
-                const response = await fetch(`http://localhost:5000/api/cars/${editingId}`, {
+                const response = await fetch(`${API_URL}/cars/${editingId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -53,7 +54,7 @@ const Showroom = ({ isAdmin }) => {
                 setShowroomCars(showroomCars.map(c => c._id === editingId ? updatedCar : c));
                 setEditingId(null);
             } else {
-                const response = await fetch('http://localhost:5000/api/cars', {
+                 const response = await fetch(`${API_URL}/cars`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -84,7 +85,7 @@ const Showroom = ({ isAdmin }) => {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this car?")) return;
         try {
-            const response = await fetch(`http://localhost:5000/api/cars/${id}`, {
+            const response = await fetch(`${API_URL}/cars/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {

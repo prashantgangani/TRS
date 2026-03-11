@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
+import { API_URL } from '../config';
 import StaffManagement from '../components/StaffManagement';
 
 const containerVariants = {
@@ -31,7 +32,7 @@ const Members = ({ isSuperAdmin }) => {
 
     const fetchMembers = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/members');
+            const response = await fetch(`${API_URL}/members`);
             const data = await response.json();
             setMembers(data);
             setLoading(false);
@@ -51,7 +52,7 @@ const Members = ({ isSuperAdmin }) => {
         const payload = { name, role, quote, color, image };
         try {
             if (editingId) {
-                const response = await fetch(`http://localhost:5000/api/members/${editingId}`, {
+                const response = await fetch(`${API_URL}/members/${editingId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -63,7 +64,7 @@ const Members = ({ isSuperAdmin }) => {
                     setName(''); setRole(''); setQuote(''); setImage(''); setColor('from-neon-purple to-purple-900');
                 }
             } else {
-                const response = await fetch('http://localhost:5000/api/members', {
+                const response = await fetch(`${API_URL}/members`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -93,7 +94,7 @@ const Members = ({ isSuperAdmin }) => {
     const handleDeleteMember = async (id) => {
         if (!window.confirm("Are you sure you want to remove this member?")) return;
         try {
-            const response = await fetch(`http://localhost:5000/api/members/${id}`, {
+            const response = await fetch(`${API_URL}/members/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -124,12 +125,12 @@ const Members = ({ isSuperAdmin }) => {
 
         // Send backend updates
         try {
-            await fetch(`http://localhost:5000/api/members/${newMembers[index]._id}`, {
+            await fetch(`${API_URL}/members/${newMembers[index]._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ order: newMembers[index].order })
             });
-            await fetch(`http://localhost:5000/api/members/${newMembers[swapIndex]._id}`, {
+            await fetch(`${API_URL}/members/${newMembers[swapIndex]._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ order: newMembers[swapIndex].order })

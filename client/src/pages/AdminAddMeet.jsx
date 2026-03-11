@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Calendar, MapPin, Clock, User, ShieldAlert, Plus, Save, X, Trash2, Camera, Car, Info, Gavel } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const AdminAddMeet = ({ isAdmin }) => {
     const navigate = useNavigate();
@@ -39,7 +41,7 @@ const AdminAddMeet = ({ isAdmin }) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const url = editMeet ? `http://localhost:5000/api/meets/${editMeet._id}` : 'http://localhost:5000/api/meets';
+            const url = editMeet ? `${API_URL}/meets/${editMeet._id}` : `${API_URL}/meets`;
             const method = editMeet ? 'PUT' : 'POST';
 
             const response = await fetch(url, {

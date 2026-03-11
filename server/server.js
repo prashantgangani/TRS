@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const meetRoutes = require('./routes/meetRoutes');
 const carRoutes = require('./routes/carRoutes');
@@ -15,13 +16,27 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors()); // Allow frontend to communicate
+app.use(helmet()); // Security headers
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        process.env.CLIENT_URL
+    ],
+    credentials: true
+}));
 app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Database Connection
+console.log("Server starting...");
+console.log("Environment:", process.env.NODE_ENV || 'development');
+
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Successfully connected to MongoDB Atlas!'))
-    .catch((error) => console.error('MongoDB connection error:', error));
+    .catch((error) => {
+        console.error('CRITICAL: MongoDB connection error:', error);
+        process.exit(1); // Exit if DB connection fails in production
+    });
 
 // Routes
 app.use('/api/meets', meetRoutes);
@@ -32,9 +47,26 @@ app.use('/api/timezones', timezoneRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/hero', heroRoutes);
 
-// Base route for server testing
+// Health Check Routes
 app.get('/', (req, res) => {
-    res.send('TRS Underground API is running.');
+    res.send('TRS Underground API is running successfully.');
+});
+
+app.get('/api/health', (req, res) => {
+    res.json({ 
+        status: 'ok', 
+        timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV || 'development'
+    });
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        message: "Internal Server Error",
+        error: process.env.NODE_ENV === 'development' ? err.message : {}
+    });
 });
 
 // Start Server
