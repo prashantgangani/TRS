@@ -1,0 +1,108 @@
+import React, { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
+
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+const Navbar = ({ role, setRole }) => {
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [activeHash, setActiveHash] = useState('');
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // Helper to handle smooth scrolling or cross-page hash navigation
+    const handleNavClick = (e, targetId) => {
+        e.preventDefault();
+        setMobileMenuOpen(false);
+        setActiveHash(targetId || '');
+
+        if (location.pathname !== '/') {
+            // Unconditionally navigate to home first, then append hash if needed
+            navigate(`/${targetId ? `#${targetId}` : ''}`);
+        } else {
+            // If already on home, just scroll
+            if (targetId) {
+                const element = document.getElementById(targetId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    return (
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glassmorphism border-none py-3' : 'bg-transparent py-5'}`}>
+            <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+                {/* Logo */}
+                <Link to="/" onClick={(e) => handleNavClick(e, null)} className="flex items-center gap-3 cursor-pointer group">
+                    <div className="relative w-10 h-10 lg:w-12 lg:h-12 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-110 group-hover:border-white/50 transition-all duration-300">
+                        <img src="/TRS_LOGO.png" alt="TRS Logo" className="w-full h-full object-contain bg-black" />
+                    </div>
+                    <div className="flex flex-col justify-center">
+                        <span className="font-heading font-black text-xl lg:text-2xl tracking-[0.2em] text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] leading-none mb-0.5 group-hover:text-glow transition-all">
+                            THE ROYAL SORCERERS
+                        </span>
+
+                    </div>
+                </Link>
+
+                {/* Desktop Links */}
+                <div className="hidden md:flex items-center gap-8">
+                    <a href="#meets" onClick={(e) => handleNavClick(e, 'meets')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/' && activeHash === 'meets' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Meets</a>
+                    <a href="#garage" onClick={(e) => handleNavClick(e, 'garage')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/' && activeHash === 'garage' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Garage</a>
+                    <Link to="/members" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/members' ? 'text-electric-blue text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Members</Link>
+                    <Link to="/laws" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/laws' ? 'text-neon-red text-glow-red' : 'text-white/70 hover:text-white hover:text-glow'}`}>Laws</Link>
+                    <Link to="/timezones" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/timezones' ? 'text-white text-glow' : 'text-white/70 hover:text-white hover:text-glow'}`}>Timezone</Link>
+
+                    {role !== 'user' && (
+                        <div className="flex bg-black/50 border border-neon-red/50 rounded p-1 ml-4 shadow-[0_0_10px_rgba(255,51,102,0.2)] backdrop-blur-md">
+                            <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-electric-blue">{role}</span>
+                            <button onClick={() => { localStorage.clear(); setRole('user'); navigate('/'); }} className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded bg-neon-red/20 text-neon-red hover:bg-neon-red hover:text-white transition-all">
+                                Logout
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Mobile Toggle */}
+                <div className="md:hidden">
+                    <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-white">
+                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+                <div className="md:hidden absolute top-full left-0 w-full glass-panel py-4 px-6 flex flex-col gap-4 border-b border-white/10">
+                    <a href="#meets" className={`text-sm uppercase tracking-widest ${location.pathname === '/' && activeHash === 'meets' ? 'text-neon-purple' : 'text-white/80 hover:text-white'}`} onClick={(e) => handleNavClick(e, 'meets')}>Meets</a>
+                    <a href="#garage" className={`text-sm uppercase tracking-widest ${location.pathname === '/' && activeHash === 'garage' ? 'text-neon-purple' : 'text-white/80 hover:text-white'}`} onClick={(e) => handleNavClick(e, 'garage')}>Garage</a>
+                    <Link to="/members" className={`text-sm uppercase tracking-widest ${location.pathname === '/members' ? 'text-electric-blue' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Members</Link>
+                    <Link to="/laws" className={`text-sm uppercase tracking-widest ${location.pathname === '/laws' ? 'text-neon-red' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Laws</Link>
+                    <Link to="/timezones" className={`text-sm uppercase tracking-widest ${location.pathname === '/timezones' ? 'text-white' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Timezone</Link>
+
+                    {role !== 'user' && (
+                        <div className="mt-4 flex flex-col gap-2">
+                            <span className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Logged in as {role}</span>
+                            <button onClick={() => { localStorage.clear(); setRole('user'); setMobileMenuOpen(false); navigate('/'); }} className="w-full py-2 bg-neon-red/20 text-neon-red text-xs font-bold uppercase tracking-widest rounded border border-neon-red/50">
+                                Logout
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
+        </nav>
+    );
+};
+
+export default Navbar;
