@@ -36,7 +36,7 @@ const CrewIdentity = () => {
                                 <div className="text-sm uppercase tracking-widest text-white/50">Builds Only</div>
                             </div>
                             <div className="border-l-2 border-white/20 pl-4">
-                                <div className="text-3xl font-bold text-white mb-1">500+</div>
+                                <div className="text-3xl font-bold text-white mb-1">100+</div>
                                 <div className="text-sm uppercase tracking-widest text-white/50">Active Drivers</div>
                             </div>
                             <div className="border-l-2 border-neon-red pl-4">
