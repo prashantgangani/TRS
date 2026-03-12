@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Globe2, Clock } from 'lucide-react';
+import { Plus, Trash2, Globe2, Clock, Search } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 
@@ -17,6 +17,7 @@ const itemVariants = {
 const Timezones = ({ isAdmin, isSuperAdmin }) => {
     const [timezones, setTimezones] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Form State for SuperAdmin
     const [region, setRegion] = useState('');
@@ -73,6 +74,10 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
         }
     };
 
+    const filteredTimezones = timezones.filter(tz =>
+        tz.region.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="min-h-screen bg-deep-black text-white relative pt-32 pb-32">
             <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-electric-blue/5 blur-[150px] rounded-full pointer-events-none -z-10"></div>
@@ -81,7 +86,7 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
                 <motion.div 
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
                     <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-electric-blue border-electric-blue/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,229,255,0.2)]">
                         Global Dispatch
@@ -93,6 +98,19 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
                         Our crew operates worldwide. Find the exact standard dispatch time for your region below so you never miss a lobby.
                     </p>
                 </motion.div>
+
+                <div className="mb-12 max-w-md mx-auto relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <Search size={20} className="text-white/40 group-focus-within:text-electric-blue transition-colors" />
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Search by region name..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-black/40 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-electric-blue/50 focus:bg-black/60 transition-all shadow-inner"
+                    />
+                </div>
 
                 {isAdmin && (
                     <motion.div
@@ -119,17 +137,23 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
                 {loading ? (
                     <div className="text-white/50 text-center py-20 tracking-widest uppercase">Syncing Clocks...</div>
                 ) : (
-                    <motion.div 
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                    >
-                        <AnimatePresence>
-                            {timezones.map(tz => (
-                                <motion.div 
-                                    key={tz._id}
-                                    variants={itemVariants}
+                    <>
+                        {filteredTimezones.length === 0 ? (
+                            <div className="text-center py-12 text-white/50">
+                                No timezones found matching "{searchQuery}"
+                            </div>
+                        ) : (
+                            <motion.div 
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                            >
+                                <AnimatePresence>
+                                    {filteredTimezones.map(tz => (
+                                        <motion.div 
+                                            key={tz._id}
+                                            variants={itemVariants}
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     className="bg-charcoal/40 border border-white/5 rounded-xl p-6 relative group hover:border-electric-blue/30 transition-colors overflow-hidden"
                                 >
@@ -160,9 +184,11 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
                                     {/* Bottom aesthetic line */}
                                     <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-electric-blue/0 via-electric-blue/50 to-electric-blue/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </motion.div>
+                        )}
+                    </>
                 )}
             </div>
         </div>
