@@ -9,6 +9,9 @@ import ScrollToTop from './components/ScrollToTop';
 import Laws from './pages/Laws';
 import Timezones from './pages/Timezones';
 import AdminLogin from './pages/AdminLogin';
+import SubmitFeedback from './pages/SubmitFeedback';
+import ManageFeedbacks from './pages/ManageFeedbacks';
+import AdminLogs from './pages/AdminLogs';
 
 function App() {
   const [role, setRole] = useState(localStorage.getItem('trs_role') || 'user');
@@ -36,6 +39,9 @@ function App() {
         <Route path="/showroom" element={<Showroom isAdmin={isAdmin} />} />
         <Route path="/admin/add-meet" element={<AdminAddMeet isAdmin={isAdmin} />} />
         <Route path="/admin-login" element={<AdminLogin setAuthContext={setRole} />} />
+        <Route path="/feedback" element={<SubmitFeedback />} />
+        <Route path="/manage-feedbacks" element={isAdmin ? <ManageFeedbacks /> : <Home isAdmin={isAdmin} />} />
+        <Route path="/logs" element={isSuperAdmin ? <AdminLogs /> : <Home isAdmin={isAdmin} />} />
       </Routes>
       <footer className="w-full py-8 border-t border-white/5 text-center text-white/40 text-sm">
         <p>&copy; {new Date().getFullYear()} Underground Meets. A GTA Online Crew.</p>

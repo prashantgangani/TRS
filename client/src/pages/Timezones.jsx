@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Globe2, Clock } from 'lucide-react';
 import { API_URL } from '../config';
+import { logAdminAction } from '../utils/logger';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -50,6 +51,7 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
                 body: JSON.stringify({ region, time, day, offset })
             });
             if (response.ok) {
+                await logAdminAction('Added Timezone', `Region: ${region}`);
                 fetchTimezones();
                 setRegion(''); setTime(''); setDay(''); setOffset('');
             }
@@ -63,6 +65,8 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
     const handleDelete = async (id) => {
         try {
             await fetch(`${API_URL}/timezones/${id}`, { method: 'DELETE' });
+            const deletedTz = timezones.find(tz => tz._id === id);
+            await logAdminAction('Deleted Timezone', `Region: ${deletedTz?.region}`);
             setTimezones(timezones.filter(tz => tz._id !== id));
         } catch (error) {
             console.error(error);

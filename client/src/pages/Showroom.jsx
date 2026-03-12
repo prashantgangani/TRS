@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
+import { logAdminAction } from '../utils/logger';
 
 const Showroom = ({ isAdmin }) => {
     const [showroomCars, setShowroomCars] = useState([]);
@@ -51,6 +52,7 @@ const Showroom = ({ isAdmin }) => {
                     body: JSON.stringify(payload)
                 });
                 const updatedCar = await response.json();
+                await logAdminAction('Updated Featured Build', `Car: ${updatedCar.carName} | Owner: ${updatedCar.carOwner}`);
                 setShowroomCars(showroomCars.map(c => c._id === editingId ? updatedCar : c));
                 setEditingId(null);
             } else {
@@ -60,6 +62,7 @@ const Showroom = ({ isAdmin }) => {
                     body: JSON.stringify(payload)
                 });
                 const newCar = await response.json();
+                await logAdminAction('Featured Build in Showroom', `Car: ${newCar.carName} | Owner: ${newCar.carOwner}`);
                 setShowroomCars([newCar, ...showroomCars]);
             }
             
@@ -89,6 +92,8 @@ const Showroom = ({ isAdmin }) => {
                 method: 'DELETE'
             });
             if (response.ok) {
+                const deletedCar = showroomCars.find(c => c._id === id);
+                await logAdminAction('Deleted Featured Build', `Removed: ${deletedCar?.carName} | Owner: ${deletedCar?.carOwner}`);
                 setShowroomCars(showroomCars.filter(c => c._id !== id));
             }
         } catch (error) {

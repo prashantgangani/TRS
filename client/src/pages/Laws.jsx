@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ShieldAlert } from 'lucide-react';
 import { API_URL } from '../config';
+import { logAdminAction } from '../utils/logger';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -49,6 +50,7 @@ const Laws = ({ isAdmin, isSuperAdmin }) => {
                 body: JSON.stringify({ title, description, category, order: laws.length })
             });
             if (response.ok) {
+                await logAdminAction('Added Law', `Title: ${title} | Category: ${category}`);
                 fetchLaws();
                 setTitle(''); setDescription('');
             }
@@ -61,8 +63,12 @@ const Laws = ({ isAdmin, isSuperAdmin }) => {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`${API_URL}/laws/${id}`, { method: 'DELETE' });
-            setLaws(laws.filter(law => law._id !== id));
+            const response = await fetch(`${API_URL}/laws/${id}`, { method: 'DELETE' });
+            if (response.ok) {
+                const deletedLaw = laws.find(law => law._id === id);
+                await logAdminAction('Deleted Law', `Title: ${deletedLaw?.title} | Category: ${deletedLaw?.category}`);
+                setLaws(laws.filter(law => law._id !== id));
+            }
         } catch (error) {
             console.error(error);
         }

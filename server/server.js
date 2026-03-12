@@ -11,6 +11,8 @@ const lawRoutes = require('./routes/lawRoutes');
 const timezoneRoutes = require('./routes/timezoneRoutes');
 const authRoutes = require('./routes/authRoutes');
 const heroRoutes = require('./routes/heroRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes');
+const logRoutes = require('./routes/logRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -61,6 +63,8 @@ app.use('/api/laws', lawRoutes);
 app.use('/api/timezones', timezoneRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/hero', heroRoutes);
+app.use('/api/feedbacks', feedbackRoutes);
+app.use('/api/logs', logRoutes);
 
 // Health Check Routes
 app.get('/', (req, res) => {

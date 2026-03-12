@@ -11,7 +11,8 @@ export default {
         'charcoal': '#1a1a1a',
         'neon-purple': '#b026ff',
         'electric-blue': '#00e5ff',
-        'neon-red': '#ff2a2a'
+        'neon-red': '#ff2a2a',
+        'oracle-gold': '#FFD700',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

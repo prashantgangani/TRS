@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, MapPin, Clock, User, ShieldAlert, Plus, Save, X, Trash2, Camera, Car, Info, Gavel } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { API_URL } from '../config';
+import { logAdminAction } from '../utils/logger';
 
 const AdminAddMeet = ({ isAdmin }) => {
     const navigate = useNavigate();
@@ -50,6 +51,11 @@ const AdminAddMeet = ({ isAdmin }) => {
                 body: JSON.stringify(formData)
             });
             if (response.ok) {
+                const actionName = editMeet ? 'Updated Meet' : 'Created Meet';
+                const actionDetails = editMeet 
+                    ? `Theme: ${editMeet.theme} to ${formData.theme}`
+                    : `Theme: ${formData.theme} | Date: ${formData.date}`;
+                await logAdminAction(actionName, actionDetails);
                 navigate('/');
             } else {
                 console.error("Failed to add meet");

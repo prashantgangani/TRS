@@ -49,23 +49,31 @@ const Navbar = ({ role, setRole }) => {
                         <img src="/TRS_LOGO.png" alt="TRS Logo" className="w-full h-full object-contain bg-black" />
                     </div>
                     <div className="flex flex-col justify-center">
-                        <span className="font-heading font-black text-xl lg:text-2xl tracking-[0.2em] text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] leading-none mb-0.5 group-hover:text-glow transition-all">
+                        <span className="font-heading font-black text-xl lg:text-2xl tracking-[0.2em] text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] leading-none mb-0.5 group-hover:text-glow transition-all whitespace-nowrap">
                             THE ROYAL SORCERERS
                         </span>
-
                     </div>
                 </Link>
 
                 {/* Desktop Links */}
-                <div className="hidden md:flex items-center gap-8">
-                    <a href="#meets" onClick={(e) => handleNavClick(e, 'meets')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/' && activeHash === 'meets' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Meets</a>
-                    <a href="#garage" onClick={(e) => handleNavClick(e, 'garage')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/' && activeHash === 'garage' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Garage</a>
-                    <Link to="/members" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/members' ? 'text-electric-blue text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Members</Link>
-                    <Link to="/laws" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/laws' ? 'text-neon-red text-glow-red' : 'text-white/70 hover:text-white hover:text-glow'}`}>Laws</Link>
-                    <Link to="/timezones" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all ${location.pathname === '/timezones' ? 'text-white text-glow' : 'text-white/70 hover:text-white hover:text-glow'}`}>Timezone</Link>
+                <div className="hidden md:flex items-center gap-6 lg:gap-8 ml-auto pl-8">
+                    <a href="#meets" onClick={(e) => handleNavClick(e, 'meets')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/' && activeHash === 'meets' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Meets</a>
+                    <a href="#garage" onClick={(e) => handleNavClick(e, 'garage')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/' && activeHash === 'garage' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Garage</a>
+                    <Link to="/members" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/members' ? 'text-electric-blue text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Members</Link>
+                    <Link to="/laws" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/laws' ? 'text-neon-red text-glow-red' : 'text-white/70 hover:text-white hover:text-glow'}`}>Laws</Link>
+                    <Link to="/timezones" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/timezones' ? 'text-white text-glow' : 'text-white/70 hover:text-white hover:text-glow'}`}>Timezone</Link>
+                    {role === 'user' && (
+                        <Link to="/feedback" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/feedback' ? 'text-electric-blue text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Feedback</Link>
+                    )}
+                    {role !== 'user' && (
+                        <Link to="/manage-feedbacks" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/manage-feedbacks' ? 'text-green-400 text-glow-green' : 'text-white/70 hover:text-white hover:text-glow'}`}>Manage Feedbacks</Link>
+                    )}
+                    {role === 'superadmin' && (
+                        <Link to="/logs" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/logs' ? 'text-[#FFD700] text-glow-gold' : 'text-white/70 hover:text-white hover:text-glow'}`}>Logs</Link>
+                    )}
 
                     {role !== 'user' && (
-                        <div className="flex bg-black/50 border border-neon-red/50 rounded p-1 ml-4 shadow-[0_0_10px_rgba(255,51,102,0.2)] backdrop-blur-md">
+                        <div className="flex items-center bg-black/50 border border-neon-red/50 rounded p-1 ml-4 shadow-[0_0_10px_rgba(255,51,102,0.2)] backdrop-blur-md whitespace-nowrap">
                             <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-electric-blue">{role}</span>
                             <button onClick={() => { localStorage.clear(); setRole('user'); navigate('/'); }} className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded bg-neon-red/20 text-neon-red hover:bg-neon-red hover:text-white transition-all">
                                 Logout
@@ -90,6 +98,16 @@ const Navbar = ({ role, setRole }) => {
                     <Link to="/members" className={`text-sm uppercase tracking-widest ${location.pathname === '/members' ? 'text-electric-blue' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Members</Link>
                     <Link to="/laws" className={`text-sm uppercase tracking-widest ${location.pathname === '/laws' ? 'text-neon-red' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Laws</Link>
                     <Link to="/timezones" className={`text-sm uppercase tracking-widest ${location.pathname === '/timezones' ? 'text-white' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Timezone</Link>
+                    
+                    {role === 'user' && (
+                        <Link to="/feedback" className={`text-sm uppercase tracking-widest ${location.pathname === '/feedback' ? 'text-electric-blue' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Feedback</Link>
+                    )}
+                    {role !== 'user' && (
+                        <Link to="/manage-feedbacks" className={`text-sm uppercase tracking-widest ${location.pathname === '/manage-feedbacks' ? 'text-green-400' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Manage Feedbacks</Link>
+                    )}
+                    {role === 'superadmin' && (
+                        <Link to="/logs" className={`text-sm uppercase tracking-widest ${location.pathname === '/logs' ? 'text-[#FFD700]' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Logs</Link>
+                    )}
 
                     {role !== 'user' && (
                         <div className="mt-4 flex flex-col gap-2">

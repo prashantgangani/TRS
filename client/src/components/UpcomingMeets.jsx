@@ -4,6 +4,7 @@ import { Calendar, MapPin, Target, Plus, Car, User, Clock, ShieldAlert, X, Info,
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { API_URL } from '../config';
+import { logAdminAction } from '../utils/logger';
 
 const UpcomingMeets = ({ isAdmin }) => {
     const [meets, setMeets] = useState([]);
@@ -109,6 +110,7 @@ const UpcomingMeets = ({ isAdmin }) => {
                                         const response = await fetch(`${API_URL}/meets/${meet._id}`, { method: 'DELETE' });
                                         if (response.ok) {
                                             setMeets(meets.filter(m => m._id !== meet._id));
+                                            await logAdminAction('Deleted Meet', `Theme: ${meet.theme}`);
                                         }
                                     } catch (err) { console.error(err); }
                                 }} className="p-2 bg-black/60 hover:bg-neon-red/80 text-white rounded-full transition-colors backdrop-blur-md z-30 relative">
