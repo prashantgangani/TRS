@@ -7,9 +7,12 @@ const StaffManagement = () => {
     const [admins, setAdmins] = useState([]);
     const [newName, setNewName] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [newSmartName, setNewSmartName] = useState('');
+    const [newSmartPassword, setNewSmartPassword] = useState('');
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const [smartError, setSmartError] = useState('');
     
     // Retrieve token for authenticated SuperAdmin requests
     const token = localStorage.getItem('trs_token');
@@ -36,31 +39,42 @@ const StaffManagement = () => {
         if (token) fetchAdmins();
     }, [token]);
 
-    const handleAddAdmin = async (e) => {
+    const handleAddAdmin = async (e, roleType = 'admin') => {
         e.preventDefault();
         setIsSubmitting(true);
-        setError('');
+        if (roleType === 'admin') setError('');
+        else setSmartError('');
         
         try {
+            const reqName = roleType === 'admin' ? newName : newSmartName;
+            const reqPass = roleType === 'admin' ? newPassword : newSmartPassword;
+            
             const response = await fetch(`${API_URL}/auth/register-admin`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}` 
                 },
-                body: JSON.stringify({ name: newName, password: newPassword })
+                body: JSON.stringify({ name: reqName, password: reqPass, role: roleType })
             });
             const data = await response.json();
             
             if (response.ok) {
                 fetchAdmins();
-                setNewName('');
-                setNewPassword('');
+                if (roleType === 'admin') {
+                    setNewName('');
+                    setNewPassword('');
+                } else {
+                    setNewSmartName('');
+                    setNewSmartPassword('');
+                }
             } else {
-                setError(data.message || 'Failed to create admin');
+                if (roleType === 'admin') setError(data.message || 'Failed to create admin');
+                else setSmartError(data.message || 'Failed to create admin');
             }
         } catch (err) {
-            setError('Server error.');
+            if (roleType === 'admin') setError('Server error.');
+            else setSmartError('Server error.');
         } finally {
             setIsSubmitting(false);
         }
@@ -135,7 +149,7 @@ const StaffManagement = () => {
                             {loading ? (
                                 <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">Accessing Mainframe...</div>
                             ) : admins.length === 0 ? (
-                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active standard administrators found.</div>
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active administrators found.</div>
                             ) : (
                                 <AnimatePresence>
                                     {admins.map(admin => (
@@ -147,11 +161,11 @@ const StaffManagement = () => {
                                             className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-neon-red shadow-[0_0_10px_rgba(255,51,102,0.1)]">
+                                                <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(255,51,102,0.1)] ${admin.role === 'smartadmin' ? 'text-neon-purple' : 'text-neon-red'}`}>
                                                     <ShieldAlert size={14} />
                                                 </div>
                                                 <div>
-                                                    <div className="text-white font-bold">{admin.name}</div>
+                                                    <div className="text-white font-bold">{admin.name} <span className="text-[9px] uppercase ml-2 text-white/40 bg-black px-1.5 py-0.5 rounded">{admin.role}</span></div>
                                                     <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">ID: {admin._id.slice(-6)}</div>
                                                 </div>
                                             </div>
@@ -168,6 +182,31 @@ const StaffManagement = () => {
                             )}
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* Smart Admin Generation Terminal */}
+            <div className="mt-8">
+                <div className="glass-panel p-6 rounded-xl border border-neon-purple/30 bg-neon-purple/5 max-w-md mx-auto">
+                    <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-2 justify-center">
+                        <KeyRound className="text-neon-purple" size={20} /> Smart Admin Access
+                    </h3>
+                    <p className="text-[10px] text-center text-white/50 uppercase tracking-widest mb-6">Create credentials restricted strictly to the Smart Admin Panel.</p>
+                    
+                    <form onSubmit={(e) => handleAddAdmin(e, 'smartadmin')} className="space-y-4">
+                        <div>
+                            <input required type="text" value={newSmartName} onChange={e => setNewSmartName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-neon-purple text-center" placeholder="Smart Admin Alias" />
+                        </div>
+                        <div>
+                            <input required type="password" value={newSmartPassword} onChange={e => setNewSmartPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-neon-purple text-center" placeholder="••••••••" />
+                        </div>
+                        
+                        {smartError && <p className="text-red-400 text-xs font-bold text-center">{smartError}</p>}
+                        
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-neon-purple hover:bg-neon-purple/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(176,38,255,0.4)]">
+                            {isSubmitting ? 'Encrypting...' : 'Generate Smart Admin'}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

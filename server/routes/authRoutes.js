@@ -46,29 +46,30 @@ const requireSuperAdmin = (req, res, next) => {
     next();
 };
 
-// 3. SuperAdmin: Get all standard Admins
+// 3. SuperAdmin: Get all standard Admins & Smart Admins
 router.get('/admins', [verifyToken, requireSuperAdmin], async (req, res) => {
     try {
-        const admins = await Admin.find({ role: 'admin' }).select('-password');
+        const admins = await Admin.find({ role: { $in: ['admin', 'smartadmin'] } }).select('-password');
         res.json(admins);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
 
-// 4. SuperAdmin: Create a normal Admin
+// 4. SuperAdmin: Create a normal Admin or Smart Admin
 router.post('/register-admin', [verifyToken, requireSuperAdmin], async (req, res) => {
     try {
-        const { name, password } = req.body;
+        const { name, password, role } = req.body;
         
         const existingAdmin = await Admin.findOne({ name });
         if (existingAdmin) return res.status(400).json({ message: 'Name already in use' });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newAdmin = new Admin({ name, password: hashedPassword, role: 'admin' });
+        const adminRole = role === 'smartadmin' ? 'smartadmin' : 'admin';
+        const newAdmin = new Admin({ name, password: hashedPassword, role: adminRole });
         await newAdmin.save();
 
-        res.status(201).json({ message: 'Admin created successfully', admin: { id: newAdmin._id, name: newAdmin.name } });
+        res.status(201).json({ message: 'Admin created successfully', admin: { id: newAdmin._id, name: newAdmin.name, role: newAdmin.role } });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Trash2, Edit2, CheckCircle, XCircle } from 'lucide-react';
+import { Trash2, Edit2, CheckCircle, XCircle, Download, FileText } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 
@@ -8,6 +8,8 @@ const ValidCars = ({ isAdmin }) => {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
+    const [pdfUrl, setPdfUrl] = useState('');
+    const [newPdfUrl, setNewPdfUrl] = useState('');
     const [formData, setFormData] = useState({
         carName: '',
         description: '',
@@ -16,18 +18,64 @@ const ValidCars = ({ isAdmin }) => {
     });
 
     useEffect(() => {
-        fetchCars();
+        fetchCarsAndSettings();
     }, []);
 
-    const fetchCars = async () => {
+    const fetchCarsAndSettings = async () => {
         try {
-            const res = await fetch(`${API_URL}/valid-cars`);
-            const data = await res.json();
-            setCars(data);
+            const [carsRes, settingsRes] = await Promise.all([
+                fetch(`${API_URL}/valid-cars`),
+                fetch(`${API_URL}/settings`)
+            ]);
+            const carsData = await carsRes.json();
+            const settingsData = await settingsRes.json();
+            
+            setCars(carsData);
+            setPdfUrl(settingsData.validCarsPdfUrl || '');
+            setNewPdfUrl(settingsData.validCarsPdfUrl || '');
             setLoading(false);
         } catch (err) {
-            console.error("Failed to fetch cars:", err);
+            console.error("Failed to fetch data:", err);
             setLoading(false);
+        }
+    };
+
+    const handlePdfSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch(`${API_URL}/settings`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ validCarsPdfUrl: newPdfUrl })
+            });
+            if (res.ok) {
+                await logAdminAction('Updated PDF', 'Updated Valid Cars PDF Document');
+                setPdfUrl(newPdfUrl);
+                alert("PDF URL updated successfully!");
+            }
+        } catch (err) {
+            console.error("Error updating PDF URL:", err);
+            alert("Failed to update PDF URL.");
+        }
+    };
+
+    const handleDeletePdf = async () => {
+        if (!window.confirm("Are you sure you want to remove the current Valid Cars PDF?")) return;
+        try {
+            const res = await fetch(`${API_URL}/settings`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ validCarsPdfUrl: '' })
+            });
+            if (res.ok) {
+                await logAdminAction('Deleted PDF', 'Removed Valid Cars PDF Document');
+                setPdfUrl('');
+                setNewPdfUrl('');
+                alert("PDF URL removed successfully!");
+            }
+        } catch (err) {
+            console.error("Error removing PDF URL:", err);
+            alert("Failed to remove PDF URL.");
         }
     };
 
@@ -44,7 +92,7 @@ const ValidCars = ({ isAdmin }) => {
                     await logAdminAction('Updated Car Status', `Edited ${formData.carName}`);
                     setEditingId(null);
                     setFormData({ carName: '', description: '', imageUrl: '', isValid: true });
-                    fetchCars();
+                    fetchCarsAndSettings();
                 }
             } else {
                 const res = await fetch(`${API_URL}/valid-cars`, {
@@ -55,7 +103,7 @@ const ValidCars = ({ isAdmin }) => {
                 if (res.ok) {
                     await logAdminAction('Added Car to List', `Added ${formData.carName} as ${formData.isValid ? 'Valid' : 'Invalid'}`);
                     setFormData({ carName: '', description: '', imageUrl: '', isValid: true });
-                    fetchCars();
+                    fetchCarsAndSettings();
                 }
             }
         } catch (err) {
@@ -80,7 +128,7 @@ const ValidCars = ({ isAdmin }) => {
             const res = await fetch(`${API_URL}/valid-cars/${id}`, { method: 'DELETE' });
             if (res.ok) {
                 await logAdminAction('Deleted Car from List', `Removed ${carName}`);
-                fetchCars();
+                fetchCarsAndSettings();
             }
         } catch (err) {
             console.error("Error deleting car:", err);
@@ -109,6 +157,59 @@ const ValidCars = ({ isAdmin }) => {
                     Check the list below to see which vehicles are permitted and which are restricted for the current meet.
                 </p>
             </motion.div>
+
+            {pdfUrl && (
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-12 flex justify-center"
+                >
+                    <a 
+                        href={pdfUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        download="Valid_Cars_List.pdf"
+                        className="flex items-center gap-2 px-6 py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors"
+                    >
+                        <Download size={20} />
+                        Download Valid Cars PDF
+                    </a>
+                </motion.div>
+            )}
+
+            {isAdmin && (
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="mb-8 glass-panel p-6 rounded-lg border-2 border-neon-purple/30 max-w-3xl mx-auto relative"
+                >
+                    <h3 className="text-xl font-bold mb-4 font-heading text-neon-purple">
+                        Admin Controls: Upload Valid Cars PDF
+                    </h3>
+                    <form onSubmit={handlePdfSubmit} className="flex flex-col md:flex-row gap-4">
+                        <input 
+                            type="url" 
+                            placeholder="Cloudinary PDF URL" 
+                            required
+                            className="flex-1 bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none"
+                            value={newPdfUrl}
+                            onChange={e => setNewPdfUrl(e.target.value)}
+                        />
+                        <button type="submit" className="px-6 py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors whitespace-nowrap">
+                            Save PDF URL
+                        </button>
+                        {pdfUrl && (
+                            <button 
+                                type="button" 
+                                onClick={handleDeletePdf}
+                                className="px-6 py-3 bg-neon-red/20 text-neon-red hover:bg-neon-red hover:text-white border border-neon-red font-bold tracking-widest uppercase rounded transition-colors whitespace-nowrap"
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </form>
+                </motion.div>
+            )}
 
             {isAdmin && (
                 <motion.div

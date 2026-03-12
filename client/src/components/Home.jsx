@@ -6,7 +6,7 @@ import FeaturedCars from './FeaturedCars';
 import CrewIdentity from './CrewIdentity';
 import DiscordTeaser from './DiscordTeaser';
 
-const Home = ({ isAdmin }) => {
+const Home = ({ canEditHero, canPublishMeet, canManageGarage }) => {
     const location = useLocation();
 
     useEffect(() => {
@@ -25,9 +25,9 @@ const Home = ({ isAdmin }) => {
 
     return (
         <main>
-            <Hero isAdmin={isAdmin} />
-            <UpcomingMeets isAdmin={isAdmin} />
-            <FeaturedCars isAdmin={isAdmin} />
+            <Hero isAdmin={canEditHero} />
+            <UpcomingMeets isAdmin={canPublishMeet} />
+            <FeaturedCars isAdmin={canManageGarage} />
             <CrewIdentity />
             <DiscordTeaser />
         </main>
