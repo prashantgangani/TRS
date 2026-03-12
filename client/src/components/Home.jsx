@@ -27,7 +27,7 @@ const Home = ({ isAdmin }) => {
         <main>
             <Hero isAdmin={isAdmin} />
             <UpcomingMeets isAdmin={isAdmin} />
-            <FeaturedCars />
+            <FeaturedCars isAdmin={isAdmin} />
             <CrewIdentity />
             <DiscordTeaser />
         </main>
