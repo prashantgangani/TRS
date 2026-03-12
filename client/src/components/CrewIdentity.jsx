@@ -58,7 +58,7 @@ const CrewIdentity = () => {
                         <div className="absolute inset-0 border border-white/10 z-20 mix-blend-overlay"></div>
 
                         <img
-                            src="https://images.unsplash.com/photo-1618245474320-c2d6af165cf4?q=80&w=1000&auto=format&fit=crop"
+                            src="https://res.cloudinary.com/dhgmfl8tk/image/upload/v1773290026/meet_gqmaw7.png"
                             alt="Car Meet Atmosphere"
                             className="w-full h-full object-cover filter brightness-50 contrast-125 saturate-50"
                         />
@@ -68,7 +68,7 @@ const CrewIdentity = () => {
                                 <span className="font-heading font-bold">UM</span>
                             </div>
                             <div>
-                                <div className="text-sm font-bold uppercase tracking-widest">Est. 2021</div>
+                                <div className="text-sm font-bold uppercase tracking-widest">Est. 2026</div>
                                 <div className="text-xs text-white/50">Los Santos</div>
                             </div>
                         </div>

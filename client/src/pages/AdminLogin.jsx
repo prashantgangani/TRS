@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, UserPlus, Lock, User, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Shield, ShieldCheck, UserPlus, Lock, User, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
 
