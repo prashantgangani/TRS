@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Send, Server, Users } from 'lucide-react';
+import { Terminal, Send, Server, Users, Instagram } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const DiscordTeaser = () => {
@@ -66,19 +66,49 @@ const DiscordTeaser = () => {
                     </div>
                 </motion.div>
 
-                <motion.button
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
-                    className="mt-12 group relative inline-flex items-center justify-center px-8 py-4 bg-white text-black font-bold uppercase tracking-widest rounded-sm overflow-hidden"
-                >
-                    <div className="absolute inset-0 bg-neon-purple translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
-                    <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-                        <Send size={18} />
-                        Join The Server
-                    </span>
-                </motion.button>
+                <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <motion.a
+                        href="https://discord.gg/Ch3CCyFD5"
+                        target="_blank"
+                        rel="noreferrer"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4 }}
+                        className="group relative w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-black font-bold uppercase tracking-widest rounded-sm overflow-hidden"
+                    >
+                        <div className="absolute inset-0 bg-neon-purple translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                        <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+                            <Send size={18} />
+                            Join The Server
+                        </span>
+                    </motion.a>
+
+                    <motion.a
+                        href="https://www.instagram.com/theroyalsorcerers?igsh=MWRub3ltYjMwOGJrOQ=="
+                        target="_blank"
+                        rel="noreferrer"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.5 }}
+                        className="group relative w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 font-bold uppercase tracking-widest rounded-sm overflow-hidden cursor-pointer"
+                    >
+                        {/* Glow effect behind the button when hovering */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] opacity-0 group-hover:opacity-75 transition-opacity duration-500 blur"></div>
+                        
+                        {/* Gradient border */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"></div>
+                        
+                        {/* Inner background */}
+                        <div className="absolute inset-[2px] bg-black/95 backdrop-blur-md group-hover:bg-black/60 transition-colors duration-300 ease-in-out"></div>
+                        
+                        <span className="relative z-10 flex items-center gap-2 text-white/90 group-hover:text-white transition-colors duration-300">
+                            <Instagram size={18} className="group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 ease-out" />
+                            Follow on IG
+                        </span>
+                    </motion.a>
+                </div>
             </div>
         </section>
     );

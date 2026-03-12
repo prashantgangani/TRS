@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 const cars = [
-    { id: 1, owner: 'Ghost', style: 'Clean Stance', car: 'Elegy Retro Custom', img: 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&auto=format&fit=crop' },
-    { id: 2, owner: 'Apex', style: 'Track Focused', car: 'Jester RR', img: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800&auto=format&fit=crop' },
+    { id: 1, owner: 'Ghost', style: 'Clean Stance', car: 'Elegy Retro Custom', img: 'https://res.cloudinary.com/dhgmfl8tk/image/upload/v1773309774/elegy_qsmjmh.jpg' },
+    { id: 2, owner: 'Apex', style: 'Track Focused', car: 'Jester RR', img: 'https://res.cloudinary.com/dhgmfl8tk/image/upload/v1773309713/jester_d1s4jp.jpg' },
     { id: 3, owner: 'VIP', style: 'VIP Luxury', car: 'Schlagen GT', img: 'https://i.redd.it/schlagen-gt-v0-as5glu9kn0j81.png?width=3840&format=png&auto=webp&s=510cdb900a36115696957ae056dba4155b816834' },
 ];
 

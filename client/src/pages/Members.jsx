@@ -24,7 +24,6 @@ const Members = ({ isSuperAdmin }) => {
     // Form State for Add Member
     const [name, setName] = useState('');
     const [role, setRole] = useState('');
-    const [quote, setQuote] = useState('');
     const [image, setImage] = useState('');
     const [color, setColor] = useState('from-neon-purple to-purple-900');
     const [editingId, setEditingId] = useState(null);
@@ -49,7 +48,7 @@ const Members = ({ isSuperAdmin }) => {
     const handleAddOrUpdateMember = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const payload = { name, role, quote, color, image };
+        const payload = { name, role, color, image };
         try {
             if (editingId) {
                 const response = await fetch(`${API_URL}/members/${editingId}`, {
@@ -61,7 +60,7 @@ const Members = ({ isSuperAdmin }) => {
                     const updatedMember = await response.json();
                     setMembers(members.map(m => m._id === editingId ? updatedMember : m));
                     setEditingId(null);
-                    setName(''); setRole(''); setQuote(''); setImage(''); setColor('from-neon-purple to-purple-900');
+                    setName(''); setRole(''); setImage(''); setColor('from-neon-purple to-purple-900');
                 }
             } else {
                 const response = await fetch(`${API_URL}/members`, {
@@ -71,7 +70,7 @@ const Members = ({ isSuperAdmin }) => {
                 });
                 if (response.ok) {
                     fetchMembers();
-                    setName(''); setRole(''); setQuote(''); setImage(''); setColor('from-neon-purple to-purple-900');
+                    setName(''); setRole(''); setImage(''); setColor('from-neon-purple to-purple-900');
                 }
             }
         } catch (error) {
@@ -85,7 +84,6 @@ const Members = ({ isSuperAdmin }) => {
         setEditingId(member._id);
         setName(member.name);
         setRole(member.role);
-        setQuote(member.quote);
         setImage(member.image || '');
         setColor(member.color || 'from-neon-purple to-purple-900');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -182,7 +180,6 @@ const Members = ({ isSuperAdmin }) => {
                             <form onSubmit={handleAddOrUpdateMember} className="space-y-3">
                                 <input required type="text" placeholder="Alias (e.g. GhostRider99)" value={name} onChange={e => setName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" />
                                 <input required type="text" placeholder="Crew Rank (e.g. Muscle)" value={role} onChange={e => setRole(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" />
-                                <input required type="text" placeholder="Quote (e.g. 'Sideways only.')" value={quote} onChange={e => setQuote(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" />
                                 <input type="text" placeholder="Crew Image Link (e.g. /images/me.jpg)" value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" />
                                 
                                 <select value={color} onChange={e => setColor(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white/70 focus:outline-none focus:border-electric-blue outline-none cursor-pointer">
@@ -199,7 +196,7 @@ const Members = ({ isSuperAdmin }) => {
                                 {editingId && (
                                     <button type="button" onClick={() => {
                                         setEditingId(null);
-                                        setName(''); setRole(''); setQuote(''); setImage(''); setColor('from-neon-purple to-purple-900');
+                                        setName(''); setRole(''); setImage(''); setColor('from-neon-purple to-purple-900');
                                     }} className="w-full py-2 mt-2 bg-black/50 border border-white/20 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors">
                                         Cancel Edit
                                     </button>
@@ -247,7 +244,7 @@ const Members = ({ isSuperAdmin }) => {
                                     <img
                                         src={member.image || 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&auto=format&fit=crop'}
                                         alt={member.name}
-                                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100"
+                                        className="w-full h-full p-2 object-scale-down object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100"
                                     />
                                     {/* Vignette */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
@@ -262,13 +259,6 @@ const Members = ({ isSuperAdmin }) => {
                                     <p className="text-neon-purple text-xs font-bold uppercase tracking-widest mb-4 inline-block drop-shadow-[0_0_8px_rgba(176,38,255,0.4)]">
                                         {member.role}
                                     </p>
-
-                                    <div className="space-y-3 mb-2 flex-1">
-                                        <div>
-                                            <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Tagline</p>
-                                            <p className="text-sm italic text-white/70">{member.quote}</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </motion.div>
