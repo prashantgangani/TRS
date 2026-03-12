@@ -133,10 +133,6 @@ const Timezones = ({ isAdmin, isSuperAdmin }) => {
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     className="bg-charcoal/40 border border-white/5 rounded-xl p-6 relative group hover:border-electric-blue/30 transition-colors overflow-hidden"
                                 >
-                                    <div className="absolute top-0 right-0 p-4 opacity-10 font-black font-heading tracking-widest text-4xl pointer-events-none">
-                                        {tz.offset}
-                                    </div>
-                                    
                                     <div className="flex justify-between items-start mb-6">
                                         <div>
                                             <h3 className="text-2xl font-bold font-heading text-white mb-1 group-hover:text-glow-blue transition-all">{tz.region}</h3>
