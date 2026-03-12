@@ -12,6 +12,7 @@ import AdminLogin from './pages/AdminLogin';
 import SubmitFeedback from './pages/SubmitFeedback';
 import ManageFeedbacks from './pages/ManageFeedbacks';
 import AdminLogs from './pages/AdminLogs';
+import ValidCars from './pages/ValidCars';
 
 function App() {
   const [role, setRole] = useState(localStorage.getItem('trs_role') || 'user');
@@ -38,6 +39,7 @@ function App() {
         <Route path="/timezones" element={<Timezones isAdmin={isAdmin} isSuperAdmin={isSuperAdmin} />} />
         <Route path="/showroom" element={<Showroom isAdmin={isAdmin} />} />
         <Route path="/admin/add-meet" element={<AdminAddMeet isAdmin={isAdmin} />} />
+        <Route path="/valid-cars" element={<ValidCars isAdmin={isAdmin} />} />
         <Route path="/admin-login" element={<AdminLogin setAuthContext={setRole} />} />
         <Route path="/feedback" element={<SubmitFeedback />} />
         <Route path="/manage-feedbacks" element={isAdmin ? <ManageFeedbacks /> : <Home isAdmin={isAdmin} />} />

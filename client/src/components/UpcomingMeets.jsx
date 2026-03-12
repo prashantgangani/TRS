@@ -49,9 +49,18 @@ const UpcomingMeets = ({ isAdmin }) => {
 
     return (
         <section id="meets" className="py-32 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
-            <div className="mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-glow">Upcoming <span className="text-neon-purple">Meets</span></h2>
-                <p className="text-white/60 text-lg max-w-2xl">The streets are calling. Check out the schedule, prep your ride, and join the crew at our next organized showcase.</p>
+            <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-glow">Upcoming <span className="text-neon-purple">Meets</span></h2>
+                    <p className="text-white/60 text-lg max-w-2xl">The streets are calling. Check out the schedule, prep your ride, and join the crew at our next organized showcase.</p>
+                </div>
+                <button 
+                    onClick={() => navigate('/valid-cars')}
+                    className="flex items-center gap-2 px-6 py-3 bg-black border border-neon-purple/50 rounded-full hover:bg-neon-purple/10 hover:shadow-[0_0_15px_rgba(176,38,255,0.4)] transition-all font-bold tracking-widest text-sm uppercase whitespace-nowrap"
+                >
+                    <Car size={18} className="text-neon-purple" />
+                    Valid Cars List
+                </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

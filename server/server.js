@@ -13,6 +13,7 @@ const authRoutes = require('./routes/authRoutes');
 const heroRoutes = require('./routes/heroRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const logRoutes = require('./routes/logRoutes');
+const validCarRoutes = require('./routes/validCarRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -65,6 +66,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/hero', heroRoutes);
 app.use('/api/feedbacks', feedbackRoutes);
 app.use('/api/logs', logRoutes);
+app.use('/api/valid-cars', validCarRoutes);
 
 // Health Check Routes
 app.get('/', (req, res) => {
