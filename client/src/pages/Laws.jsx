@@ -149,7 +149,7 @@ const Laws = ({ isAdmin, isSuperAdmin }) => {
                                                     <h3 className="text-xl md:text-2xl font-bold font-heading text-white">{law.title}</h3>
                                                     <span className="text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-sm border border-white/20 text-white/50">{law.category}</span>
                                                 </div>
-                                                <p className="text-white/70 text-sm md:text-base leading-relaxed">
+                                                <p className="text-white/70 text-sm md:text-base leading-relaxed whitespace-pre-wrap">
                                                     {law.description}
                                                 </p>
                                             </div>
