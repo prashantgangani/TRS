@@ -182,16 +182,14 @@ const ValidCars = ({ isAdmin }) => {
             ) : (
                 <div className="space-y-20">
                     {/* Valid Cars Section */}
-                    <div>
-                        <div className="flex items-center justify-center gap-3 mb-8">
-                            <CheckCircle className="text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]" size={28} />
-                            <h2 className="text-3xl font-bold font-heading text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]">Valid Cars</h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {validCarsList.length === 0 ? (
-                                <p className="text-white/40 italic text-center col-span-full">No valid cars listed yet.</p>
-                            ) : (
-                                validCarsList.map((car, idx) => (
+                    {validCarsList.length > 0 && (
+                        <div>
+                            <div className="flex items-center justify-center gap-3 mb-8">
+                                <CheckCircle className="text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]" size={28} />
+                                <h2 className="text-3xl font-bold font-heading text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]">Valid Cars</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {validCarsList.map((car, idx) => (
                                     <motion.div 
                                         key={car._id}
                                         initial={{ opacity: 0, scale: 0.95 }}
@@ -228,22 +226,20 @@ const ValidCars = ({ isAdmin }) => {
                                             </div>
                                         </div>
                                     </motion.div>
-                                ))
-                            )}
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Invalid Cars Section */}
-                    <div>
-                        <div className="flex items-center justify-center gap-3 mb-8">
-                            <XCircle className="text-neon-red drop-shadow-[0_0_8px_rgba(255,51,102,0.5)]" size={28} />
-                            <h2 className="text-3xl font-bold font-heading text-neon-red drop-shadow-[0_0_8px_rgba(255,51,102,0.5)]">Invalid Cars</h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {invalidCarsList.length === 0 ? (
-                                <p className="text-white/40 italic text-center col-span-full">No invalid cars listed yet.</p>
-                            ) : (
-                                invalidCarsList.map((car, idx) => (
+                    {invalidCarsList.length > 0 && (
+                        <div>
+                            <div className="flex items-center justify-center gap-3 mb-8">
+                                <XCircle className="text-neon-red drop-shadow-[0_0_8px_rgba(255,51,102,0.5)]" size={28} />
+                                <h2 className="text-3xl font-bold font-heading text-neon-red drop-shadow-[0_0_8px_rgba(255,51,102,0.5)]">Invalid Cars</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {invalidCarsList.map((car, idx) => (
                                     <motion.div 
                                         key={car._id}
                                         initial={{ opacity: 0, scale: 0.95 }}
@@ -280,10 +276,14 @@ const ValidCars = ({ isAdmin }) => {
                                             </div>
                                         </div>
                                     </motion.div>
-                                ))
-                            )}
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
+                    
+                    {validCarsList.length === 0 && invalidCarsList.length === 0 && (
+                        <p className="text-white/40 italic text-center py-10">No car regulations have been defined yet.</p>
+                    )}
                 </div>
             )}
         </div>
