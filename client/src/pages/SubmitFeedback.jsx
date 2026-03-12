@@ -72,7 +72,6 @@ const SubmitFeedback = () => {
                         <p><span className="text-electric-blue/70">Location / Event Name:</span></p>
                         <p><span className="text-electric-blue/70">Complaint Type:</span></p>
                         <p><span className="text-electric-blue/70">Description of the Incident:</span></p>
-                        <p><span className="text-electric-blue/70">Proof / Evidence:</span></p>
                         <p><span className="text-electric-blue/70">Requested Action:</span></p>
                         
                         <button 
