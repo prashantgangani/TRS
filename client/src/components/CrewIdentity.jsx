@@ -33,7 +33,7 @@ const CrewIdentity = () => {
                             </div>
                             <div className="border-l-2 border-electric-blue pl-4">
                                 <div className="text-3xl font-bold text-white mb-1">Clean</div>
-                                <div className="text-sm uppercase tracking-widest text-white/50">Builds Only</div>
+                                <div className="text-sm uppercase tracking-widest text-white/50">Smooth Drives</div>
                             </div>
                             <div className="border-l-2 border-white/20 pl-4">
                                 <div className="text-3xl font-bold text-white mb-1">150+</div>
