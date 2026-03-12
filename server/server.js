@@ -16,12 +16,23 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(helmet()); // Security headers
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:3000",
+    process.env.CLIENT_URL
+].filter(Boolean); // Remove undefined/null values
+
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        process.env.CLIENT_URL
-    ],
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1 || origin.includes('vercel.app') || origin.includes('onrender.com')) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }));
 app.use(express.json()); // Parse JSON bodies
@@ -31,11 +42,15 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 console.log("Server starting...");
 console.log("Environment:", process.env.NODE_ENV || 'development');
 
+// Mongoose Config
+mongoose.set('strictQuery', false);
+
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Successfully connected to MongoDB Atlas!'))
     .catch((error) => {
         console.error('CRITICAL: MongoDB connection error:', error);
-        process.exit(1); // Exit if DB connection fails in production
+        // Don't exit process in development to allow for debugging
+        if (process.env.NODE_ENV === 'production') process.exit(1);
     });
 
 // Routes
