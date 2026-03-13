@@ -69,7 +69,10 @@ const Navbar = ({ role, setRole }) => {
                     {role === 'user' && (
                         <Link to="/feedback" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/feedback' ? 'text-electric-blue text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Feedback</Link>
                     )}
-                    {role !== 'user' && role !== 'smartadmin' && (
+                    {role === 'member' && (
+                        <Link to="/member-dashboard" onClick={() => setActiveHash('')} className={`text-sm font-bold uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/member-dashboard' ? 'text-neon-purple text-glow-purple' : 'text-neon-purple/70 hover:text-neon-purple hover:text-glow-purple'}`}>Garage Sync</Link>
+                    )}
+                    {role !== 'user' && role !== 'smartadmin' && role !== 'member' && (
                         <Link to="/manage-feedbacks" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/manage-feedbacks' ? 'text-green-400 text-glow-green' : 'text-white/70 hover:text-white hover:text-glow'}`}>Manage Feedbacks</Link>
                     )}
                     {role === 'superadmin' && (
@@ -116,7 +119,10 @@ const Navbar = ({ role, setRole }) => {
                     {role === 'user' && (
                         <Link to="/feedback" className={`text-sm uppercase tracking-widest ${location.pathname === '/feedback' ? 'text-electric-blue' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Feedback</Link>
                     )}
-                    {role !== 'user' && role !== 'smartadmin' && (
+                    {role === 'member' && (
+                        <Link to="/member-dashboard" className={`text-sm font-bold uppercase tracking-widest ${location.pathname === '/member-dashboard' ? 'text-neon-purple' : 'text-neon-purple/80 hover:text-neon-purple'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Garage Sync</Link>
+                    )}
+                    {role !== 'user' && role !== 'smartadmin' && role !== 'member' && (
                         <Link to="/manage-feedbacks" className={`text-sm uppercase tracking-widest ${location.pathname === '/manage-feedbacks' ? 'text-green-400' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Manage Feedbacks</Link>
                     )}
                     {role === 'superadmin' && (

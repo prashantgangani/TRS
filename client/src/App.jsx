@@ -16,6 +16,9 @@ import AdminLogs from './pages/AdminLogs';
 import ValidCars from './pages/ValidCars';
 import PreviousMeets from './pages/PreviousMeets';
 import SmartAdmin from './pages/SmartAdmin';
+import ManageCrewMembers from './pages/ManageCrewMembers';
+import MemberLogin from './pages/MemberLogin';
+import MemberDashboard from './pages/MemberDashboard';
 import { API_URL } from './config';
 
 function App() {
@@ -82,6 +85,9 @@ function App() {
         <Route path="/manage-feedbacks" element={isAdmin ? <ManageFeedbacks /> : <Home />} />
         <Route path="/logs" element={isSuperAdmin ? <AdminLogs /> : <Home />} />
         <Route path="/smart-admin" element={isSuperAdmin ? <SmartAdmin /> : <Home />} />
+        <Route path="/manage-crew-members" element={isSuperAdmin ? <ManageCrewMembers /> : <Home />} />
+        <Route path="/member-login" element={<MemberLogin setAuthContext={setRole} />} />
+        <Route path="/member-dashboard" element={role === 'member' ? <MemberDashboard setAuthContext={setRole} /> : <Home />} />
       </Routes>
       <footer className="w-full py-8 border-t border-white/5 text-center text-white/40 text-sm">
         <p>&copy; {new Date().getFullYear()} Underground Meets. A GTA Online Crew.</p>

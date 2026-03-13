@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Check, X } from 'lucide-react';
+import { Shield, Check, X, Users } from 'lucide-react';
 import { API_URL } from '../config';
+import { Link } from 'react-router-dom';
 
 const SmartAdmin = () => {
     const [settings, setSettings] = useState(null);
@@ -52,7 +53,8 @@ const SmartAdmin = () => {
         { key: 'manageShowroom', name: 'The showroom' },
         { key: 'manageLaws', name: 'The laws' },
         { key: 'manageTimezones', name: 'Timezone' },
-        { key: 'managePreviousMeets', name: 'Previous Meets' }
+        { key: 'managePreviousMeets', name: 'Previous Meets' },
+        { key: 'memberLoginEnabled', name: 'Member Garage Self-Update Portal' }
     ];
 
     return (
@@ -72,6 +74,11 @@ const SmartAdmin = () => {
                     <p className="text-white/60 max-w-xl mx-auto text-sm">
                         Toggle admin access to specific features across the crew system.
                     </p>
+                    <div className="mt-8 flex justify-center">
+                        <Link to="/manage-crew-members" className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 hover:border-electric-blue hover:bg-electric-blue/10 rounded-full transition-all text-sm font-bold uppercase tracking-wider text-white">
+                            <Users size={18} /> Manage Crew Logins
+                        </Link>
+                    </div>
                 </motion.div>
 
                 <div className="space-y-4">

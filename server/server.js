@@ -16,6 +16,7 @@ const logRoutes = require('./routes/logRoutes');
 const validCarRoutes = require('./routes/validCarRoutes');
 const featuredCarRoutes = require('./routes/featuredCarRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
+const crewMemberRoutes = require('./routes/crewMemberRoutes');
 const previousMeetRoutes = require('./routes/previousMeetRoutes');
 
 const app = express();
@@ -73,6 +74,7 @@ app.use('/api/valid-cars', validCarRoutes);
 app.use('/api/featured-cars', featuredCarRoutes);
 app.use('/api/previous-meets', previousMeetRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/member-system', crewMemberRoutes);
 
 // Health Check Routes
 app.get('/', (req, res) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserPlus, Shield, ShieldCheck, Trash2, X, AlertTriangle, ListFilter, Search, ShieldAlert, KeyRound } from 'lucide-react';
+import { UserPlus, Shield, ShieldCheck, Trash2, X, AlertTriangle, ListFilter, Search, ShieldAlert, KeyRound, Users } from 'lucide-react';
 import { API_URL } from '../config';
 
 const StaffManagement = () => {
@@ -9,6 +9,15 @@ const StaffManagement = () => {
     const [newPassword, setNewPassword] = useState('');
     const [newSmartName, setNewSmartName] = useState('');
     const [newSmartPassword, setNewSmartPassword] = useState('');
+    
+    // Member generation state
+    const [newMemberName, setNewMemberName] = useState('');
+    const [newMemberPassword, setNewMemberPassword] = useState('');
+    const [memberError, setMemberError] = useState('');
+    const [memberSuccess, setMemberSuccess] = useState('');
+    const [crewMembers, setCrewMembers] = useState([]);
+    const [loadingMembers, setLoadingMembers] = useState(true);
+
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
@@ -35,8 +44,27 @@ const StaffManagement = () => {
         }
     };
 
+    const fetchMembers = async () => {
+        try {
+            const response = await fetch(`${API_URL}/member-system/superadmin/members`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setCrewMembers(data);
+            }
+            setLoadingMembers(false);
+        } catch (error) {
+            console.error("Failed to fetch members:", error);
+            setLoadingMembers(false);
+        }
+    };
+
     useEffect(() => {
-        if (token) fetchAdmins();
+        if (token) {
+            fetchAdmins();
+            fetchMembers();
+        }
     }, [token]);
 
     const handleAddAdmin = async (e, roleType = 'admin') => {
@@ -80,6 +108,39 @@ const StaffManagement = () => {
         }
     };
 
+    const handleAddMember = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setMemberError('');
+        setMemberSuccess('');
+        
+        try {
+            const response = await fetch(`${API_URL}/member-system/superadmin/members`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify({ username: newMemberName, password: newMemberPassword })
+            });
+            const data = await response.json();
+            
+            if (response.ok) {
+                setMemberSuccess('Member & Garage Card Generated.');
+                setNewMemberName('');
+                setNewMemberPassword('');
+                fetchMembers();
+                setTimeout(() => setMemberSuccess(''), 4000);
+            } else {
+                setMemberError(data.message || 'Failed to create member');
+            }
+        } catch (err) {
+            setMemberError('Server error.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     const handleDelete = async (id) => {
         if (!window.confirm("Revoke admin access for this user?")) return;
         
@@ -93,6 +154,45 @@ const StaffManagement = () => {
             }
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleDeleteMember = async (id) => {
+        if (!window.confirm("Revoke member access for this user? Their garage card will become orphaned.")) return;
+        try {
+            const response = await fetch(`${API_URL}/member-system/superadmin/members/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                setCrewMembers(crewMembers.filter(m => m._id !== id));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleResetMemberPassword = async (id) => {
+        const newPassword = window.prompt("Enter new password for this member:");
+        if (!newPassword) return;
+        
+        try {
+            const response = await fetch(`${API_URL}/member-system/superadmin/members/${id}/reset-password`, {
+                method: 'PATCH',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify({ password: newPassword })
+            });
+            if (response.ok) {
+                alert("Password updated successfully.");
+            } else {
+                alert("Failed to reset password.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error resetting password.");
         }
     };
 
@@ -142,17 +242,17 @@ const StaffManagement = () => {
                     <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
                         <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
                             <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Active Admin Network</h3>
-                            <span className="text-xs text-neon-purple font-bold px-2 py-1 bg-neon-purple/20 rounded">{admins.length} Systems Online</span>
+                            <span className="text-xs text-neon-red font-bold px-2 py-1 bg-neon-red/20 rounded">{admins.filter(a => a.role === 'admin').length} Systems Online</span>
                         </div>
                         
                         <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
                             {loading ? (
                                 <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">Accessing Mainframe...</div>
-                            ) : admins.length === 0 ? (
+                            ) : admins.filter(a => a.role === 'admin').length === 0 ? (
                                 <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active administrators found.</div>
                             ) : (
                                 <AnimatePresence>
-                                    {admins.map(admin => (
+                                    {admins.filter(a => a.role === 'admin').map(admin => (
                                         <motion.div 
                                             key={admin._id}
                                             initial={{ opacity: 0, x: 20 }}
@@ -185,9 +285,10 @@ const StaffManagement = () => {
                 </div>
             </div>
 
-            {/* Smart Admin Generation Terminal */}
-            <div className="mt-8">
-                <div className="glass-panel p-6 rounded-xl border border-neon-purple/30 bg-neon-purple/5 max-w-md mx-auto">
+            {/* Additional Generation Terminals - Smart Admin */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Smart Admin Generation Terminal */}
+                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-neon-purple/30 bg-neon-purple/5">
                     <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-2 justify-center">
                         <KeyRound className="text-neon-purple" size={20} /> Smart Admin Access
                     </h3>
@@ -207,6 +308,146 @@ const StaffManagement = () => {
                             {isSubmitting ? 'Encrypting...' : 'Generate Smart Admin'}
                         </button>
                     </form>
+                </div>
+
+                {/* Active Smart Admin Log */}
+                <div className="md:col-span-2">
+                    <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
+                        <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
+                            <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Smart Admin Network</h3>
+                            <span className="text-xs text-neon-purple font-bold px-2 py-1 bg-neon-purple/20 rounded">{admins.filter(a => a.role === 'smartadmin').length} Systems Online</span>
+                        </div>
+                        
+                        <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
+                            {loading ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">Accessing Mainframe...</div>
+                            ) : admins.filter(a => a.role === 'smartadmin').length === 0 ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active smart administrators found.</div>
+                            ) : (
+                                <AnimatePresence>
+                                    {admins.filter(a => a.role === 'smartadmin').map(admin => (
+                                        <motion.div 
+                                            key={admin._id}
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(176,38,255,0.1)] text-neon-purple">
+                                                    <ShieldAlert size={14} />
+                                                </div>
+                                                <div>
+                                                    <div className="text-white font-bold">{admin.name} <span className="text-[9px] uppercase ml-2 text-white/40 bg-black px-1.5 py-0.5 rounded">{admin.role}</span></div>
+                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">ID: {admin._id.slice(-6)}</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <button 
+                                                onClick={() => handleDelete(admin._id)}
+                                                className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-neon-purple bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
+                                            >
+                                                Revoke
+                                            </button>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Crew Member Access Module */}
+            <div className="mt-16 text-center mb-8 border-t border-white/10 pt-16">
+                <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-electric-blue border-electric-blue/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,255,255,0.2)]">
+                    Crew Matrix
+                </span>
+                <h2 className="text-3xl font-bold font-heading text-white flex items-center justify-center gap-3 drop-shadow-lg">
+                    <Users className="text-electric-blue" size={32} /> Crew Member Access
+                </h2>
+                <p className="text-[10px] uppercase tracking-widest text-white/50 mt-2">Manage restricted credentials allowing members to sync their own Garage Cards.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                {/* Crew Member Generation Terminal */}
+                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-electric-blue/30 bg-electric-blue/5">
+                    <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-6 justify-center">
+                        <KeyRound className="text-electric-blue" size={20} /> Grant Sync Access
+                    </h3>
+                    
+                    <form onSubmit={handleAddMember} className="space-y-4">
+                        <div>
+                            <label className="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Assign Alias</label>
+                            <input required type="text" value={newMemberName} onChange={e => setNewMemberName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" placeholder="Discord Tag" />
+                        </div>
+                        <div>
+                            <label className="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Assign Passcode</label>
+                            <input required type="password" value={newMemberPassword} onChange={e => setNewMemberPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" placeholder="••••••••" />
+                        </div>
+                        
+                        {memberError && <p className="text-red-400 text-xs font-bold">{memberError}</p>}
+                        {memberSuccess && <p className="text-electric-blue text-xs font-bold">{memberSuccess}</p>}
+                        
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-electric-blue hover:bg-electric-blue/80 text-black text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(0,255,255,0.4)]">
+                            {isSubmitting ? 'Provisioning...' : 'Generate Member Setup'}
+                        </button>
+                    </form>
+                </div>
+
+                {/* Active Crew Network */}
+                <div className="md:col-span-2">
+                    <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
+                        <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
+                            <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Active Crew Network</h3>
+                            <span className="text-xs text-electric-blue font-bold px-2 py-1 bg-electric-blue/20 rounded">{crewMembers.length} Accounts Active</span>
+                        </div>
+                        
+                        <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
+                            {loadingMembers ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">Accessing Mainframe...</div>
+                            ) : crewMembers.length === 0 ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active members found.</div>
+                            ) : (
+                                <AnimatePresence>
+                                    {crewMembers.map(member => (
+                                        <motion.div 
+                                            key={member._id}
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(0,255,255,0.1)] text-electric-blue`}>
+                                                    <Users size={14} />
+                                                </div>
+                                                <div>
+                                                    <div className="text-white font-bold">{member.username}</div>
+                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">STATUS: <span className={member.isActive ? 'text-green-400' : 'text-red-400'}>{member.isActive ? 'ONLINE' : 'OFFLINE'}</span></div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="flex gap-2">
+                                                <button 
+                                                    onClick={() => handleResetMemberPassword(member._id)}
+                                                    className="px-3 py-1.5 text-[10px] text-white/50 hover:text-electric-blue hover:bg-electric-blue/10 bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold flex items-center gap-1"
+                                                >
+                                                    <KeyRound size={12} /> Reset
+                                                </button>
+                                                <button 
+                                                    onClick={() => handleDeleteMember(member._id)}
+                                                    className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-neon-red bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold flex items-center gap-1"
+                                                >
+                                                    <Trash2 size={12} /> Revoke
+                                                </button>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
