@@ -17,6 +17,18 @@ export default {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         heading: ['Outfit', 'sans-serif'],
+      },
+      scale: {
+        '103': '1.03',
+      },
+      animation: {
+        'pulse-slow': 'pulse-border 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        'pulse-border': {
+          '0%, 100%': { opacity: 0.4 },
+          '50%': { opacity: 1 },
+        }
       }
     },
   },

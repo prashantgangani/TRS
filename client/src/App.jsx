@@ -13,6 +13,7 @@ import SubmitFeedback from './pages/SubmitFeedback';
 import ManageFeedbacks from './pages/ManageFeedbacks';
 import AdminLogs from './pages/AdminLogs';
 import ValidCars from './pages/ValidCars';
+import PreviousMeets from './pages/PreviousMeets';
 import SmartAdmin from './pages/SmartAdmin';
 import { API_URL } from './config';
 
@@ -47,6 +48,7 @@ function App() {
   const canManageShowroom = isSuperAdmin || (isAdmin && settings?.manageShowroom !== false);
   const canManageLaws = isSuperAdmin || (isAdmin && settings?.manageLaws !== false);
   const canManageTimezones = isSuperAdmin || (isAdmin && settings?.manageTimezones !== false);
+  const canManagePreviousMeets = isSuperAdmin || (isAdmin && settings?.managePreviousMeets !== false);
 
   if (isSmartAdmin) {
     return (
@@ -72,6 +74,7 @@ function App() {
         <Route path="/showroom" element={<Showroom isAdmin={canManageShowroom} />} />
         <Route path="/admin/add-meet" element={<AdminAddMeet isAdmin={canPublishMeet} />} />
         <Route path="/valid-cars" element={<ValidCars isAdmin={canUpdateValidCars} />} />
+        <Route path="/previous-meets" element={<PreviousMeets isAdmin={canManagePreviousMeets} />} />
         <Route path="/admin-login" element={<AdminLogin setAuthContext={setRole} />} />
         <Route path="/feedback" element={<SubmitFeedback />} />
         <Route path="/manage-feedbacks" element={isAdmin ? <ManageFeedbacks /> : <Home />} />

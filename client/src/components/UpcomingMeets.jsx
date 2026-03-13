@@ -54,13 +54,22 @@ const UpcomingMeets = ({ isAdmin }) => {
                     <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-glow">Upcoming <span className="text-neon-purple">Meets</span></h2>
                     <p className="text-white/60 text-lg max-w-2xl">The streets are calling. Check out the schedule, prep your ride, and join the crew at our next organized showcase.</p>
                 </div>
-                <button 
-                    onClick={() => navigate('/valid-cars')}
-                    className="flex items-center gap-2 px-6 py-3 bg-black border border-neon-purple/50 rounded-full hover:bg-neon-purple/10 hover:shadow-[0_0_15px_rgba(176,38,255,0.4)] transition-all font-bold tracking-widest text-sm uppercase whitespace-nowrap"
-                >
-                    <Car size={18} className="text-neon-purple" />
-                    Valid Cars List
-                </button>
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <button 
+                        onClick={() => navigate('/previous-meets')}
+                        className="flex items-center justify-center gap-2 px-6 py-3 bg-black border border-white/20 rounded-full hover:bg-white/5 transition-all font-bold tracking-widest text-sm uppercase whitespace-nowrap"
+                    >
+                        <Clock size={18} className="text-white/70" />
+                        Previous Meets
+                    </button>
+                    <button 
+                        onClick={() => navigate('/valid-cars')}
+                        className="flex items-center justify-center gap-2 px-6 py-3 bg-black border border-neon-purple/50 rounded-full hover:bg-neon-purple/10 hover:shadow-[0_0_15px_rgba(176,38,255,0.4)] transition-all font-bold tracking-widest text-sm uppercase whitespace-nowrap"
+                    >
+                        <Car size={18} className="text-neon-purple" />
+                        Valid Cars List
+                    </button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

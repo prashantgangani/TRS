@@ -51,7 +51,8 @@ const SmartAdmin = () => {
         { key: 'manageGarage', name: 'The Garage' },
         { key: 'manageShowroom', name: 'The showroom' },
         { key: 'manageLaws', name: 'The laws' },
-        { key: 'manageTimezones', name: 'Timezone' }
+        { key: 'manageTimezones', name: 'Timezone' },
+        { key: 'managePreviousMeets', name: 'Previous Meets' }
     ];
 
     return (

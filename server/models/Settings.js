@@ -8,6 +8,7 @@ const settingsSchema = new mongoose.Schema({
     manageShowroom: { type: Boolean, default: true },
     manageLaws: { type: Boolean, default: true },
     manageTimezones: { type: Boolean, default: true },
+    managePreviousMeets: { type: Boolean, default: true },
     validCarsPdfUrl: { type: String, default: '' }
 }, { timestamps: true });
 
