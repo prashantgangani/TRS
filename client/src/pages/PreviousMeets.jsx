@@ -286,7 +286,7 @@ const PreviousMeets = ({ isAdmin }) => {
                                     {urls.map((url, i) => (
                                         <motion.div
                                             key={`${meet._id}-img-${i}`}
-                                            className="group relative w-full h-[300px] md:h-[450px] rounded-tr-3xl rounded-bl-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] p-[2px]"
+                                            className="group relative w-full h-[200px] md:h-[270px] rounded-tr-3xl rounded-bl-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] p-[2px]"
                                             whileHover={{ rotateX: 2, rotateY: -2, z: 10, boxShadow: "0 25px 50px -12px rgba(176,38,255,0.3)" }}
                                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                         >
