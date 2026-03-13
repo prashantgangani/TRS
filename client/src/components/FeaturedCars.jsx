@@ -1,254 +1,230 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Plus, Trash2, Edit2, X } from 'lucide-react';
-import { API_URL } from '../config';
-import { logAdminAction } from '../utils/logger';
+import { Database, Grid, RefreshCw, Zap } from 'lucide-react';
 
-const FeaturedCars = ({ isAdmin }) => {
-    const [cars, setCars] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    // Form State
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    const [carName, setCarName] = useState('');
-    const [builtBy, setBuiltBy] = useState('');
-    const [image, setImage] = useState('');
-    const [editingId, setEditingId] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    useEffect(() => {
-        const fetchCars = async () => {
-            try {
-                const response = await fetch(`${API_URL}/featured-cars`);
-                const data = await response.json();
-                setCars(data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Failed to fetch featured cars:", error);
-                setLoading(false);
-            }
-        };
-        fetchCars();
-    }, []);
-
-    const handleAddOrUpdateCar = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        try {
-            const randomImages = [
-                'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1542362567-b07e54358753?w=1920&q=80&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1611016186353-9af58c69a533?w=1920&q=80&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1920&q=80&auto=format&fit=crop',
-                'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1920&q=80&auto=format&fit=crop'
-            ];
-            const defaultImage = randomImages[Math.floor(Math.random() * randomImages.length)];
-            
-            const payload = { 
-                carName, 
-                builtBy, 
-                image: image || defaultImage 
-            };
-
-            if (editingId) {
-                const response = await fetch(`${API_URL}/featured-cars/${editingId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const updatedCar = await response.json();
-                await logAdminAction('Updated Featured Garage Car', `Car: ${updatedCar.carName} | Owner: ${updatedCar.builtBy}`);
-                setCars(cars.map(c => c._id === editingId ? updatedCar : c));
-                setEditingId(null);
-            } else {
-                 const response = await fetch(`${API_URL}/featured-cars`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const newCar = await response.json();
-                await logAdminAction('Added Featured Garage Car', `Car: ${newCar.carName} | Owner: ${newCar.builtBy}`);
-                setCars([newCar, ...cars]);
-            }
-            
-            // Reset form
-            setCarName(''); setBuiltBy(''); setImage('');
-            setIsFormOpen(false);
-        } catch (error) {
-            console.error("Error saving featured car:", error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    const handleEdit = (car) => {
-        setEditingId(car._id);
-        setCarName(car.carName);
-        setBuiltBy(car.builtBy);
-        setImage(car.image);
-        setIsFormOpen(true);
-    };
-
-    const handleDelete = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this featured car?")) return;
-        try {
-            const response = await fetch(`${API_URL}/featured-cars/${id}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) {
-                const deletedCar = cars.find(c => c._id === id);
-                await logAdminAction('Deleted Featured Garage Car', `Removed: ${deletedCar?.carName} | Owner: ${deletedCar?.builtBy}`);
-                setCars(cars.filter(c => c._id !== id));
-            }
-        } catch (error) {
-            console.error("Error deleting featured car:", error);
-        }
+const FeaturedCars = () => {
+    // Subtle float animation for right-side visual elements
+    const floatAnim = {
+        animate: (i) => ({
+            y: [0, -10, 0],
+            transition: {
+                duration: 4 + i,
+                repeat: Infinity,
+                ease: "easeInOut",
+            },
+        }),
     };
 
     return (
         <section id="garage" className="py-32 bg-deep-black border-y border-white/5 relative overflow-hidden">
-            {/* Creative Backgrounds */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-electric-blue/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-neon-purple/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
+            {/* Cinematic Background */}
+            <div className="absolute top-1/2 left-3/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-electric-blue/5 rounded-full blur-[150px] mix-blend-screen pointer-events-none animate-pulse-slow"></div>
+            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-neon-purple/5 rounded-full blur-[120px] mix-blend-screen pointer-events-none animate-pulse-slower"></div>
+            
+            {/* Grid & Technical Overlay */}
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,229,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,229,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                    <div className="max-w-2xl relative">
-                        <motion.div 
-                            initial={{ x: -20, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            viewport={{ once: true }}
-                            className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-electric-blue to-neon-purple"
-                        />
-                        <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 font-heading uppercase italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 drop-shadow-lg">
-                            The <span className="text-electric-blue drop-shadow-[0_0_15px_rgba(0,229,255,0.5)] text-glow-blue">Garage</span>
-                        </h2>
-                        <p className="text-white/60 text-lg md:text-xl font-light tracking-wide max-w-xl">
-                            A curated selection of the most aggressive and meticulously crafted builds from the underground.
-                        </p>
-                    </div>
+                <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
                     
-                    <div className="flex items-center gap-4 flex-wrap">
-                        {isAdmin && (
-                            <button 
-                                onClick={() => setIsFormOpen(!isFormOpen)}
-                                className="px-6 py-3 bg-white hover:bg-white/90 text-deep-black transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2"
-                            >
-                                {isFormOpen ? <X size={18} /> : <Plus size={18} />}
-                                {isFormOpen ? 'Cancel' : 'Add Build'}
-                            </button>
-                        )}
-                        <Link to="/showroom" className="px-6 py-3 border border-white/20 hover:border-white hover:bg-white/5 transition-all uppercase tracking-widest text-sm font-bold rounded-sm inline-block group">
-                            Full Showroom <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
-                        </Link>
-                    </div>
-                </div>
+                    {/* Left Side: Text Content */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="w-full lg:w-1/2 flex flex-col items-start"
+                    >
+                        {/* Premium Mini Label */}
+                        <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-sm bg-white/5 backdrop-blur-md shadow-[0_0_10px_rgba(0,229,255,0.1)]">
+                            <Zap size={14} className="text-electric-blue" />
+                            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-white/80">
+                                Crew Collection
+                            </span>
+                        </div>
 
-                {/* Form Animation */}
-                <AnimatePresence>
-                    {isAdmin && isFormOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0, overflow: 'hidden' }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="mb-12"
-                        >
-                            <div className="glass-panel p-8 rounded-xl border-t border-electric-blue/30 bg-black/40 backdrop-blur-xl relative shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                                <h3 className="text-2xl font-bold mb-6 font-heading text-white flex items-center gap-3">
-                                    {editingId ? 'Edit Garage Build' : 'Feature New Build'}
-                                </h3>
-                                <form onSubmit={handleAddOrUpdateCar} className="space-y-5">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] uppercase tracking-widest text-white/50 pl-1">Car Name</label>
-                                            <input required type="text" placeholder="e.g. Annis Remus" value={carName} onChange={e => setCarName(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-electric-blue transition-colors" />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] uppercase tracking-widest text-white/50 pl-1">Built By</label>
-                                            <input required type="text" placeholder="Owner / Tuner Name" value={builtBy} onChange={e => setBuiltBy(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-electric-blue transition-colors" />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] uppercase tracking-widest text-white/50 pl-1">Image URL (Optional)</label>
-                                        <input type="url" placeholder="Leave empty for a random car image..." value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-electric-blue transition-colors" />
-                                    </div>
-                                    
-                                    <button disabled={isSubmitting} type="submit" className="w-full py-4 mt-6 bg-gradient-to-r from-electric-blue to-neon-purple hover:from-electric-blue/80 hover:to-neon-purple/80 text-white text-sm font-bold uppercase tracking-widest rounded-md transition-all shadow-[0_0_20px_rgba(0,229,255,0.3)]">
-                                        {isSubmitting ? 'Saving...' : (editingId ? 'Update Build' : 'Deploy to Garage')}
-                                    </button>
-                                </form>
+                        {/* Title */}
+                        <div className="relative pl-6 mb-8">
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-electric-blue to-neon-purple" />
+                            <h2 className="text-5xl md:text-7xl font-black tracking-tighter font-heading uppercase italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/50 drop-shadow-lg mb-4">
+                                The <span className="text-electric-blue drop-shadow-[0_0_15px_rgba(0,229,255,0.6)] text-glow-blue block sm:inline">Garage</span>
+                            </h2>
+                            <p className="text-white/70 text-lg sm:text-xl font-light tracking-wide max-w-md leading-relaxed">
+                                A curated collection of standout builds from across The Royal Sorcerers crew — preserved in one evolving showroom.
+                            </p>
+                        </div>
+                        
+                        {/* 3-Point Feature Strip */}
+                        <div className="flex flex-wrap gap-4 mb-8">
+                            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/5 rounded-full">
+                                <div className="w-1.5 h-1.5 rounded-full bg-electric-blue shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
+                                <span className="text-xs uppercase tracking-widest text-white/80">Crew Builds</span>
                             </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/5 rounded-full">
+                                <div className="w-1.5 h-1.5 rounded-full bg-neon-purple shadow-[0_0_8px_rgba(188,19,254,0.8)]"></div>
+                                <span className="text-xs uppercase tracking-widest text-white/80">Rotating Lineup</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/5 rounded-full">
+                                <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
+                                <span className="text-xs uppercase tracking-widest text-white/80">Full Access</span>
+                            </div>
+                        </div>
 
-                {loading ? (
-                    <div className="flex justify-center items-center py-32">
-                        <div className="w-12 h-12 border-4 border-white/10 border-t-electric-blue rounded-full animate-spin"></div>
-                    </div>
-                ) : cars.length === 0 ? (
-                    <div className="text-white/40 text-center py-32 tracking-widest uppercase font-bold text-xl border border-dashed border-white/10 rounded-xl bg-white/5">
-                        Garage is currently empty.
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12">
-                        {cars.map((car, i) => (
-                            <motion.div
-                                key={car._id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-50px" }}
-                                transition={{ duration: 0.6, delay: i * 0.1 }}
-                                className="group relative"
+                        {/* Mini Garage Stats */}
+                        <div className="flex items-center gap-6 sm:gap-10 mb-10 pb-6 border-b border-white/10 w-full max-w-md">
+                            <div className="flex flex-col">
+                                <span className="text-2xl font-black font-heading tracking-wider text-white">48+</span>
+                                <span className="text-[10px] uppercase tracking-widest text-white/40">Builds Archived</span>
+                            </div>
+                            <div className="w-px h-8 bg-white/10"></div>
+                            <div className="flex flex-col">
+                                <span className="text-2xl font-black font-heading tracking-wider text-white">12</span>
+                                <span className="text-[10px] uppercase tracking-widest text-white/40">Categories</span>
+                            </div>
+                            <div className="w-px h-8 bg-white/10"></div>
+                            <div className="flex flex-col">
+                                <span className="text-2xl font-black font-heading tracking-wider text-electric-blue drop-shadow-[0_0_5px_rgba(0,229,255,0.5)]">LIVE</span>
+                                <span className="text-[10px] uppercase tracking-widest text-white/40">Updated Weekly</span>
+                            </div>
+                        </div>
+                        
+                        {/* Buttons */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+                            <Link 
+                                to="/garage" 
+                                className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-electric-blue to-neon-purple hover:from-electric-blue/90 hover:to-neon-purple/90 text-white min-w-[200px] text-center font-bold uppercase tracking-widest text-sm rounded-sm transition-all shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)] group relative overflow-hidden"
                             >
-                                <div className="relative aspect-[4/3] sm:aspect-[3/2] rounded-xl overflow-hidden shadow-2xl transition-all duration-500 transform group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(0,229,255,0.15)] bg-black/50">
-                                    {/* Image with extreme effects */}
-                                    <img
-                                        src={car.image}
-                                        alt={car.carName}
-                                        className="w-full h-full object-cover transition-all duration-700 ease-out sm:grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110"
-                                    />
-                                    
-                                    {/* Creative Overlays */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                    <div className="absolute inset-0 bg-electric-blue/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                    
-                                    {/* Admin Controls */}
-                                    {isAdmin && (
-                                        <div className="absolute top-4 right-4 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-[-10px] group-hover:translate-y-0 duration-300">
-                                            <button onClick={() => handleEdit(car)} className="p-2.5 bg-black/80 hover:bg-white text-white hover:text-black rounded-full transition-all backdrop-blur-md">
-                                                <Edit2 size={16} />
-                                            </button>
-                                            <button onClick={() => handleDelete(car._id)} className="p-2.5 bg-black/80 hover:bg-red-500 text-white rounded-full transition-all backdrop-blur-md">
-                                                <Trash2 size={16} />
-                                            </button>
-                                        </div>
-                                    )}
+                                <span className="relative z-10">Enter Garage</span>
+                                <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-sm"></span>
+                            </Link>
+                            <Link 
+                                to="/showroom" 
+                                className="w-full sm:w-auto px-8 py-4 border border-white/20 hover:border-electric-blue/50 text-white/80 hover:text-white hover:bg-white/5 font-bold uppercase tracking-widest text-sm rounded-sm transition-all group text-center min-w-[200px] shadow-[inset_0_0_0_rgba(0,229,255,0)] hover:shadow-[inset_0_0_15px_rgba(0,229,255,0.15)] relative overflow-hidden"
+                            >
+                                <span className="relative z-10 flex items-center justify-center gap-2">
+                                    Full Showroom <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                                </span>
+                            </Link>
+                        </div>
+                    </motion.div>
 
-                                    {/* Content - ONLY Car Name && Built by */}
-                                    <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 pt-20 z-20 flex flex-col justify-end opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out">
-                                        <p 
-                                            className="text-[11px] sm:text-xs text-electric-blue uppercase tracking-[0.3em] font-bold mb-2 transition-transform duration-500"
-                                        >
-                                            Built By <span className="text-white ml-2">— {car.builtBy}</span>
-                                        </p>
-                                        <h3 
-                                            className="text-3xl sm:text-4xl font-black font-heading tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] transition-transform duration-500 delay-75"
-                                        >
-                                            {car.carName}
-                                        </h3>
+                    {/* Right Side: Creative Abstract Digital Showroom Visual */}
+                    <div className="w-full lg:w-1/2 relative h-[500px] sm:h-[600px] flex items-center justify-center group">
+                        <div className="relative w-full max-w-[500px] h-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:-translate-y-2">
+                            
+                            {/* Scanning Ring Background */}
+                            <motion.div 
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                                className="absolute w-[350px] h-[350px] sm:w-[450px] sm:h-[450px] rounded-full border border-dashed border-white/10 flex items-center justify-center opacity-50 group-hover:opacity-80 group-hover:border-electric-blue/30 transition-all duration-700 pointer-events-none"
+                            >
+                                <div className="absolute w-[80%] h-[80%] rounded-full border border-neon-purple/20 border-t-neon-purple/60 shadow-[0_0_20px_rgba(188,19,254,0.1)] blur-[1px]"></div>
+                            </motion.div>
+
+                            {/* Main Archive Frame Placeholder */}
+                            <motion.div
+                                custom={0}
+                                variants={floatAnim}
+                                animate="animate"
+                                className="relative w-[280px] sm:w-[340px] aspect-[4/5] rounded-xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col justify-between overflow-hidden z-20 transition-all duration-500 group-hover:border-electric-blue/40 group-hover:shadow-[0_20px_50px_rgba(0,229,255,0.15)]"
+                            >
+                                {/* Shimmer Line Effect */}
+                                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-electric-blue to-transparent -translate-x-full animate-[shimmer_2.5s_infinite] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                                {/* Top Bar UI */}
+                                <div className="p-4 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
+                                    <div className="flex items-center gap-2">
+                                        <Database size={14} className="text-electric-blue" />
+                                        <span className="text-[10px] uppercase font-bold tracking-widest text-white/60">System.Archive</span>
                                     </div>
+                                    <div className="flex gap-1.5">
+                                        <div className="w-2 h-2 rounded-full bg-white/20"></div>
+                                        <div className="w-2 h-2 rounded-full bg-white/20"></div>
+                                        <div className="w-2 h-2 rounded-full bg-electric-blue shadow-[0_0_5px_rgba(0,229,255,0.5)] animate-pulse"></div>
+                                    </div>
+                                </div>
+
+                                {/* Center UI Hologram / Grid */}
+                                <div className="flex-1 flex flex-col items-center justify-center relative p-6">
+                                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,229,255,0.1)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                                    <Grid size={48} strokeWidth={1} className="text-white/20 mb-4 group-hover:text-neon-purple/50 transition-colors duration-500" />
+                                    <div className="h-px w-16 bg-gradient-to-r from-transparent via-electric-blue/50 to-transparent mb-4"></div>
+                                    <p className="text-xs uppercase tracking-[0.3em] font-bold text-white/40 text-center">
+                                        Scan Ready<br/>
+                                        <span className="text-[9px] text-white/20 mt-1 block">Awaiting Input</span>
+                                    </p>
                                     
-                                    {/* Animated border line on hover */}
-                                    <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-electric-blue to-neon-purple w-0 group-hover:w-full transition-all duration-700 ease-out z-30"></div>
+                                    {/* Corner Brackets */}
+                                    <div className="absolute top-6 left-6 w-4 h-4 border-t border-l border-white/20 group-hover:border-electric-blue transition-colors duration-500"></div>
+                                    <div className="absolute top-6 right-6 w-4 h-4 border-t border-r border-white/20 group-hover:border-electric-blue transition-colors duration-500"></div>
+                                    <div className="absolute bottom-6 left-6 w-4 h-4 border-b border-l border-white/20 group-hover:border-electric-blue transition-colors duration-500"></div>
+                                    <div className="absolute bottom-6 right-6 w-4 h-4 border-b border-r border-white/20 group-hover:border-electric-blue transition-colors duration-500"></div>
+                                </div>
+
+                                {/* Bottom Bar UI */}
+                                <div className="p-4 border-t border-white/5 bg-white/[0.02] flex justify-between items-center">
+                                    <span className="text-[10px] uppercase tracking-widest text-neon-purple font-bold">TRS Index</span>
+                                    <RefreshCw size={12} className="text-white/40 group-hover:text-electric-blue group-hover:animate-spin transition-colors" />
                                 </div>
                             </motion.div>
-                        ))}
+
+                            {/* Floating Offset Panels */}
+                            <motion.div
+                                custom={1}
+                                variants={floatAnim}
+                                animate="animate"
+                                className="absolute top-1/4 -right-4 sm:-right-12 w-32 sm:w-40 p-3 rounded-lg border border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md shadow-2xl z-30 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-700"
+                            >
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className="w-1.5 h-1.5 bg-neon-purple rounded-full"></div>
+                                    <span className="text-[8px] uppercase tracking-widest text-white/60 font-bold">Access Log</span>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                        <div className="h-full bg-neon-purple w-[80%]"></div>
+                                    </div>
+                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                        <div className="h-full bg-electric-blue w-[45%]"></div>
+                                    </div>
+                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                        <div className="h-full bg-white/40 w-[60%]"></div>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                custom={2}
+                                variants={floatAnim}
+                                animate="animate"
+                                className="absolute bottom-1/4 -left-4 sm:-left-12 px-4 py-2.5 rounded-lg border border-white/5 bg-gradient-to-r from-electric-blue/10 to-transparent backdrop-blur-md shadow-2xl z-30 group-hover:-translate-x-2 group-hover:translate-y-2 transition-transform duration-700 flex flex-col"
+                            >
+                                <span className="text-[8px] uppercase tracking-[0.2em] text-electric-blue font-bold">Status</span>
+                                <span className="text-xs uppercase tracking-widest text-white font-bold inline-flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-electric-blue animate-pulse"></div>
+                                    Encrypted
+                                </span>
+                            </motion.div>
+
+                            {/* Watermark */}
+                            <div className="absolute -bottom-10 right-0 text-white/[0.02] text-8xl font-black font-heading tracking-tighter pointer-events-none select-none">
+                                TRS
+                            </div>
+                        </div>
                     </div>
-                )}
+
+                </div>
             </div>
+            
+            {/* Global Keyframes adjustment for shimmer */}
+            <style jsx>{`
+                @keyframes shimmer {
+                    100% {
+                        transform: translateX(100%);
+                    }
+                }
+            `}</style>
         </section>
     );
 };

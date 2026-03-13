@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Members from './pages/Members';
 import Showroom from './pages/Showroom';
+import Garage from './pages/Garage';
 import AdminAddMeet from './pages/AdminAddMeet';
 import ScrollToTop from './components/ScrollToTop';
 import Laws from './pages/Laws';
@@ -67,7 +68,8 @@ function App() {
       <ScrollToTop />
       <Navbar role={role} setRole={setRole} />
       <Routes>
-        <Route path="/" element={<Home canEditHero={canEditHero} canPublishMeet={canPublishMeet} canManageGarage={canManageGarage} />} />
+        <Route path="/" element={<Home canEditHero={canEditHero} canPublishMeet={canPublishMeet} />} />
+        <Route path="/garage" element={<Garage isAdmin={canManageGarage} />} />
         <Route path="/members" element={<Members isSuperAdmin={isSuperAdmin} />} />
         <Route path="/laws" element={<Laws isAdmin={canManageLaws} isSuperAdmin={isSuperAdmin} />} />
         <Route path="/timezones" element={<Timezones isAdmin={canManageTimezones} isSuperAdmin={isSuperAdmin} />} />
