@@ -25,7 +25,12 @@ const SmartAdmin = () => {
     };
 
     const handleToggle = async (key) => {
-        const newSettings = { ...settings, [key]: !settings[key] };
+        // Handle defaults based on key since older db entries might not have them
+        const defaultValues = {
+            memberLoginEnabled: false
+        };
+        const currentValue = settings.hasOwnProperty(key) ? settings[key] : (defaultValues[key] !== undefined ? defaultValues[key] : true);
+        const newSettings = { ...settings, [key]: !currentValue };
         setSettings(newSettings);
 
         try {
@@ -54,6 +59,7 @@ const SmartAdmin = () => {
         { key: 'manageLaws', name: 'The laws' },
         { key: 'manageTimezones', name: 'Timezone' },
         { key: 'managePreviousMeets', name: 'Previous Meets' },
+        { key: 'manageMasterLibrary', name: 'Master Car Library Access' },
         { key: 'memberLoginEnabled', name: 'Member Garage Self-Update Portal' }
     ];
 
@@ -83,7 +89,10 @@ const SmartAdmin = () => {
 
                 <div className="space-y-4">
                     {features.map((feature, i) => {
-                        const isEnabled = settings[feature.key];
+                        const defaultValues = { memberLoginEnabled: false };
+                        const isEnabled = settings.hasOwnProperty(feature.key) 
+                            ? settings[feature.key] 
+                            : (defaultValues[feature.key] !== undefined ? defaultValues[feature.key] : true);
                         return (
                             <motion.div 
                                 key={feature.key}

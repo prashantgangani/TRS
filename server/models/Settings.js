@@ -9,6 +9,7 @@ const settingsSchema = new mongoose.Schema({
     manageLaws: { type: Boolean, default: true },
     manageTimezones: { type: Boolean, default: true },
     managePreviousMeets: { type: Boolean, default: true },
+    manageMasterLibrary: { type: Boolean, default: true },
     validCarsPdfUrl: { type: String, default: '' },
     memberLoginEnabled: { type: Boolean, default: false }
 }, { timestamps: true });

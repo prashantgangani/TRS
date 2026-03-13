@@ -18,6 +18,7 @@ const featuredCarRoutes = require('./routes/featuredCarRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const crewMemberRoutes = require('./routes/crewMemberRoutes');
 const previousMeetRoutes = require('./routes/previousMeetRoutes');
+const carLibraryRoutes = require('./routes/carLibraryRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -75,6 +76,7 @@ app.use('/api/featured-cars', featuredCarRoutes);
 app.use('/api/previous-meets', previousMeetRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/member-system', crewMemberRoutes);
+app.use('/api/car-library', carLibraryRoutes);
 
 // Health Check Routes
 app.get('/', (req, res) => {

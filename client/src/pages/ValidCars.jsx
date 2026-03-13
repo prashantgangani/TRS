@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Trash2, Edit2, CheckCircle, XCircle, Download, FileText } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 
 const ValidCars = ({ isAdmin }) => {
+    const navigate = useNavigate();
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
     const [pdfUrl, setPdfUrl] = useState('');
     const [newPdfUrl, setNewPdfUrl] = useState('');
+    const [settings, setSettings] = useState(null);
     const [formData, setFormData] = useState({
         carName: '',
         description: '',
@@ -31,6 +34,7 @@ const ValidCars = ({ isAdmin }) => {
             const settingsData = await settingsRes.json();
             
             setCars(carsData);
+            setSettings(settingsData);
             setPdfUrl(settingsData.validCarsPdfUrl || '');
             setNewPdfUrl(settingsData.validCarsPdfUrl || '');
             setLoading(false);
@@ -174,6 +178,23 @@ const ValidCars = ({ isAdmin }) => {
                         <Download size={20} />
                         Download Valid Cars PDF
                     </a>
+                </motion.div>
+            )}
+
+            {isAdmin && (!settings || settings.manageMasterLibrary !== false) && (
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-8 flex justify-center gap-4"
+                >
+                    <button
+                        onClick={() => navigate('/admin/car-library')}
+                        className="group relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-neon-blue to-neon-purple text-white font-black tracking-widest uppercase rounded-lg overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)]"
+                    >
+                        <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] transition-transform duration-500 ease-out skew-x-12"></div>
+                        <FileText size={24} className="relative z-10 group-hover:rotate-12 transition-transform" />
+                        <span className="relative z-10 drop-shadow-md">Access Master Car Library</span>
+                    </button>
                 </motion.div>
             )}
 
@@ -323,6 +344,13 @@ const ValidCars = ({ isAdmin }) => {
                                                         <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Details</p>
                                                         <p className="text-sm italic text-white/70 whitespace-pre-wrap">{car.description}</p>
                                                     </div>
+                                                    {isAdmin && car.sourceLibraryId && (
+                                                        <div className="mt-2">
+                                                            <span className="text-[10px] py-1 px-2 border border-neon-blue/30 text-neon-blue bg-neon-blue/10 rounded uppercase tracking-wider font-bold">
+                                                                From Library
+                                                            </span>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -373,6 +401,13 @@ const ValidCars = ({ isAdmin }) => {
                                                         <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Reason / Details</p>
                                                         <p className="text-sm italic text-white/70 whitespace-pre-wrap">{car.description}</p>
                                                     </div>
+                                                    {isAdmin && car.sourceLibraryId && (
+                                                        <div className="mt-2">
+                                                            <span className="text-[10px] py-1 px-2 border border-neon-blue/30 text-neon-blue bg-neon-blue/10 rounded uppercase tracking-wider font-bold">
+                                                                From Library
+                                                            </span>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>

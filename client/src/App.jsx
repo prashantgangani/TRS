@@ -14,6 +14,7 @@ import SubmitFeedback from './pages/SubmitFeedback';
 import ManageFeedbacks from './pages/ManageFeedbacks';
 import AdminLogs from './pages/AdminLogs';
 import ValidCars from './pages/ValidCars';
+import AdminCarLibrary from './pages/AdminCarLibrary';
 import PreviousMeets from './pages/PreviousMeets';
 import SmartAdmin from './pages/SmartAdmin';
 import ManageCrewMembers from './pages/ManageCrewMembers';
@@ -79,6 +80,7 @@ function App() {
         <Route path="/showroom" element={<Showroom isAdmin={canManageShowroom} />} />
         <Route path="/admin/add-meet" element={<AdminAddMeet isAdmin={canPublishMeet} />} />
         <Route path="/valid-cars" element={<ValidCars isAdmin={canUpdateValidCars} />} />
+        <Route path="/admin/car-library" element={<AdminCarLibrary isAdmin={canUpdateValidCars} />} />
         <Route path="/previous-meets" element={<PreviousMeets isAdmin={canManagePreviousMeets} />} />
         <Route path="/admin-login" element={<AdminLogin setAuthContext={setRole} />} />
         <Route path="/feedback" element={<SubmitFeedback />} />
