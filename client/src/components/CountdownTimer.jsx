@@ -193,18 +193,10 @@ const CountdownTimer = () => {
                         {/* Decorative subtle border top */}
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-electric-blue/50 to-transparent"></div>
                         
-                        <div className="flex items-center justify-center gap-2 text-white/50 mb-2">
+                        <div className="flex items-center justify-center gap-2 text-white/50">
                             <Clock size={16} />
                             <p className="text-sm font-medium">Official Time: <span className="text-white">10:00 PM IST (India) - Saturday</span></p>
                         </div>
-                        {targetDate && (
-                            <p className="text-sm font-medium text-electric-blue/90 mb-3">
-                                Your Local Time: <span className="text-white font-bold">{targetDate.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })}</span>
-                            </p>
-                        )}
-                        <p className="text-xs text-white/40 italic">
-                            *Time automatically adjusted to your region
-                        </p>
                     </motion.div>
                 </div>
             </div>
