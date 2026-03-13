@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Hero from './Hero';
+import CountdownTimer from './CountdownTimer';
 import UpcomingMeets from './UpcomingMeets';
 import FeaturedCars from './FeaturedCars';
 import CrewIdentity from './CrewIdentity';
@@ -26,6 +27,7 @@ const Home = ({ canEditHero, canPublishMeet, canManageGarage }) => {
     return (
         <main>
             <Hero isAdmin={canEditHero} />
+            <CountdownTimer />
             <UpcomingMeets isAdmin={canPublishMeet} />
             <FeaturedCars isAdmin={canManageGarage} />
             <CrewIdentity />
