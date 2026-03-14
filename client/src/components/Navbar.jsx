@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { API_URL } from '../config';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -7,8 +8,24 @@ const Navbar = ({ role, setRole }) => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [activeHash, setActiveHash] = useState('');
+    const [memberLoginEnabled, setMemberLoginEnabled] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const response = await fetch(`${API_URL}/settings`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setMemberLoginEnabled(data.memberLoginEnabled || false);
+                }
+            } catch (error) {
+                console.error("Failed to fetch settings for navbar", error);
+            }
+        };
+        fetchSettings();
+    }, []);
 
     // Helper to handle smooth scrolling or cross-page hash navigation
     const handleNavClick = (e, targetId) => {
@@ -67,7 +84,18 @@ const Navbar = ({ role, setRole }) => {
                         </>
                     )}
                     {role === 'user' && (
-                        <Link to="/feedback" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/feedback' ? 'text-electric-blue text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Feedback</Link>
+                        <>
+                            <Link to="/feedback" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/feedback' ? 'text-electric-blue text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Feedback</Link>
+                            {memberLoginEnabled && (
+                                <Link to="/member-login" onClick={() => setActiveHash('')} className={`group relative px-5 py-2 overflow-hidden rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 border ${location.pathname === '/member-login' ? 'bg-neon-purple/20 text-white border-neon-purple shadow-[0_0_15px_rgba(176,38,255,0.4)]' : 'bg-transparent text-white/90 border-white/20 hover:border-neon-purple hover:shadow-[0_0_20px_rgba(176,38,255,0.5)]'}`}>
+                                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-neon-purple/0 via-neon-purple/20 to-neon-purple/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></span>
+                                    <span className="relative flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-neon-purple animate-pulse shadow-[0_0_8px_rgba(176,38,255,1)]"></span>
+                                        Log In
+                                    </span>
+                                </Link>
+                            )}
+                        </>
                     )}
                     {role === 'member' && (
                         <Link to="/member-dashboard" onClick={() => setActiveHash('')} className={`text-sm font-bold uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/member-dashboard' ? 'text-neon-purple text-glow-purple' : 'text-neon-purple/70 hover:text-neon-purple hover:text-glow-purple'}`}>Garage Sync</Link>
@@ -117,7 +145,15 @@ const Navbar = ({ role, setRole }) => {
                     )}
                     
                     {role === 'user' && (
-                        <Link to="/feedback" className={`text-sm uppercase tracking-widest ${location.pathname === '/feedback' ? 'text-electric-blue' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Feedback</Link>
+                        <>
+                            <Link to="/feedback" className={`text-sm uppercase tracking-widest ${location.pathname === '/feedback' ? 'text-electric-blue' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Feedback</Link>
+                            {memberLoginEnabled && (
+                                <Link to="/member-login" className={`relative overflow-hidden mt-2 flex items-center justify-center gap-2 py-3 text-xs font-bold uppercase tracking-widest rounded border transition-all duration-300 ${location.pathname === '/member-login' ? 'bg-neon-purple/20 text-white border-neon-purple shadow-[0_0_15px_rgba(176,38,255,0.4)]' : 'bg-black/30 text-white/90 border-white/20 hover:border-neon-purple hover:bg-neon-purple/10'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>
+                                    <span className="w-2 h-2 rounded-full bg-neon-purple animate-pulse shadow-[0_0_8px_rgba(176,38,255,1)]"></span>
+                                    Log In
+                                </Link>
+                            )}
+                        </>
                     )}
                     {role === 'member' && (
                         <Link to="/member-dashboard" className={`text-sm font-bold uppercase tracking-widest ${location.pathname === '/member-dashboard' ? 'text-neon-purple' : 'text-neon-purple/80 hover:text-neon-purple'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Garage Sync</Link>

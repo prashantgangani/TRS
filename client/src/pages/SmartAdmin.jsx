@@ -61,7 +61,7 @@ const SmartAdmin = () => {
         { key: 'manageTimezones', name: 'Timezone' },
         { key: 'managePreviousMeets', name: 'Previous Meets' },
         { key: 'manageMasterLibrary', name: 'Master Car Library Access' },
-        { key: 'memberLoginEnabled', name: 'Member Garage Self-Update Portal' },
+        { key: 'memberLoginEnabled', name: 'Member Login' },
         { key: 'allowAdminCarArrange', name: 'Admin Arrange Garage Cars' }
     ];
 
