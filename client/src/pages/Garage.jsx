@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Plus, Trash2, Edit2, X } from 'lucide-react';
+import { Plus, Trash2, Edit2, X, Search, Shuffle, MoveLeft, MoveRight, Save } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 
-const Garage = ({ isAdmin }) => {
+const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -16,6 +16,13 @@ const Garage = ({ isAdmin }) => {
     const [image, setImage] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    // Arrange State
+    const [isArrangeMode, setIsArrangeMode] = useState(false);
+    const [isSavingOrder, setIsSavingOrder] = useState(false);
+
+    // Search State
+    const [searchOwner, setSearchOwner] = useState('');
 
     useEffect(() => {
         const fetchCars = async () => {
@@ -106,6 +113,54 @@ const Garage = ({ isAdmin }) => {
         }
     };
 
+    const handleShuffle = async () => {
+        if (!window.confirm("Shuffle all garage cars? This will randomize their order for everyone.")) return;
+        setIsSavingOrder(true);
+        try {
+            const response = await fetch(`${API_URL}/featured-cars/shuffle`, { method: 'PUT' });
+            if (response.ok) {
+                const reFetched = await fetch(`${API_URL}/featured-cars`).then(res => res.json());
+                setCars(reFetched);
+                await logAdminAction('Shuffled Garage Cars', `Super Admin shuffled all garage cars.`);
+            }
+        } catch (error) {
+            console.error("Error shuffling cars:", error);
+        } finally {
+            setIsSavingOrder(false);
+        }
+    };
+
+    const handleMove = async (carId, direction) => {
+        const index = cars.findIndex(c => c._id === carId);
+        if (index === -1) return;
+        if (direction === 'left' && index === 0) return;
+        if (direction === 'right' && index === cars.length - 1) return;
+
+        const newCars = [...cars];
+        const swapIndex = direction === 'left' ? index - 1 : index + 1;
+
+        // Visual Optimistic update
+        const tempObj = newCars[index];
+        newCars[index] = newCars[swapIndex];
+        newCars[swapIndex] = tempObj;
+        setCars(newCars);
+
+        try {
+            const orderedIds = newCars.map(c => c._id);
+            await fetch(`${API_URL}/featured-cars/reorder`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderedIds })
+            });
+        } catch (error) {
+            console.error("Failed to update arrangement:", error);
+        }
+    };
+
+    const filteredCars = cars.filter(car => 
+        car.builtBy.toLowerCase().includes(searchOwner.toLowerCase())
+    );
+
     return (
         <main className="pt-32 pb-32 bg-deep-black min-h-screen relative overflow-hidden">
              {/* Creative Backgrounds */}
@@ -131,8 +186,18 @@ const Garage = ({ isAdmin }) => {
                     </div>
                     
                     <div className="flex items-center gap-4 flex-wrap pb-2">
+                        {isSuperAdmin && (
+                            <button
+                                onClick={handleShuffle}
+                                disabled={isSavingOrder}
+                                className="px-6 py-3 border border-neon-purple/50 bg-neon-purple/10 hover:bg-neon-purple/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2"
+                            >
+                                <Shuffle size={18} />
+                                {isSavingOrder ? 'Wait...' : 'Shuffle'}
+                            </button>
+                        )}
                         {isAdmin && (
-                            <button 
+                            <button
                                 onClick={() => setIsFormOpen(!isFormOpen)}
                                 className="px-6 py-3 bg-white hover:bg-white/90 text-deep-black transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2"
                             >
@@ -145,6 +210,25 @@ const Garage = ({ isAdmin }) => {
                         </Link>
                     </div>
                 </div>
+
+                {/* Search Bar */}
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex flex-col md:flex-row justify-end mb-10 -mt-6 relative z-10"
+                >
+                    <div className={`bg-[#0a0a0a] border border-white/10 rounded-xl p-4 flex items-center gap-4 shadow-lg w-full md:w-[400px] ${isArrangeMode ? 'opacity-50' : ''}`}>
+                        <Search size={20} className="text-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" />
+                        <input
+                            type="text"
+                            placeholder="Search cars by owner name..."
+                            value={searchOwner}
+                            onChange={(e) => setSearchOwner(e.target.value)}
+                            disabled={isArrangeMode}
+                            className="w-full bg-transparent border-none text-white focus:outline-none placeholder:text-white/30 text-base"
+                        />
+                    </div>
+                </motion.div>
 
                 {/* Form Animation */}
                 <AnimatePresence>
@@ -188,21 +272,23 @@ const Garage = ({ isAdmin }) => {
                     <div className="flex justify-center items-center py-32">
                         <div className="w-12 h-12 border-4 border-white/10 border-t-electric-blue rounded-full animate-spin"></div>
                     </div>
-                ) : cars.length === 0 ? (
+                ) : filteredCars.length === 0 ? (
                     <div className="text-white/40 text-center py-32 tracking-widest uppercase font-bold text-xl border border-dashed border-white/10 rounded-xl bg-white/5">
-                        Garage is currently empty.
+                        {searchOwner ? 'No cars found for that owner.' : 'Garage is currently empty.'}
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {cars.map((car, i) => (
-                            <motion.div
-                                key={car._id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-50px" }}
-                                transition={{ duration: 0.6, delay: i * 0.1 }}
-                                className="group relative"
-                            >
+                        <AnimatePresence>
+                            {filteredCars.map((car, i) => (
+                                <motion.div
+                                    layout
+                                    key={car._id}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    transition={{ duration: 0.4 }}
+                                    className="group relative"
+                                >
                                 <div className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-[1.02] border border-white/10 hover:border-electric-blue/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] bg-black/50">
                                     <img
                                         src={car.image}
@@ -225,6 +311,28 @@ const Garage = ({ isAdmin }) => {
                                         </div>
                                     )}
 
+                                    {/* Arrange Controls */}
+                                    {canArrangeGarage && (
+                                        <div className="absolute top-4 left-4 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-[-5px] group-hover:translate-y-0 duration-300">
+                                            <button 
+                                                onClick={() => handleMove(car._id, 'left')} 
+                                                disabled={i === 0}
+                                                className="p-2 bg-black/80 hover:bg-white text-white hover:text-black rounded-full transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/80 disabled:hover:text-white disabled:cursor-not-allowed"
+                                                title="Move Forward"
+                                            >
+                                                <MoveLeft size={16} />
+                                            </button>
+                                            <button 
+                                                onClick={() => handleMove(car._id, 'right')} 
+                                                disabled={i === filteredCars.length - 1}
+                                                className="p-2 bg-black/80 hover:bg-white text-white hover:text-black rounded-full transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/80 disabled:hover:text-white disabled:cursor-not-allowed"
+                                                title="Move Backward"
+                                            >
+                                                <MoveRight size={16} />
+                                            </button>
+                                        </div>
+                                    )}
+
                                     {/* Content */}
                                     <div className="absolute bottom-0 left-0 w-full p-5 pt-12 z-20 flex flex-col justify-end">
                                         <p className="text-[10px] text-electric-blue uppercase tracking-widest font-bold mb-1 truncate">
@@ -237,6 +345,7 @@ const Garage = ({ isAdmin }) => {
                                 </div>
                             </motion.div>
                         ))}
+                        </AnimatePresence>
                     </div>
                 )}
             </div>

@@ -54,6 +54,7 @@ function App() {
   const canManageLaws = isSuperAdmin || (isAdmin && settings?.manageLaws !== false);
   const canManageTimezones = isSuperAdmin || (isAdmin && settings?.manageTimezones !== false);
   const canManagePreviousMeets = isSuperAdmin || (isAdmin && settings?.managePreviousMeets !== false);
+  const canArrangeGarage = isSuperAdmin || (isAdmin && settings?.allowAdminCarArrange !== false);
 
   if (isSmartAdmin) {
     return (
@@ -73,7 +74,7 @@ function App() {
       <Navbar role={role} setRole={setRole} />
       <Routes>
         <Route path="/" element={<Home canEditHero={canEditHero} canPublishMeet={canPublishMeet} />} />
-        <Route path="/garage" element={<Garage isAdmin={canManageGarage} />} />
+        <Route path="/garage" element={<Garage isAdmin={canManageGarage} isSuperAdmin={isSuperAdmin} canArrangeGarage={canArrangeGarage} />} />
         <Route path="/members" element={<Members isSuperAdmin={isSuperAdmin} />} />
         <Route path="/laws" element={<Laws isAdmin={canManageLaws} isSuperAdmin={isSuperAdmin} />} />
         <Route path="/timezones" element={<Timezones isAdmin={canManageTimezones} isSuperAdmin={isSuperAdmin} />} />

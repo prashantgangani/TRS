@@ -11,7 +11,8 @@ const settingsSchema = new mongoose.Schema({
     managePreviousMeets: { type: Boolean, default: true },
     manageMasterLibrary: { type: Boolean, default: true },
     validCarsPdfUrl: { type: String, default: '' },
-    memberLoginEnabled: { type: Boolean, default: false }
+    memberLoginEnabled: { type: Boolean, default: false },
+    allowAdminCarArrange: { type: Boolean, default: true }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Settings', settingsSchema);
