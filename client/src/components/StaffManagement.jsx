@@ -17,6 +17,7 @@ const StaffManagement = () => {
     const [memberSuccess, setMemberSuccess] = useState('');
     const [crewMembers, setCrewMembers] = useState([]);
     const [loadingMembers, setLoadingMembers] = useState(true);
+    const [searchCrew, setSearchCrew] = useState('');
 
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -195,6 +196,10 @@ const StaffManagement = () => {
             alert("Error resetting password.");
         }
     };
+
+    const filteredCrewMembers = crewMembers.filter(member => 
+        member.username.toLowerCase().includes(searchCrew.toLowerCase())
+    );
 
     return (
         <div className="mt-32 max-w-5xl mx-auto border-t border-white/10 pt-16">
@@ -398,19 +403,35 @@ const StaffManagement = () => {
                 {/* Active Crew Network */}
                 <div className="md:col-span-2">
                     <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
-                        <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
+                        <div className="bg-white/5 p-4 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Active Crew Network</h3>
-                            <span className="text-xs text-electric-blue font-bold px-2 py-1 bg-electric-blue/20 rounded">{crewMembers.length} Accounts Active</span>
+                            <span className="text-xs text-electric-blue font-bold px-2 py-1 bg-electric-blue/20 rounded whitespace-nowrap">{crewMembers.length} Accounts Active</span>
+                        </div>
+                        
+                        {/* Search Bar */}
+                        <div className="p-4 border-b border-white/5 bg-black/20">
+                            <div className="relative flex items-center">
+                                <Search className="absolute left-3 text-electric-blue/50" size={16} />
+                                <input
+                                    type="text"
+                                    placeholder="Search crew members by alias..."
+                                    value={searchCrew}
+                                    onChange={(e) => setSearchCrew(e.target.value)}
+                                    className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-electric-blue/50 transition-colors placeholder:text-white/30"
+                                />
+                            </div>
                         </div>
                         
                         <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
                             {loadingMembers ? (
                                 <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">Accessing Mainframe...</div>
-                            ) : crewMembers.length === 0 ? (
-                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active members found.</div>
+                            ) : filteredCrewMembers.length === 0 ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">
+                                    {searchCrew ? 'No matching crew members found.' : 'No active members found.'}
+                                </div>
                             ) : (
                                 <AnimatePresence>
-                                    {crewMembers.map(member => (
+                                    {filteredCrewMembers.map(member => (
                                         <motion.div 
                                             key={member._id}
                                             initial={{ opacity: 0, x: 20 }}

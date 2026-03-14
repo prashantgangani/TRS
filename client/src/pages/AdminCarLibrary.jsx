@@ -296,13 +296,13 @@ const AdminCarLibrary = ({ isAdmin }) => {
                                 <button
                                     type="button"
                                     onClick={handleCloseForm}
-                                    className="flex-1 py-4 bg-white/5 text-white/70 rounded border border-white/10 hover:bg-white/10 hover:text-white transition-all font-bold uppercase tracking-widest text-sm"
+                                    className="flex-1 py-3 bg-white/5 text-white/70 rounded border border-white/10 hover:bg-white/10 hover:text-white transition-all font-bold uppercase tracking-widest text-sm"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-4 bg-neon-blue text-black font-bold uppercase tracking-widest text-sm rounded hover:bg-white hover:shadow-[0_0_15px_rgba(0,255,255,0.6)] transition-all"
+                                    className="flex-1 py-3 bg-electric-blue text-black font-bold uppercase tracking-widest text-sm rounded hover:bg-white hover:shadow-[0_0_15px_rgba(0,229,255,0.6)] transition-all"
                                 >
                                     {editingCar ? 'Update Car' : 'Save Car'}
                                 </button>

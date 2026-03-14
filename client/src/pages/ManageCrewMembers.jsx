@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Plus, Trash2, Key, Users } from 'lucide-react';
+import { Shield, Plus, Trash2, Key, Users, Search } from 'lucide-react';
 import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ const ManageCrewMembers = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState({ text: '', type: '' });
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
     const fetchMembers = async () => {
@@ -107,6 +108,10 @@ const ManageCrewMembers = () => {
         return <div className="min-h-screen bg-deep-black text-white flex items-center justify-center pt-32 pb-32 uppercase tracking-widest text-lg">Loading Members...</div>;
     }
 
+    const filteredMembers = members.filter(member => 
+        member.username.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="min-h-screen bg-deep-black text-white font-sans selection:bg-neon-purple/50 pt-24 pb-20">
             <div className="max-w-4xl mx-auto px-6">
@@ -174,12 +179,30 @@ const ManageCrewMembers = () => {
                         animate={{ opacity: 1, x: 0 }}
                         className="md:col-span-2 space-y-4"
                     >
-                        {members.length === 0 ? (
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                            <h2 className="text-xl font-heading font-bold uppercase tracking-wider">Active Crew Network</h2>
+                            <span className="bg-[#112a2e] text-[#00e5ff] font-sans px-3 py-1.5 rounded-md text-sm font-bold border border-[#00e5ff]/20 w-fit">
+                                {members.length} Accounts Active
+                            </span>
+                        </div>
+
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-3 flex items-center gap-3 mb-6 shadow-md transition-all focus-within:border-electric-blue/50 focus-within:shadow-[0_0_15px_rgba(0,229,255,0.15)]">
+                            <Search size={18} className="text-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] ml-2" />
+                            <input
+                                type="text"
+                                placeholder="Search active crew members..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-transparent border-none text-white focus:outline-none placeholder:text-white/30 text-sm"
+                            />
+                        </div>
+
+                        {filteredMembers.length === 0 ? (
                             <div className="p-8 text-center text-white/40 border border-white/5 rounded-xl border-dashed">
-                                No members generated yet.
+                                {searchQuery ? 'No active members found.' : 'No active members found.'}
                             </div>
                         ) : (
-                            members.map(member => (
+                            filteredMembers.map(member => (
                                 <div key={member._id} className="glass-panel p-5 rounded-xl border border-white/10 flex items-center justify-between group">
                                     <div>
                                         <div className="font-bold text-lg">{member.username}</div>

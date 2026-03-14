@@ -277,47 +277,49 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                         {searchOwner ? 'No cars found for that owner.' : 'Garage is currently empty.'}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         <AnimatePresence>
                             {filteredCars.map((car, i) => (
                                 <motion.div
                                     layout
                                     key={car._id}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.4 }}
+                                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                                    transition={{ duration: 0.5, ease: "easeOut" }}
                                     className="group relative"
                                 >
-                                <div className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 hover:scale-[1.02] border border-white/10 hover:border-electric-blue/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] bg-black/50">
+                                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
                                     <img
                                         src={car.image}
                                         alt={car.carName}
-                                        className="w-full h-full object-cover transition-all duration-700 ease-out"
+                                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                                        loading="lazy"
                                     />
                                     
-                                    {/* Subtle Gradient Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                                    {/* Subtle Gradient Overlays */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-electric-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                                     
                                     {/* Admin Controls */}
                                     {isAdmin && (
-                                        <div className="absolute top-4 right-4 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-[-5px] group-hover:translate-y-0 duration-300">
-                                            <button onClick={() => handleEdit(car)} className="p-2.5 bg-black/80 hover:bg-white text-white hover:text-black rounded-full transition-all backdrop-blur-md">
-                                                <Edit2 size={14} />
+                                        <div className="absolute top-5 right-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
+                                            <button onClick={() => handleEdit(car)} className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md shadow-lg">
+                                                <Edit2 size={16} />
                                             </button>
-                                            <button onClick={() => handleDelete(car._id)} className="p-2.5 bg-black/80 hover:bg-red-500 text-white rounded-full transition-all backdrop-blur-md">
-                                                <Trash2 size={14} />
+                                            <button onClick={() => handleDelete(car._id)} className="p-3 bg-black/60 hover:bg-red-500 text-white rounded-xl transition-all backdrop-blur-md shadow-lg">
+                                                <Trash2 size={16} />
                                             </button>
                                         </div>
                                     )}
 
                                     {/* Arrange Controls */}
                                     {canArrangeGarage && (
-                                        <div className="absolute top-4 left-4 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-[-5px] group-hover:translate-y-0 duration-300">
+                                        <div className="absolute top-5 left-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
                                             <button 
                                                 onClick={() => handleMove(car._id, 'left')} 
                                                 disabled={i === 0}
-                                                className="p-2 bg-black/80 hover:bg-white text-white hover:text-black rounded-full transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/80 disabled:hover:text-white disabled:cursor-not-allowed"
+                                                className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/60 disabled:hover:text-white disabled:cursor-not-allowed shadow-lg"
                                                 title="Move Forward"
                                             >
                                                 <MoveLeft size={16} />
@@ -325,7 +327,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                             <button 
                                                 onClick={() => handleMove(car._id, 'right')} 
                                                 disabled={i === filteredCars.length - 1}
-                                                className="p-2 bg-black/80 hover:bg-white text-white hover:text-black rounded-full transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/80 disabled:hover:text-white disabled:cursor-not-allowed"
+                                                className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/60 disabled:hover:text-white disabled:cursor-not-allowed shadow-lg"
                                                 title="Move Backward"
                                             >
                                                 <MoveRight size={16} />
@@ -334,11 +336,14 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                     )}
 
                                     {/* Content */}
-                                    <div className="absolute bottom-0 left-0 w-full p-5 pt-12 z-20 flex flex-col justify-end">
-                                        <p className="text-[10px] text-electric-blue uppercase tracking-widest font-bold mb-1 truncate">
-                                            Built By — {car.builtBy}
-                                        </p>
-                                        <h3 className="text-xl font-bold tracking-tight text-white drop-shadow-md truncate">
+                                    <div className="absolute bottom-0 left-0 w-full p-6 pt-16 z-20 flex flex-col justify-end transform transition-transform duration-500 group-hover:-translate-y-1">
+                                        <div className="flex items-center gap-3 mb-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                                            <div className="w-8 h-[2px] bg-electric-blue shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
+                                            <p className="text-[11px] text-electric-blue uppercase tracking-[0.25em] font-black truncate">
+                                                {car.builtBy}
+                                            </p>
+                                        </div>
+                                        <h3 className="text-2xl md:text-3xl font-black font-heading italic tracking-tight text-white drop-shadow-xl truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 transition-all duration-300">
                                             {car.carName}
                                         </h3>
                                     </div>
