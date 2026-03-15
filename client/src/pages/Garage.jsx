@@ -277,7 +277,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                         {searchOwner ? 'No cars found for that owner.' : 'Garage is currently empty.'}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
                         <AnimatePresence>
                             {filteredCars.map((car, i) => (
                                 <motion.div
@@ -289,7 +289,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                     transition={{ duration: 0.5, ease: "easeOut" }}
                                     className="group relative"
                                 >
-                                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
+                                <div className="relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
                                     <img
                                         src={car.image}
                                         alt={car.carName}
@@ -337,7 +337,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
 
                                     {/* Content */}
                                     <div className="absolute bottom-0 left-0 w-full p-6 pt-16 z-20 flex flex-col justify-end transform transition-transform duration-500 group-hover:-translate-y-1">
-                                        <div className="flex items-center gap-3 mb-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                                        <div className="flex items-center gap-3 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             <div className="w-8 h-[2px] bg-electric-blue shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
                                             <p className="text-[11px] text-electric-blue uppercase tracking-[0.25em] font-black truncate">
                                                 {car.builtBy}

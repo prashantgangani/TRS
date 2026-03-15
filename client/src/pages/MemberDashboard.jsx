@@ -94,7 +94,7 @@ const MemberDashboard = ({ setAuthContext }) => {
 
     return (
         <div className="min-h-screen bg-deep-black text-white selection:bg-neon-purple/50 pt-24 pb-20">
-            <div className="max-w-4xl mx-auto px-6">
+            <div className="max-w-6xl mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -131,12 +131,12 @@ const MemberDashboard = ({ setAuthContext }) => {
                         <p className="text-sm text-white/30">Please contact a superadmin to link your profile to a vehicle.</p>
                     </div>
                 ) : garageCard && (
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
                         {/* Editor Form */}
                         <motion.div 
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="md:col-span-7 glass-panel border border-white/10 rounded-2xl p-6 md:p-8"
+                            className="glass-panel border border-white/10 rounded-2xl p-6 md:p-8"
                         >
                             <h2 className="text-xl font-heading font-bold mb-6 flex items-center gap-2 uppercase tracking-widest">
                                 <Save size={18} className="text-electric-blue"/> Data Matrix
@@ -182,28 +182,14 @@ const MemberDashboard = ({ setAuthContext }) => {
                         <motion.div 
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="md:col-span-5"
+                            className="w-full"
                         >
                             <h2 className="text-sm font-heading font-medium mb-4 flex items-center gap-2 uppercase tracking-widest text-white/60">
                                 <Camera size={14} className="text-neon-purple"/> Live Preview
                             </h2>
-                            <div className="group relative rounded-2xl overflow-hidden aspect-[4/5] md:aspect-auto md:h-[450px] border border-white/5 bg-charcoal/30 block">
+                            <div className="group relative rounded-2xl overflow-hidden aspect-[16/11] border border-white/5 bg-[#0a0a0a] block shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                                 <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url(${formData.imageUrl || 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop'})` }}/>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
-                                
-                                <div className="absolute bottom-0 left-0 w-full p-6">
-                                    <div className="flex flex-col gap-2">
-                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 w-fit">
-                                            <span className="w-2 h-2 rounded-full bg-neon-purple shadow-[0_0_8px_rgba(176,38,255,0.8)] animate-pulse" />
-                                            <span className="text-xs font-bold uppercase tracking-wider text-white">
-                                                {garageCard.builtBy}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-xl md:text-2xl font-bold font-heading text-white line-clamp-2">
-                                            {formData.carName || 'Vehicle Name'}
-                                        </h3>
-                                    </div>
-                                </div>
                             </div>
                         </motion.div>
                     </div>
