@@ -61,19 +61,19 @@ const Navbar = ({ role, setRole }) => {
         <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glassmorphism border-none py-3' : 'bg-transparent py-5'}`}>
             <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
                 {/* Logo */}
-                <Link to="/" onClick={(e) => handleNavClick(e, null)} className="flex items-center gap-3 cursor-pointer group">
-                    <div className="relative w-10 h-10 lg:w-12 lg:h-12 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-110 group-hover:border-white/50 transition-all duration-300">
+                <Link to="/" onClick={(e) => handleNavClick(e, null)} className="flex items-center gap-2 sm:gap-3 cursor-pointer group flex-shrink-0 mr-4">
+                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex-shrink-0 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-110 group-hover:border-white/50 transition-all duration-300">
                         <img src="/TRS_LOGO.png" alt="TRS Logo" className="w-full h-full object-contain bg-black" />
                     </div>
                     <div className="flex flex-col justify-center">
-                        <span className="font-heading font-black text-xl lg:text-2xl tracking-[0.2em] text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] leading-none mb-0.5 group-hover:text-glow transition-all whitespace-nowrap">
+                        <span className="font-heading font-black text-[12px] sm:text-sm md:text-lg lg:text-2xl tracking-widest sm:tracking-[0.2em] text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] leading-none mb-0.5 group-hover:text-glow transition-all whitespace-nowrap overflow-hidden text-ellipsis">
                             THE ROYAL SORCERERS
                         </span>
                     </div>
                 </Link>
 
                 {/* Desktop Links */}
-                <div className="hidden md:flex items-center gap-6 lg:gap-8 ml-auto pl-8">
+                <div className="hidden xl:flex items-center gap-6 xl:gap-8 ml-auto pl-8">
                     {role !== 'smartadmin' && (
                         <>
                             <a href="#meets" onClick={(e) => handleNavClick(e, 'meets')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/' && activeHash === 'meets' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Meets</a>
@@ -91,7 +91,7 @@ const Navbar = ({ role, setRole }) => {
                                     <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-neon-purple/0 via-neon-purple/20 to-neon-purple/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></span>
                                     <span className="relative flex items-center gap-2">
                                         <span className="w-2 h-2 rounded-full bg-neon-purple animate-pulse shadow-[0_0_8px_rgba(176,38,255,1)]"></span>
-                                        Log In
+                                        LogIn
                                     </span>
                                 </Link>
                             )}
@@ -124,7 +124,7 @@ const Navbar = ({ role, setRole }) => {
                 </div>
 
                 {/* Mobile Toggle */}
-                <div className="md:hidden">
+                <div className="xl:hidden">
                     <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-white">
                         {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
@@ -133,7 +133,7 @@ const Navbar = ({ role, setRole }) => {
 
             {/* Mobile Menu */}
             {mobileMenuOpen && (
-                <div className="md:hidden absolute top-full left-0 w-full glass-panel py-4 px-6 flex flex-col gap-4 border-b border-white/10">
+                <div className="xl:hidden absolute top-full left-0 w-full bg-[#050505]/95 backdrop-blur-xl py-6 px-6 flex flex-col gap-4 border-b border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
                     {role !== 'smartadmin' && (
                         <>
                             <a href="#meets" className={`text-sm uppercase tracking-widest ${location.pathname === '/' && activeHash === 'meets' ? 'text-neon-purple' : 'text-white/80 hover:text-white'}`} onClick={(e) => handleNavClick(e, 'meets')}>Meets</a>
