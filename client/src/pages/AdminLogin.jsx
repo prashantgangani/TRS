@@ -32,7 +32,16 @@ const AdminLogin = ({ setAuthContext }) => {
                 localStorage.setItem('trs_token', data.token);
                 localStorage.setItem('trs_role', data.admin.role);
                 localStorage.setItem('trs_name', data.admin.name);
-                navigate(data.admin.role === 'superadmin' ? '/members' : '/');
+                
+                if (data.admin.role === 'superadmin') {
+                    navigate('/members');
+                } else if (data.admin.role === 'passwordmanager') {
+                    navigate('/password-manager');
+                } else if (data.admin.role === 'smartadmin') {
+                    navigate('/smart-admin');
+                } else {
+                    navigate('/');
+                }
             } else {
                 setError(data.message || 'Authentication failed');
             }

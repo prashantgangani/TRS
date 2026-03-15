@@ -27,6 +27,13 @@ const requireSuperAdmin = (req, res, next) => {
     next();
 };
 
+const requireSuperAdminOrPasswordManager = (req, res, next) => {
+    if (req.user.role !== 'superadmin' && req.user.role !== 'passwordmanager') {
+        return res.status(403).json({ message: 'Require SuperAdmin or PasswordManager Role' });
+    }
+    next();
+};
+
 const requireMember = (req, res, next) => {
     if (req.user.role !== 'member') {
         return res.status(403).json({ message: 'Require Member Role' });
@@ -141,7 +148,7 @@ router.post('/superadmin/members', [verifyToken, requireSuperAdmin], async (req,
     }
 });
 
-router.get('/superadmin/members', [verifyToken, requireSuperAdmin], async (req, res) => {
+router.get('/superadmin/members', [verifyToken, requireSuperAdminOrPasswordManager], async (req, res) => {
     try {
         const members = await CrewMember.find().select('-password');
         res.json(members);
@@ -163,7 +170,7 @@ router.delete('/superadmin/members/:id', [verifyToken, requireSuperAdmin], async
     }
 });
 
-router.patch('/superadmin/members/:id/reset-password', [verifyToken, requireSuperAdmin], async (req, res) => {
+router.patch('/superadmin/members/:id/reset-password', [verifyToken, requireSuperAdminOrPasswordManager], async (req, res) => {
     try {
         const { password } = req.body;
         if (!password) return res.status(400).json({ message: 'Password is required' });

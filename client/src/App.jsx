@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './components/Home';
 import Members from './pages/Members';
 import Showroom from './pages/Showroom';
@@ -17,12 +17,14 @@ import ValidCars from './pages/ValidCars';
 import AdminCarLibrary from './pages/AdminCarLibrary';
 import PreviousMeets from './pages/PreviousMeets';
 import SmartAdmin from './pages/SmartAdmin';
+import PasswordManager from './pages/PasswordManager';
 import ManageCrewMembers from './pages/ManageCrewMembers';
 import MemberLogin from './pages/MemberLogin';
 import MemberDashboard from './pages/MemberDashboard';
 import { API_URL } from './config';
 
 function App() {
+  const location = useLocation();
   const [role, setRole] = useState(localStorage.getItem('trs_role') || 'user');
   const [settings, setSettings] = useState(null);
   
@@ -44,6 +46,7 @@ function App() {
   const isAdmin = role === 'admin' || role === 'superadmin';
   const isSuperAdmin = role === 'superadmin';
   const isSmartAdmin = role === 'smartadmin';
+  const isPasswordManager = role === 'passwordmanager';
 
   // Smart Admin Feature Toggles
   const canEditHero = isSuperAdmin || (isAdmin && settings?.editHero !== false);
@@ -59,7 +62,7 @@ function App() {
   if (isSmartAdmin) {
     return (
       <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
-        <Navbar role={role} setRole={setRole} />
+        {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
         <Routes>
           {/* Force routing all unhandled smartadmin paths back to their control panel */}
           <Route path="*" element={<SmartAdmin />} />
@@ -68,10 +71,22 @@ function App() {
     );
   }
 
+  if (isPasswordManager) {
+    return (
+      <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-oracle-gold/50">
+        {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
+        <Routes>
+          {/* Force routing all unhandled passwordmanager paths back to their control panel */}
+          <Route path="*" element={<PasswordManager />} />
+        </Routes>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
       <ScrollToTop />
-      <Navbar role={role} setRole={setRole} />
+      {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
       <Routes>
         <Route path="/" element={<Home canEditHero={canEditHero} canPublishMeet={canPublishMeet} />} />
         <Route path="/garage" element={<Garage isAdmin={canManageGarage} isSuperAdmin={isSuperAdmin} canArrangeGarage={canArrangeGarage} />} />
@@ -88,6 +103,7 @@ function App() {
         <Route path="/manage-feedbacks" element={isAdmin ? <ManageFeedbacks /> : <Home />} />
         <Route path="/logs" element={isSuperAdmin ? <AdminLogs /> : <Home />} />
         <Route path="/smart-admin" element={isSuperAdmin ? <SmartAdmin /> : <Home />} />
+        <Route path="/password-manager" element={isSuperAdmin || role === 'passwordmanager' ? <PasswordManager /> : <Home />} />
         <Route path="/manage-crew-members" element={isSuperAdmin ? <ManageCrewMembers /> : <Home />} />
         <Route path="/member-login" element={<MemberLogin setAuthContext={setRole} />} />
         <Route path="/member-dashboard" element={role === 'member' ? <MemberDashboard setAuthContext={setRole} /> : <Home />} />
@@ -100,3 +116,5 @@ function App() {
 }
 
 export default App;
+
+

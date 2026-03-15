@@ -10,6 +10,9 @@ const StaffManagement = () => {
     const [newSmartName, setNewSmartName] = useState('');
     const [newSmartPassword, setNewSmartPassword] = useState('');
     
+    const [newPassManagerName, setNewPassManagerName] = useState('');
+    const [newPassManagerPassword, setNewPassManagerPassword] = useState('');
+    
     // Member generation state
     const [newMemberName, setNewMemberName] = useState('');
     const [newMemberPassword, setNewMemberPassword] = useState('');
@@ -23,6 +26,7 @@ const StaffManagement = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
     const [smartError, setSmartError] = useState('');
+    const [passManagerError, setPassManagerError] = useState('');
     
     // Retrieve token for authenticated SuperAdmin requests
     const token = localStorage.getItem('trs_token');
@@ -72,11 +76,14 @@ const StaffManagement = () => {
         e.preventDefault();
         setIsSubmitting(true);
         if (roleType === 'admin') setError('');
-        else setSmartError('');
+        else if (roleType === 'smartadmin') setSmartError('');
+        else setPassManagerError('');
         
         try {
-            const reqName = roleType === 'admin' ? newName : newSmartName;
-            const reqPass = roleType === 'admin' ? newPassword : newSmartPassword;
+            let reqName, reqPass;
+            if (roleType === 'admin') { reqName = newName; reqPass = newPassword; }
+            else if (roleType === 'smartadmin') { reqName = newSmartName; reqPass = newSmartPassword; }
+            else { reqName = newPassManagerName; reqPass = newPassManagerPassword; }
             
             const response = await fetch(`${API_URL}/auth/register-admin`, {
                 method: 'POST',
@@ -93,17 +100,22 @@ const StaffManagement = () => {
                 if (roleType === 'admin') {
                     setNewName('');
                     setNewPassword('');
-                } else {
+                } else if (roleType === 'smartadmin') {
                     setNewSmartName('');
                     setNewSmartPassword('');
+                } else {
+                    setNewPassManagerName('');
+                    setNewPassManagerPassword('');
                 }
             } else {
                 if (roleType === 'admin') setError(data.message || 'Failed to create admin');
-                else setSmartError(data.message || 'Failed to create admin');
+                else if (roleType === 'smartadmin') setSmartError(data.message || 'Failed to create admin');
+                else setPassManagerError(data.message || 'Failed to create admin');
             }
         } catch (err) {
             if (roleType === 'admin') setError('Server error.');
-            else setSmartError('Server error.');
+            else if (roleType === 'smartadmin') setSmartError('Server error.');
+            else setPassManagerError('Server error.');
         } finally {
             setIsSubmitting(false);
         }
@@ -351,6 +363,78 @@ const StaffManagement = () => {
                                             <button 
                                                 onClick={() => handleDelete(admin._id)}
                                                 className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-neon-purple bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
+                                            >
+                                                Revoke
+                                            </button>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Password Manager Generation Terminal */}
+                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-oracle-gold/30 bg-oracle-gold/5">
+                    <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-2 justify-center">
+                        <KeyRound className="text-oracle-gold" size={20} /> Password Manager Setup
+                    </h3>
+                    <p className="text-[10px] text-center text-white/50 uppercase tracking-widest mb-6">Create credentials restricted strictly to the Password Manager Panel.</p>
+                    
+                    <form onSubmit={(e) => handleAddAdmin(e, 'passwordmanager')} className="space-y-4">
+                        <div>
+                            <input required type="text" value={newPassManagerName} onChange={e => setNewPassManagerName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-oracle-gold text-center" placeholder="Manager Alias" />
+                        </div>
+                        <div>
+                            <input required type="password" value={newPassManagerPassword} onChange={e => setNewPassManagerPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-oracle-gold text-center" placeholder="••••••••" />
+                        </div>
+                        
+                        {passManagerError && <p className="text-red-400 text-xs font-bold text-center">{passManagerError}</p>}
+                        
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-oracle-gold hover:bg-oracle-gold/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(255,215,0,0.4)]">
+                            {isSubmitting ? 'Encrypting...' : 'Generate Password Manager'}
+                        </button>
+                    </form>
+                </div>
+
+                {/* Active Password Manager Log */}
+                <div className="md:col-span-2">
+                    <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
+                        <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
+                            <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Password Manager Network</h3>
+                            <span className="text-xs text-oracle-gold font-bold px-2 py-1 bg-oracle-gold/20 rounded">{admins.filter(a => a.role === 'passwordmanager').length} Systems Online</span>
+                        </div>
+                        
+                        <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
+                            {loading ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">Accessing Mainframe...</div>
+                            ) : admins.filter(a => a.role === 'passwordmanager').length === 0 ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active password managers found.</div>
+                            ) : (
+                                <AnimatePresence>
+                                    {admins.filter(a => a.role === 'passwordmanager').map(admin => (
+                                        <motion.div 
+                                            key={admin._id}
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(255,215,0,0.1)] text-oracle-gold">
+                                                    <ShieldAlert size={14} />
+                                                </div>
+                                                <div>
+                                                    <div className="text-white font-bold">{admin.name} <span className="text-[9px] uppercase ml-2 text-white/40 bg-black px-1.5 py-0.5 rounded">{admin.role}</span></div>
+                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">ID: {admin._id.slice(-6)}</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <button 
+                                                onClick={() => handleDelete(admin._id)}
+                                                className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-oracle-gold bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
                                             >
                                                 Revoke
                                             </button>

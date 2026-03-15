@@ -49,7 +49,7 @@ const requireSuperAdmin = (req, res, next) => {
 // 3. SuperAdmin: Get all standard Admins & Smart Admins
 router.get('/admins', [verifyToken, requireSuperAdmin], async (req, res) => {
     try {
-        const admins = await Admin.find({ role: { $in: ['admin', 'smartadmin'] } }).select('-password');
+        const admins = await Admin.find({ role: { $in: ['admin', 'smartadmin', 'passwordmanager'] } }).select('-password');
         res.json(admins);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -65,7 +65,10 @@ router.post('/register-admin', [verifyToken, requireSuperAdmin], async (req, res
         if (existingAdmin) return res.status(400).json({ message: 'Name already in use' });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const adminRole = role === 'smartadmin' ? 'smartadmin' : 'admin';
+        let adminRole = 'admin';
+        if (role === 'smartadmin') adminRole = 'smartadmin';
+        if (role === 'passwordmanager') adminRole = 'passwordmanager';
+
         const newAdmin = new Admin({ name, password: hashedPassword, role: adminRole });
         await newAdmin.save();
 
