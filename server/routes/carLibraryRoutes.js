@@ -33,7 +33,7 @@ const middlewares = [verifyToken, requireAdmin];
 // 1. GET /api/car-library (List all master cars)
 router.get('/', middlewares, async (req, res) => {
     try {
-        const cars = await CarLibrary.find().sort({ createdAt: -1 });
+        const cars = await CarLibrary.find().sort({ createdAt: -1 }).lean();
         res.json(cars);
     } catch (err) {
         res.status(500).json({ message: err.message });

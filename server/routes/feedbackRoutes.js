@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 // GET all feedbacks
 router.get('/', async (req, res) => {
     try {
-        const feedbacks = await Feedback.find().sort({ createdAt: -1 });
+        const feedbacks = await Feedback.find().select('-ipAddress').sort({ createdAt: -1 }).lean();
         res.json(feedbacks);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -69,3 +69,4 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+

@@ -5,7 +5,7 @@ const Timezone = require('../models/Timezone');
 // Get all timezones
 router.get('/', async (req, res) => {
     try {
-        const timezones = await Timezone.find();
+        const timezones = await Timezone.find().lean();
         res.json(timezones);
     } catch (err) {
         res.status(500).json({ message: err.message });

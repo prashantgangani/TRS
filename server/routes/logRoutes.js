@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
 // GET all logs
 router.get('/', async (req, res) => {
     try {
-        const logs = await Log.find().sort({ createdAt: -1 });
+        const logs = await Log.find().sort({ createdAt: -1 }).limit(100).lean();
         res.json(logs);
     } catch (error) {
         res.status(500).json({ message: error.message });

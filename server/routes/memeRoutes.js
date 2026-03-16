@@ -16,7 +16,7 @@ const checkRole = (roles) => {
 // Get all memes
 router.get('/', async (req, res) => {
   try {
-    const memes = await Meme.find().sort({ order: 1 });
+    const memes = await Meme.find().sort({ order: 1 }).lean();
     res.json(memes);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -49,7 +49,7 @@ const CountdownTimer = () => {
     useEffect(() => {
         const fetchNextMeet = async () => {
             try {
-                const response = await fetch(`${API_URL}/meets`);
+                const response = await fetch(`${API_URL}/meets?limit=1`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data.length > 0) {

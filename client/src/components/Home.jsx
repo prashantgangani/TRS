@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { useLocation } from 'react-router-dom';
 import Hero from './Hero';
 import CountdownTimer from './CountdownTimer';
 import UpcomingMeets from './UpcomingMeets';
-import FeaturedCars from './FeaturedCars';
-import CrewIdentity from './CrewIdentity';
-import DiscordTeaser from './DiscordTeaser';
+
+// Lazy load below-the-fold components
+const FeaturedCars = lazy(() => import('./FeaturedCars'));
+const CrewIdentity = lazy(() => import('./CrewIdentity'));
+const DiscordTeaser = lazy(() => import('./DiscordTeaser'));
+
+const FallbackLoader = () => (
+    <div className="flex justify-center items-center py-20">
+        <div className="w-8 h-8 border-2 border-white/10 border-t-electric-blue rounded-full animate-spin"></div>
+    </div>
+);
 
 const Home = ({ canEditHero, canPublishMeet }) => {
     const location = useLocation();
@@ -29,9 +37,11 @@ const Home = ({ canEditHero, canPublishMeet }) => {
             <Hero isAdmin={canEditHero} />
             <CountdownTimer />
             <UpcomingMeets isAdmin={canPublishMeet} />
-            <FeaturedCars />
-            <CrewIdentity />
-            <DiscordTeaser />
+            <Suspense fallback={<FallbackLoader />}>
+                <FeaturedCars />
+                <CrewIdentity />
+                <DiscordTeaser />
+            </Suspense>
         </main>
     );
 };

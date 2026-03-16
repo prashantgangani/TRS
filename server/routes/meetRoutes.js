@@ -6,7 +6,12 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         // Sort by date so upcoming are first
-        const meets = await Meet.find().sort({ date: 1 });
+        const { limit } = req.query;
+        let query = Meet.find().sort({ date: 1 }).lean();
+        if (limit) {
+            query = query.limit(parseInt(limit, 10));
+        }
+        const meets = await query;
         res.json(meets);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -62,3 +67,4 @@ router.put('/:id', async (req, res) => {
 });
 
 module.exports = router;
+

@@ -59,7 +59,7 @@ const Navbar = ({ role, setRole }) => {
 
     return (
         <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glassmorphism border-none py-3' : 'bg-transparent py-5'}`}>
-            <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-8 justify-between items-center flex">
                 {/* Logo */}
                 <Link to="/" onClick={(e) => handleNavClick(e, null)} className="flex items-center gap-2 sm:gap-3 cursor-pointer group flex-shrink-0 mr-4">
                     <div className="relative w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex-shrink-0 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-110 group-hover:border-white/50 transition-all duration-300">
@@ -73,7 +73,7 @@ const Navbar = ({ role, setRole }) => {
                 </Link>
 
                 {/* Desktop Links */}
-                <div className="hidden xl:flex items-center gap-6 xl:gap-8 ml-auto pl-8">
+                <div className="hidden xl:flex flex-shrink-0 items-center justify-end gap-2 xl:gap-3 2xl:gap-5 ml-auto">
                     {role !== 'smartadmin' && (
                         <>
                             <a href="#meets" onClick={(e) => handleNavClick(e, 'meets')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/' && activeHash === 'meets' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Meets</a>
@@ -115,9 +115,9 @@ const Navbar = ({ role, setRole }) => {
                     )}
 
                     {role !== 'user' && (
-                        <div className="flex items-center bg-black/50 border border-neon-red/50 rounded p-1 ml-4 shadow-[0_0_10px_rgba(255,51,102,0.2)] backdrop-blur-md whitespace-nowrap">
-                            <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-electric-blue">{role}</span>
-                            <button onClick={() => { localStorage.clear(); setRole('user'); navigate('/'); }} className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded bg-neon-red/20 text-neon-red hover:bg-neon-red hover:text-white transition-all">
+                        <div className="flex items-center flex-shrink-0 bg-black/50 border border-neon-red/50 rounded p-1 ml-4 shadow-[0_0_10px_rgba(255,51,102,0.2)] backdrop-blur-md whitespace-nowrap">
+                            <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-electric-blue flex-shrink-0">{role}</span>
+                            <button onClick={() => { localStorage.clear(); setRole('user'); navigate('/'); }} className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded bg-neon-red/20 text-neon-red hover:bg-neon-red hover:text-white transition-all flex-shrink-0">
                                 Logout
                             </button>
                         </div>

@@ -5,8 +5,12 @@ const router = express.Router();
 // GET all showroom cars
 router.get('/', async (req, res) => {
     try {
-        // Sort by order first, then by newest addition
-        const cars = await Car.find().sort({ order: 1, createdAt: -1 });
+        const { limit } = req.query;
+        let query = Car.find().sort({ order: 1, createdAt: -1 }).lean();
+        if (limit) {
+            query = query.limit(parseInt(limit, 10));
+        }
+        const cars = await query;
         res.json(cars);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -38,14 +42,14 @@ router.put('/reorder', async (req, res) => {
         if (!orderedIds || !Array.isArray(orderedIds)) {
             return res.status(400).json({ message: 'orderedIds array is required' });
         }
-        
+
         const bulkOps = orderedIds.map((id, index) => ({
             updateOne: {
                 filter: { _id: id },
                 update: { order: index }
             }
         }));
-        
+
         await Car.bulkWrite(bulkOps);
         res.json({ message: 'Order updated successfully' });
     } catch (err) {
@@ -53,24 +57,24 @@ router.put('/reorder', async (req, res) => {
     }
 });
 
-// PUT to shuffle cars (Super Admin only - role check should be in frontend/middleware, simple implementation here)
+// PUT to shuffle cars
 router.put('/shuffle', async (req, res) => {
     try {
         const cars = await Car.find({}, '_id');
-        
+
         // Fisher-Yates shuffle
         for (let i = cars.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [cars[i], cars[j]] = [cars[j], cars[i]];
         }
-        
+
         const bulkOps = cars.map((car, index) => ({
             updateOne: {
                 filter: { _id: car._id },
                 update: { order: index }
             }
         }));
-        
+
         await Car.bulkWrite(bulkOps);
         res.json({ message: 'Cars shuffled successfully' });
     } catch (err) {
@@ -92,8 +96,8 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const updatedCar = await Car.findByIdAndUpdate(
-            req.params.id, 
-            req.body, 
+            req.params.id,
+            req.body,
             { new: true }
         );
         res.json(updatedCar);

@@ -8,4 +8,5 @@ const featuredCarSchema = new mongoose.Schema({
     order: { type: Number, default: 0 }
 }, { timestamps: true });
 
+featuredCarSchema.index({ order: 1, createdAt: -1 });
 module.exports = mongoose.model('FeaturedCar', featuredCarSchema);

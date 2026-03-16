@@ -4,7 +4,12 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const meets = await PreviousMeet.find().sort({ order: 1, createdAt: -1 });        
+        const { limit } = req.query;
+        let query = PreviousMeet.find().sort({ order: 1, createdAt: -1 }).lean();
+        if (limit) {
+            query = query.limit(parseInt(limit, 10));
+        }
+        const meets = await query;        
         res.json(meets);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -70,3 +75,4 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+

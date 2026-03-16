@@ -5,7 +5,7 @@ const ValidCar = require('../models/ValidCar');
 // Get all
 router.get('/', async (req, res) => {
     try {
-        const cars = await ValidCar.find();
+        const cars = await ValidCar.find().lean();
         res.json(cars);
     } catch (err) {
         res.status(500).json({ message: err.message });

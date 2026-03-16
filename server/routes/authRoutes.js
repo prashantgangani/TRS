@@ -49,7 +49,7 @@ const requireSuperAdmin = (req, res, next) => {
 // 3. SuperAdmin: Get all standard Admins & Smart Admins
 router.get('/admins', [verifyToken, requireSuperAdmin], async (req, res) => {
     try {
-        const admins = await Admin.find({ role: { $in: ['admin', 'smartadmin', 'passwordmanager'] } }).select('-password');
+        const admins = await Admin.find({ role: { $in: ['admin', 'smartadmin', 'passwordmanager'] } }).select('-password').lean();
         res.json(admins);
     } catch (err) {
         res.status(500).json({ message: err.message });

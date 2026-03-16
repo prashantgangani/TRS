@@ -5,7 +5,7 @@ const Member = require('../models/Member');
 // GET all members, sorted by order ascending
 router.get('/', async (req, res) => {
     try {
-        const members = await Member.find().sort({ order: 1, createdAt: 1 });
+        const members = await Member.find().sort({ order: 1, createdAt: 1 }).lean();
         res.json(members);
     } catch (err) {
         res.status(500).json({ message: err.message });

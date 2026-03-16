@@ -9,4 +9,5 @@ const carSchema = new mongoose.Schema({
     order: { type: Number, default: 0 }
 }, { timestamps: true });
 
+carSchema.index({ order: 1, createdAt: -1 });
 module.exports = mongoose.model('Car', carSchema);

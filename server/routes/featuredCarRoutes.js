@@ -5,7 +5,12 @@ const router = express.Router();
 // GET all featured cars
 router.get('/', async (req, res) => {
     try {
-        const cars = await FeaturedCar.find().sort({ order: 1, createdAt: -1 });
+        const { limit } = req.query;
+        let query = FeaturedCar.find().sort({ order: 1, createdAt: -1 }).lean();
+        if (limit) {
+            query = query.limit(parseInt(limit, 10));
+        }
+        const cars = await query;
         res.json(cars);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -100,3 +105,4 @@ router.put('/:id', async (req, res) => {
 });
 
 module.exports = router;
+

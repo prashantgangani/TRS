@@ -9,4 +9,5 @@ const memberSchema = new mongoose.Schema({
     order: { type: Number, default: 0 }
 }, { timestamps: true });
 
+memberSchema.index({ order: 1, createdAt: 1 });
 module.exports = mongoose.model('Member', memberSchema);

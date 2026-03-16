@@ -5,7 +5,7 @@ const Law = require('../models/Law');
 // Get all laws
 router.get('/', async (req, res) => {
     try {
-        const laws = await Law.find().sort({ order: 1 });
+        const laws = await Law.find().sort({ order: 1 }).lean();
         res.json(laws);
     } catch (err) {
         res.status(500).json({ message: err.message });

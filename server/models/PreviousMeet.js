@@ -7,4 +7,5 @@ const previousMeetSchema = new mongoose.Schema({
     order: { type: Number, default: 0 }
 }, { timestamps: true });
 
+previousMeetSchema.index({ order: 1, createdAt: -1 });
 module.exports = mongoose.model('PreviousMeet', previousMeetSchema);

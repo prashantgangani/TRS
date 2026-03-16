@@ -150,7 +150,7 @@ router.post('/superadmin/members', [verifyToken, requireSuperAdmin], async (req,
 
 router.get('/superadmin/members', [verifyToken, requireSuperAdminOrPasswordManager], async (req, res) => {
     try {
-        const members = await CrewMember.find().select('-password');
+        const members = await CrewMember.find().select('-password').lean();
         res.json(members);
     } catch (err) {
         res.status(500).json({ message: err.message });

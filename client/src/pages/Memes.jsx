@@ -148,7 +148,7 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                 {loading ? (
                     <div className="text-center text-white/50 py-20 font-heading tracking-widest animate-pulse">Loading Database...</div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                         {canEdit && (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
@@ -184,7 +184,7 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                                     initial="hidden"
                                     animate="show"
                                     exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                                    className="group relative h-80 rounded-lg overflow-hidden border border-white/10 shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.3)] transition-all duration-500"
+                                    className="group relative h-96 md:h-[450px] rounded-lg overflow-hidden border border-white/10 shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.3)] transition-all duration-500"
                                 >
                                     <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                                         style={{ backgroundImage: `url(${meme.imageUrl})` }}>

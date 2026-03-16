@@ -14,4 +14,5 @@ const meetSchema = new mongoose.Schema({
     image: { type: String, required: false }
 }, { timestamps: true });
 
+meetSchema.index({ date: 1 });
 module.exports = mongoose.model('Meet', meetSchema);
