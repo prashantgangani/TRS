@@ -21,6 +21,7 @@ import PasswordManager from './pages/PasswordManager';
 import ManageCrewMembers from './pages/ManageCrewMembers';
 import MemberLogin from './pages/MemberLogin';
 import MemberDashboard from './pages/MemberDashboard';
+import Memes from './pages/Memes';
 import { API_URL } from './config';
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
   const canManageTimezones = isSuperAdmin || (isAdmin && settings?.manageTimezones !== false);
   const canManagePreviousMeets = isSuperAdmin || (isAdmin && settings?.managePreviousMeets !== false);
   const canArrangeGarage = isSuperAdmin || (isAdmin && settings?.allowAdminCarArrange !== false);
+  const canManageMemes = isSuperAdmin || (isAdmin && settings?.manageMemes !== false);
 
   if (isSmartAdmin) {
     return (
@@ -93,6 +95,7 @@ function App() {
         <Route path="/members" element={<Members isSuperAdmin={isSuperAdmin} />} />
         <Route path="/laws" element={<Laws isAdmin={canManageLaws} isSuperAdmin={isSuperAdmin} />} />
         <Route path="/timezones" element={<Timezones isAdmin={canManageTimezones} isSuperAdmin={isSuperAdmin} />} />
+        <Route path="/memes" element={<Memes isAdmin={canManageMemes} isSuperAdmin={isSuperAdmin} />} />
         <Route path="/showroom" element={<Showroom isAdmin={canManageShowroom} />} />
         <Route path="/admin/add-meet" element={<AdminAddMeet isAdmin={canPublishMeet} />} />
         <Route path="/valid-cars" element={<ValidCars isAdmin={canUpdateValidCars} />} />

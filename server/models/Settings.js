@@ -10,6 +10,7 @@ const settingsSchema = new mongoose.Schema({
     manageTimezones: { type: Boolean, default: true },
     managePreviousMeets: { type: Boolean, default: true },
     manageMasterLibrary: { type: Boolean, default: true },
+    manageMemes: { type: Boolean, default: true },
     validCarsPdfUrl: { type: String, default: '' },
     memberLoginEnabled: { type: Boolean, default: false },
     allowAdminCarArrange: { type: Boolean, default: true }
