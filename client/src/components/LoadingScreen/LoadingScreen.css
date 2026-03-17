@@ -938,8 +938,9 @@
 
   .trs-loader__center {
     top: 50%;
-    transform: translate(-50%, -70%) scale(0.65);
-    transform-origin: 50% 70%;
+    left: 50%;
+    transform: translate(-50%, -65%) scale(0.65);
+    transform-origin: 50% 65%;
   }
 
   .trs-loader__top-beam {
@@ -999,8 +1000,9 @@
 @media (max-width: 480px) {
   .trs-loader__center {
     top: 50%;
-    transform: translate(-50%, -70%) scale(0.48);
-    transform-origin: 50% 70%;
+    left: 50%;
+    transform: translate(-50%, -65%) scale(0.48);
+    transform-origin: 50% 65%;
   }
   .trs-loader__title {
     font-size: clamp(1.2rem, 5vw, 1.8rem);
@@ -1025,8 +1027,9 @@
 @media (max-height: 750px) {
   .trs-loader__center {
     top: 50%;
-    transform: translate(-50%, -70%) scale(0.7);
-    transform-origin: 50% 70%;
+    left: 50%;
+    transform: translate(-50%, -65%) scale(0.7);
+    transform-origin: 50% 65%;
   }
 
   .trs-loader__top-beam {
@@ -1045,8 +1048,9 @@
 @media (max-height: 600px) {
   .trs-loader__center {
     top: 50%;
-    transform: translate(-50%, -70%) scale(0.55);
-    transform-origin: 50% 70%;
+    left: 50%;
+    transform: translate(-50%, -65%) scale(0.55);
+    transform-origin: 50% 65%;
   }
   
   .trs-loader__top-beam {
