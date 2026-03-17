@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const CrewMember = require('../models/CrewMember');
 const FeaturedCar = require('../models/FeaturedCar');
 const Settings = require('../models/Settings');
+const upload = require('../middleware/uploadMiddleware');
+const { uploadToCloudinary, deleteFromCloudinary } = require('../utils/cloudinary');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'trs_underground_secret_key_999!';
 
@@ -83,28 +85,75 @@ router.get('/garage/me', [verifyToken, requireMember, checkMemberLoginEnabled], 
     }
 });
 
-router.patch('/garage/me', [verifyToken, requireMember, checkMemberLoginEnabled], async (req, res) => {
+const multerUpload = upload.single('image');
+
+router.patch('/garage/me', [verifyToken, requireMember, checkMemberLoginEnabled], (req, res, next) => {
+    multerUpload(req, res, function (err) {
+        if (err) {
+            return res.status(400).json({ message: err.message });
+        }
+        next();
+    });
+}, async (req, res) => {
+    console.log("Garage update request incoming:");
+    console.log("Content-Type:", req.headers['content-type']);
+    console.log("req.body:", req.body);
+    console.log("req.file:", req.file ? "File present" : "No file");
     try {
-        const { carName, imageUrl } = req.body;
-        
+        const body = req.body || {};
+        const { carName, imageUrl } = body;
+
+        // Validation against completely empty payload (usually means incorrect Content-Type or bad FormData)
+        if (!req.file && Object.keys(body).length === 0) {
+            return res.status(400).json({ message: "No data received. Please ensure you are sending a valid FormData request." });
+        }
+
         // Find existing to verify ownership
         const garageCard = await FeaturedCar.findOne({ ownerMemberId: req.user.id });
         if (!garageCard) {
             return res.status(404).json({ message: 'Garage card not found' });
         }
 
-        // Validate fields
-        if (carName?.trim() === '') return res.status(400).json({ message: 'Car name is required' });
-        if (imageUrl?.trim() === '') return res.status(400).json({ message: 'Image URL is required' });
+        if (carName) {
+            if (carName.trim() === '') return res.status(400).json({ message: 'Car name cannot be empty' });
+            garageCard.carName = carName;
+        }
 
-        // Update allowed fields only
-        if (carName) garageCard.carName = carName;
-        if (imageUrl) garageCard.image = imageUrl;
+        if (req.file) {
+            // Upload new image to Cloudinary
+            const folder = 'trs/garage-sync';
+            const uniqueId = `${req.user.username}-${Date.now()}`;
+            const result = await uploadToCloudinary(req.file.buffer, folder, uniqueId);
+            
+            // Delete old Cloudinary image if exists
+            if (garageCard.imagePublicId) {
+                await deleteFromCloudinary(garageCard.imagePublicId);
+            }
+            
+            // Update fields
+            garageCard.image = result.secure_url;
+            garageCard.imagePublicId = result.public_id;
+        } else if (imageUrl !== undefined) {
+             // Fallback for manual string URL update, if client didn't send a file but sent imageUrl
+             if (imageUrl.trim() === '') return res.status(400).json({ message: 'Image URL cannot be empty' });
+             
+             // Optional: If providing a new URL manually, should we delete the old cloudinary image?
+             // Since they overwrite it, yes, let's clean up Cloudinary storage
+             if (garageCard.imagePublicId && garageCard.image !== imageUrl) {
+                 await deleteFromCloudinary(garageCard.imagePublicId);
+                 garageCard.imagePublicId = null; // No longer a cloudinary image
+             }
+             
+             garageCard.image = imageUrl;
+        }
 
         const updatedCard = await garageCard.save();
         res.json(updatedCard);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        if (err.message && err.message.includes('Invalid image file')) {
+            return res.status(400).json({ message: err.message });
+        }
+        res.status(500).json({ message: err.message || 'Image upload failed' });
     }
 });
 

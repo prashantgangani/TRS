@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
+import { optimizeImage } from '../utils/imageOptimizer';
 
 const Showroom = ({ isAdmin }) => {
     const [showroomCars, setShowroomCars] = useState([]);
@@ -178,7 +179,7 @@ const Showroom = ({ isAdmin }) => {
                             {/* Image Section */}
                             <div className="w-full lg:w-[55%] h-[300px] sm:h-[400px] lg:h-auto min-h-[400px] relative overflow-hidden">
                                 <img 
-                                    src={car.image} 
+                                    src={optimizeImage(car.image, 800)} 
                                     alt={car.carName}
                                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter saturate-50 group-hover:saturate-100"
                                 />

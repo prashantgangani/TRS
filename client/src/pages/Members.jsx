@@ -1,3 +1,4 @@
+import { optimizeImage } from '../utils/imageOptimizer';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
@@ -242,7 +243,7 @@ const Members = ({ isSuperAdmin }) => {
                                         </div>
                                     )}
                                     <img
-                                        src={member.image || 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&auto=format&fit=crop'}
+                                        src={optimizeImage(member.image, 400) || 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&auto=format&fit=crop'}
                                         alt={member.name}
                                         className="w-full h-full p-2 object-scale-down object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100"
                                     />

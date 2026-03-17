@@ -1,3 +1,4 @@
+import { optimizeImage } from '../utils/imageOptimizer';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, Plus, Edit2, X, ChevronUp, ChevronDown } from 'lucide-react';
@@ -293,7 +294,7 @@ const PreviousMeets = ({ isAdmin }) => {
                                             <div className="absolute inset-0 bg-gradient-to-br from-neon-purple via-charcoal to-electric-blue opacity-50 group-hover:opacity-100 transition-opacity duration-700 animate-pulse-slow"></div>
                                             <div className="absolute inset-[2px] rounded-tr-[22px] rounded-bl-[22px] bg-charcoal overflow-hidden relative">
                                                 <img
-                                                    src={url}
+                                                    src={optimizeImage(url, 600)}
                                                     alt={`${meet.themeName} Plaque ${i + 1}`}
                                                     className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-103"
                                                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000' }}

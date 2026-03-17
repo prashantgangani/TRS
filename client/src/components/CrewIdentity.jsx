@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { optimizeImage } from '../utils/imageOptimizer';
 
 const CrewIdentity = () => {
     return (
@@ -58,7 +59,7 @@ const CrewIdentity = () => {
                         <div className="absolute inset-0 border border-white/10 z-20 mix-blend-overlay"></div>
 
                         <img
-                            src="https://res.cloudinary.com/dhgmfl8tk/image/upload/v1773290026/meet_gqmaw7.png"
+                            src={optimizeImage("https://res.cloudinary.com/dhgmfl8tk/image/upload/v1773290026/meet_gqmaw7.png", 800)}
                             alt="Car Meet Atmosphere"
                             className="w-full h-full object-cover filter brightness-50 contrast-125 saturate-50"
                         />

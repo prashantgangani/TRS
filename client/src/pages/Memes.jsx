@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
+import { optimizeImage } from '../utils/imageOptimizer';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -187,7 +188,7 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                                     className="group relative h-96 md:h-[450px] rounded-lg overflow-hidden border border-white/10 shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.3)] transition-all duration-500"
                                 >
                                     <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                                        style={{ backgroundImage: `url(${meme.imageUrl})` }}>
+                                        style={{ backgroundImage: `url(${optimizeImage(meme.imageUrl, 400)})` }}>
                                     </div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                                     

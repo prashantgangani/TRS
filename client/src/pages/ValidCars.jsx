@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Trash2, Edit2, CheckCircle, XCircle, Download, FileText } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
+import { optimizeImage } from '../utils/imageOptimizer';
 
 const ValidCars = ({ isAdmin }) => {
     const navigate = useNavigate();
@@ -332,7 +333,7 @@ const ValidCars = ({ isAdmin }) => {
                                                         </button>
                                                     </div>
                                                 )}
-                                                <img src={car.imageUrl || fallBackImage} alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
+                                                <img src={optimizeImage(car.imageUrl, 400) || fallBackImage} alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
                                             </div>
                                             <div className="p-6 relative z-10 flex-1 flex flex-col">
@@ -389,7 +390,7 @@ const ValidCars = ({ isAdmin }) => {
                                                         </button>
                                                     </div>
                                                 )}
-                                                <img src={car.imageUrl || fallBackImage} alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
+                                                <img src={optimizeImage(car.imageUrl, 400) || fallBackImage} alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
                                             </div>
                                             <div className="p-6 relative z-10 flex-1 flex flex-col">

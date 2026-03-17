@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Save, LogOut, Check, AlertCircle, Camera } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
+import { optimizeImage } from '../utils/imageOptimizer';
 
 const MemberDashboard = ({ setAuthContext }) => {
     const [garageCard, setGarageCard] = useState(null);
@@ -13,8 +14,10 @@ const MemberDashboard = ({ setAuthContext }) => {
 
     const [formData, setFormData] = useState({
         carName: '',
-        imageUrl: ''
+        imageUrl: '',
+        imageFile: null
     });
+    const [previewUrl, setPreviewUrl] = useState('');
 
     useEffect(() => {
         const fetchGarageCard = async () => {
@@ -40,8 +43,10 @@ const MemberDashboard = ({ setAuthContext }) => {
                 setGarageCard(data);
                 setFormData({
                     carName: data.carName || '',
-                    imageUrl: data.image || ''
+                    imageUrl: data.image || '',
+                    imageFile: null
                 });
+                setPreviewUrl(data.image || '');
             } catch (err) {
                 setMessage({ text: err.message, type: 'error' });
             } finally {
@@ -67,24 +72,49 @@ const MemberDashboard = ({ setAuthContext }) => {
 
         try {
             const token = localStorage.getItem('token');
+            const data = new FormData();
+            data.append('carName', formData.carName);
+            if (formData.imageFile) {
+                data.append('image', formData.imageFile);
+            } else if (formData.imageUrl) {
+                data.append('imageUrl', formData.imageUrl);
+            }
+
             const res = await fetch(`${API_URL}/member-system/garage/me`, {
                 method: 'PATCH',
                 headers: { 
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(formData)
+                body: data
             });
 
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.message || 'Failed to update garage card');
+            const resData = await res.json();
+            if (!res.ok) throw new Error(resData.message || 'Failed to update garage card');
 
-            setGarageCard(data);
+            setGarageCard(resData);
+            setFormData(prev => ({
+                ...prev,
+                imageUrl: resData.image || '',
+                imageFile: null
+            }));
+            setPreviewUrl(resData.image || '');
             setMessage({ text: 'Garage Card sync successful.', type: 'success' });
         } catch (err) {
             setMessage({ text: err.message, type: 'error' });
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 5 * 1024 * 1024) {
+                setMessage({ text: 'Image size should be less than 5MB', type: 'error' });
+                return;
+            }
+            setFormData(prev => ({ ...prev, imageFile: file }));
+            setPreviewUrl(URL.createObjectURL(file));
         }
     };
 
@@ -156,21 +186,37 @@ const MemberDashboard = ({ setAuthContext }) => {
                                 </div>
                                 
                                 <div>
-                                    <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Asset URL (Direct Image Link)</label>
-                                    <input 
-                                        type="url" 
-                                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-neon-purple transition-all text-sm"
-                                        placeholder="https://..."
-                                        value={formData.imageUrl}
-                                        onChange={(e) => setFormData(prev => ({...prev, imageUrl: e.target.value}))}
-                                        required 
-                                    />
-                                    <p className="text-white/30 text-xs mt-2">A high-quality direct link to your vehicle imagery.</p>
+                                    <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Vehicle Image</label>
+                                    <div className="flex flex-col gap-3">
+                                        <input
+                                            type="file"
+                                            accept="image/jpeg, image/png, image/webp"
+                                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-all text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-neon-purple/20 file:text-neon-purple hover:file:bg-neon-purple/30"
+                                            onChange={handleImageChange}
+                                        />
+                                        <div className="flex items-center gap-2">
+                                            <div className="h-px bg-white/10 flex-1"></div>
+                                            <span className="text-white/30 text-xs uppercase">OR PASTE URL</span>
+                                            <div className="h-px bg-white/10 flex-1"></div>
+                                        </div>
+                                        <input
+                                            type="url"
+                                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-neon-purple transition-all text-sm disabled:opacity-50"
+                                            placeholder="https://..."
+                                            value={formData.imageUrl}
+                                            onChange={(e) => {
+                                                setFormData(prev => ({...prev, imageUrl: e.target.value, imageFile: null}));
+                                                setPreviewUrl(e.target.value);
+                                            }}
+                                            disabled={!!formData.imageFile}
+                                        />
+                                    </div>
+                                    <p className="text-white/30 text-xs mt-2">Upload a high-quality image of your vehicle (Max 5MB), or paste a direct URL.</p>
                                 </div>
 
-                                <button 
-                                    type="submit" 
-                                    disabled={saving || (formData.carName === garageCard.carName && formData.imageUrl === garageCard.image)}
+                                <button
+                                    type="submit"
+                                    disabled={saving || (formData.carName === garageCard.carName && formData.imageUrl === garageCard.image && !formData.imageFile)}
                                     className="w-full py-4 bg-white text-black font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-4"
                                 >
                                     {saving ? 'Syncing...' : 'Push Update'}
@@ -179,7 +225,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                         </motion.div>
 
                         {/* Real-time Preview */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             className="w-full"
@@ -188,7 +234,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                                 <Camera size={14} className="text-neon-purple"/> Live Preview
                             </h2>
                             <div className="group relative rounded-2xl overflow-hidden aspect-[16/11] border border-white/5 bg-[#0a0a0a] block shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url(${formData.imageUrl || 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop'})` }}/>
+                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url(${previewUrl || optimizeImage(formData.imageUrl, 800) || 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop'})` }}/>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
                             </div>
                         </motion.div>

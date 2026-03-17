@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
+import { optimizeImage } from '../utils/imageOptimizer';
 
 const UpcomingMeets = ({ isAdmin }) => {
     const [meets, setMeets] = useState([]);
@@ -106,7 +107,7 @@ const UpcomingMeets = ({ isAdmin }) => {
                     >
                         {/* Background Image on Card */}
                         <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
-                            <img src={meet.image || 'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} alt="Meet Thumbnail" className="w-full h-full object-cover grayscale group-hover:grayscale-0" />
+                            <img src={optimizeImage(meet.image, 400) || 'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} alt="Meet Thumbnail" className="w-full h-full object-cover grayscale group-hover:grayscale-0" />
                             <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-deep-black/80 to-transparent"></div>
                         </div>
 
@@ -194,7 +195,7 @@ const UpcomingMeets = ({ isAdmin }) => {
 
                                 {/* Modal Header / Cover Image */}
                                 <div className="relative w-full h-64 md:h-80 shrink-0">
-                                    <img src={selectedMeet.image || 'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} alt="Cover" className="w-full h-full object-cover" />
+                                    <img src={optimizeImage(selectedMeet.image, 800) || 'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} alt="Cover" className="w-full h-full object-cover" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent"></div>
                                     
                                     <div className="absolute bottom-0 left-0 p-8 w-full">

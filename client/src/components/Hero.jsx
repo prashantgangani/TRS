@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Edit2, X, Save } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { API_URL } from '../config';
+import { optimizeImage } from '../utils/imageOptimizer';
 
 const Hero = ({ isAdmin }) => {
     const [heroData, setHeroData] = useState({
@@ -228,7 +229,7 @@ const Hero = ({ isAdmin }) => {
                     >
                         <div className="absolute -inset-2 bg-gradient-to-r from-electric-blue/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div className="relative w-full aspect-[4/3] bg-black rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden">
-                            <img src={heroData.atmosphereImage} alt="Night Drive Atmosphere" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-40 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[2px] group-hover:blur-0" />
+                            <img src={optimizeImage(heroData.atmosphereImage, 800)} alt="Night Drive Atmosphere" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-40 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[2px] group-hover:blur-0" />
                             <div className="absolute inset-0 bg-electric-blue/10 mix-blend-overlay group-hover:opacity-0 transition-opacity"></div>
 
 
@@ -246,7 +247,7 @@ const Hero = ({ isAdmin }) => {
                     >
                         <div className="absolute -inset-2 bg-gradient-to-l from-neon-purple/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div className="relative w-full aspect-square sm:aspect-[4/3] bg-black rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden">
-                            <img src={heroData.meetImage} alt="Meet Scene" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-50 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[1px] group-hover:blur-0 scale-x-[-1]" />
+                            <img src={optimizeImage(heroData.meetImage, 800)} alt="Meet Scene" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-50 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[1px] group-hover:blur-0 scale-x-[-1]" />
                             <div className="absolute inset-0 bg-neon-purple/10 mix-blend-overlay group-hover:opacity-0 transition-opacity"></div>
 
 
@@ -266,7 +267,7 @@ const Hero = ({ isAdmin }) => {
                         <div className="absolute -inset-3 bg-gradient-to-br from-neon-purple rounded-xl opacity-30 blur-2xl group-hover:opacity-70 group-hover:blur-3xl transition-all duration-700"></div>
 
                         <div className="relative w-full aspect-[4/5] sm:aspect-square bg-[#0a0a0a] rounded-xl shadow-[0_30px_60px_rgba(0,0,0,0.9)] border border-white/20 group-hover:border-white/40 overflow-hidden">
-                            <img src={heroData.featuredBuildImage} alt="Featured Build" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-[1.5s] ease-out saturate-150 contrast-125 bg-black" />
+                            <img src={optimizeImage(heroData.featuredBuildImage, 800)} alt="Featured Build" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-[1.5s] ease-out saturate-150 contrast-125 bg-black" />
 
                             {/* Glass tint overlay */}
                             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700"></div>
