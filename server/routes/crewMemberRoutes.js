@@ -114,6 +114,14 @@ router.patch('/garage/me', [verifyToken, requireMember, checkMemberLoginEnabled]
             return res.status(404).json({ message: 'Garage card not found' });
         }
 
+        // Check push limits
+        const settings = await require('../models/Settings').findOne() || { garageUpdateLimit: 3 };
+        const member = await require('../models/CrewMember').findById(req.user.id);
+        if (!member) return res.status(404).json({ message: 'Member not found' });
+        if (member.usedPushUpdates >= settings.garageUpdateLimit) {
+            return res.status(403).json({ message: `Push limit reached. You have used all ${settings.garageUpdateLimit} allowed updates.` });
+        }
+
         if (carName) {
             if (carName.trim() === '') return res.status(400).json({ message: 'Car name cannot be empty' });
             garageCard.carName = carName;
@@ -148,6 +156,10 @@ router.patch('/garage/me', [verifyToken, requireMember, checkMemberLoginEnabled]
         }
 
         const updatedCard = await garageCard.save();
+        
+        member.usedPushUpdates = (member.usedPushUpdates || 0) + 1;
+        await member.save();
+        
         res.json(updatedCard);
     } catch (err) {
         if (err.message && err.message.includes('Invalid image file')) {
@@ -228,6 +240,15 @@ router.patch('/superadmin/members/:id/reset-password', [verifyToken, requireSupe
         await CrewMember.findByIdAndUpdate(req.params.id, { password: hashedPassword });
         
         res.json({ message: 'Password reset successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+router.patch('/superadmin/reset-push-limits', [verifyToken, requireSuperAdminOrPasswordManager], async (req, res) => {
+    try {
+        await CrewMember.updateMany({}, { usedPushUpdates: 0 });
+        res.json({ message: 'Push updates reset successfully for all members' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

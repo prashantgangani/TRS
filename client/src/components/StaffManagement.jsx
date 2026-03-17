@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserPlus, Shield, ShieldCheck, Trash2, X, AlertTriangle, ListFilter, Search, ShieldAlert, KeyRound, Users } from 'lucide-react';
+import { UserPlus, Shield, ShieldCheck, Trash2, X, AlertTriangle, ListFilter, Search, ShieldAlert, KeyRound, Users, RefreshCw, Save } from 'lucide-react';
 import { API_URL } from '../config';
 
 const StaffManagement = () => {
@@ -20,6 +20,8 @@ const StaffManagement = () => {
     const [memberSuccess, setMemberSuccess] = useState('');
     const [crewMembers, setCrewMembers] = useState([]);
     const [loadingMembers, setLoadingMembers] = useState(true);
+    const [garageLimit, setGarageLimit] = useState(3);
+    const [isSavingLimit, setIsSavingLimit] = useState(false);
     const [searchCrew, setSearchCrew] = useState('');
 
     const [loading, setLoading] = useState(true);
@@ -46,6 +48,65 @@ const StaffManagement = () => {
         } catch (error) {
             console.error("Failed to fetch admins:", error);
             setLoading(false);
+        }
+    };
+
+    const fetchSettings = async () => {
+        try {
+            const token = localStorage.getItem('trs_token');
+            const res = await fetch(`${API_URL}/settings`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.garageUpdateLimit !== undefined) {
+                    setGarageLimit(data.garageUpdateLimit);
+                }
+            }
+        } catch (err) {
+            console.error('Error fetching settings:', err);
+        }
+    };
+
+    const handleUpdateLimit = async () => {
+        setIsSavingLimit(true);
+        try {
+            const token = localStorage.getItem('trs_token');
+            const res = await fetch(`${API_URL}/settings`, {
+                method: 'PUT',
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ garageUpdateLimit: parseInt(garageLimit) })
+            });
+            if (!res.ok) throw new Error('Failed to update limit');
+            setMemberSuccess('Garage update limit saved successfully');
+            setTimeout(() => setMemberSuccess(''), 3000);
+            fetchSettings();
+        } catch (err) {
+            setMemberError(err.message);
+            setTimeout(() => setMemberError(''), 3000);
+        } finally {
+            setIsSavingLimit(false);
+        }
+    };
+
+    const handleResetAllLimits = async () => {
+        if (!window.confirm('Are you sure you want to reset the push update limits for ALL members to 0?')) return;
+        try {
+            const token = localStorage.getItem('trs_token');
+            const res = await fetch(`${API_URL}/member-system/superadmin/reset-push-limits`, {
+                method: 'PATCH',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!res.ok) throw new Error('Failed to reset limits');
+            setMemberSuccess('All member push limits have been reset to 0.');
+            setTimeout(() => setMemberSuccess(''), 3000);
+            fetchMembers();
+        } catch (err) {
+            setMemberError(err.message);
+            setTimeout(() => setMemberError(''), 3000);
         }
     };
 
@@ -460,10 +521,12 @@ const StaffManagement = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                 {/* Crew Member Generation Terminal */}
-                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-electric-blue/30 bg-electric-blue/5">
-                    <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-6 justify-center">
-                        <KeyRound className="text-electric-blue" size={20} /> Grant Sync Access
-                    </h3>
+                <div className="md:col-span-1 space-y-6">
+                    {/* Crew Member Generation Terminal */}
+                    <div className="glass-panel p-6 rounded-xl border border-electric-blue/30 bg-electric-blue/5">
+                        <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-6 justify-center">
+                            <KeyRound className="text-electric-blue" size={20} /> Grant Sync Access
+                        </h3>
                     
                     <form onSubmit={handleAddMember} className="space-y-4">
                         <div>
@@ -483,6 +546,49 @@ const StaffManagement = () => {
                         </button>
                     </form>
                 </div>
+
+                {/* Sync Limits Controller */}
+                <div className="glass-panel p-6 rounded-xl border border-electric-blue/30 bg-electric-blue/5">
+                    <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-6 justify-center">
+                        <ShieldAlert className="text-electric-blue" size={20} /> Sync Limits
+                    </h3>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Max Pushes Allowed (Global)</label>
+                            <div className="flex gap-2">
+                                <input 
+                                    type="number" 
+                                    min="1" 
+                                    value={garageLimit} 
+                                    onChange={e => setGarageLimit(Number(e.target.value))} 
+                                    className="flex-1 bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" 
+                                />
+                                <button 
+                                    onClick={handleUpdateLimit}
+                                    disabled={isSavingLimit}
+                                    className="bg-electric-blue/20 hover:bg-electric-blue/40 text-electric-blue border border-electric-blue/50 px-4 py-2 rounded transition-colors flex items-center justify-center disabled:opacity-50"
+                                    title="Save Limit"
+                                >
+                                    <Save size={18} />
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div className="pt-4 border-t border-white/10">
+                            <button 
+                                onClick={handleResetAllLimits}
+                                className="w-full py-3 flex items-center justify-center gap-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-widest rounded transition-colors"
+                            >
+                                <RefreshCw size={16} />
+                                Reset All Members' Pushes
+                            </button>
+                            <p className="text-center text-[10px] text-white/40 mt-2">
+                                Sets everyone's used pushes back to 0. Limit stays exactly the same.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
                 {/* Active Crew Network */}
                 <div className="md:col-span-2">
@@ -529,7 +635,7 @@ const StaffManagement = () => {
                                                 </div>
                                                 <div>
                                                     <div className="text-white font-bold">{member.username}</div>
-                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">STATUS: <span className={member.isActive ? 'text-green-400' : 'text-red-400'}>{member.isActive ? 'ONLINE' : 'OFFLINE'}</span></div>
+                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">STATUS: <span className={member.isActive ? 'text-green-400' : 'text-red-400'}>{member.isActive ? 'ONLINE' : 'OFFLINE'}</span> <span className="mx-2 text-white/20">|</span> PUSHES: <span className={(member.usedPushUpdates || 0) >= garageLimit ? 'text-red-400 font-bold' : 'text-electric-blue'}>{member.usedPushUpdates || 0} / {garageLimit}</span></div>
                                                 </div>
                                             </div>
                                             

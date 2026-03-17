@@ -13,7 +13,8 @@ const settingsSchema = new mongoose.Schema({
     manageMemes: { type: Boolean, default: true },
     validCarsPdfUrl: { type: String, default: '' },
     memberLoginEnabled: { type: Boolean, default: false },
-    allowAdminCarArrange: { type: Boolean, default: true }
+    allowAdminCarArrange: { type: Boolean, default: true },
+    garageUpdateLimit: { type: Number, default: 3 }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Settings', settingsSchema);

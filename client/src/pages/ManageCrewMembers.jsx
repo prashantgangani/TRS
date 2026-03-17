@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Plus, Trash2, Key, Users, Search } from 'lucide-react';
+import { Shield, Plus, Trash2, Key, Users, Search, RefreshCw, Save } from 'lucide-react';
 import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,8 @@ const ManageCrewMembers = () => {
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState({ text: '', type: '' });
     const [searchQuery, setSearchQuery] = useState('');
+    const [garageLimit, setGarageLimit] = useState(3);
+    const [isSavingLimit, setIsSavingLimit] = useState(false);
     const navigate = useNavigate();
 
     const fetchMembers = async () => {
@@ -29,6 +31,23 @@ const ManageCrewMembers = () => {
         }
     };
 
+    const fetchSettings = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${API_URL}/settings`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.garageUpdateLimit !== undefined) {
+                    setGarageLimit(data.garageUpdateLimit);
+                }
+            }
+        } catch (err) {
+            console.error('Error fetching settings:', err);
+        }
+    };
+
     useEffect(() => {
         // Simple client-side superadmin check
         const role = localStorage.getItem('role');
@@ -36,6 +55,7 @@ const ManageCrewMembers = () => {
             navigate('/admin-login');
         } else {
             fetchMembers();
+            fetchSettings();
         }
     }, [navigate]);
 
@@ -104,6 +124,46 @@ const ManageCrewMembers = () => {
         }
     };
 
+    const handleUpdateLimit = async () => {
+        setIsSavingLimit(true);
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${API_URL}/settings`, {
+                method: 'PUT',
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ garageUpdateLimit: parseInt(garageLimit) })
+            });
+            if (!res.ok) throw new Error('Failed to update limit');
+            setMessage({ text: 'Garage update limit saved successfully', type: 'success' });
+            // re-fetch to sync just in case
+            fetchSettings();
+        } catch (err) {
+            setMessage({ text: err.message, type: 'error' });
+        } finally {
+            setIsSavingLimit(false);
+        }
+    };
+
+    const handleResetAllLimits = async () => {
+        if (!window.confirm('Are you sure you want to reset the push update limits for ALL members to 0?')) return;
+        
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${API_URL}/member-system/superadmin/reset-push-limits`, {
+                method: 'PATCH',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!res.ok) throw new Error('Failed to reset limits');
+            setMessage({ text: 'All member push limits have been reset to 0.', type: 'success' });
+            fetchMembers();
+        } catch (err) {
+            setMessage({ text: err.message, type: 'error' });
+        }
+    };
+
     if (loading) {
         return <div className="min-h-screen bg-deep-black text-white flex items-center justify-center pt-32 pb-32 uppercase tracking-widest text-lg">Loading Members...</div>;
     }
@@ -137,41 +197,85 @@ const ManageCrewMembers = () => {
                 )}
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Add Member Form */}
-                    <motion.div 
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="md:col-span-1 glass-panel border border-white/10 rounded-xl p-6 h-fit"
-                    >
-                        <h2 className="text-xl font-heading font-bold mb-6 flex items-center gap-2"><Plus size={18} className="text-electric-blue"/> New Member</h2>
-                        <form onSubmit={handleCreateMember} className="space-y-4">
-                            <div>
-                                <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Username (Discord Tag)</label>
-                                <input 
-                                    type="text" 
-                                    className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-colors"
-                                    placeholder="e.g. ghost_rider"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    required 
-                                />
+                    <div className="md:col-span-1 space-y-6">
+                        {/* Add Member Form */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="glass-panel border border-white/10 rounded-xl p-6 h-fit"
+                        >
+                            <h2 className="text-xl font-heading font-bold mb-6 flex items-center gap-2"><Plus size={18} className="text-electric-blue"/> New Member</h2>
+                            <form onSubmit={handleCreateMember} className="space-y-4">
+                                <div>
+                                    <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Username (Discord Tag)</label>
+                                    <input 
+                                        type="text" 
+                                        className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                                        placeholder="e.g. ghost_rider"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        required 
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Temporary Password</label>
+                                    <input 
+                                        type="password" 
+                                        className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                                        placeholder="••••••••"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required 
+                                    />
+                                </div>
+                                <button type="submit" className="w-full py-3 bg-white text-black font-bold uppercase tracking-wider rounded border border-transparent hover:bg-transparent hover:border-white hover:text-white transition-all text-sm">
+                                    Create Account
+                                </button>
+                            </form>
+                        </motion.div>
+
+                        {/* Push Limit Panel */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: -20, y: 20 }}
+                            animate={{ opacity: 1, x: 0, y: 0 }}
+                            className="glass-panel border border-white/10 rounded-xl p-6 h-fit"
+                        >
+                            <h2 className="text-xl font-heading font-bold mb-4 flex items-center gap-2"><RefreshCw size={18} className="text-neon-purple"/> Sync Limits</h2>
+                            <p className="text-xs text-white/50 mb-6">Set how many times a crew member can push image updates to their Garage Card.</p>
+                            
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Max Push Updates</label>
+                                    <div className="flex gap-2">
+                                        <input 
+                                            type="number" 
+                                            min="1"
+                                            className="w-full bg-charcoal border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                                            value={garageLimit}
+                                            onChange={(e) => setGarageLimit(e.target.value)}
+                                        />
+                                        <button 
+                                            onClick={handleUpdateLimit}
+                                            disabled={isSavingLimit}
+                                            className="px-4 py-2 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white rounded transition-colors flex items-center justify-center"
+                                            title="Save Limit"
+                                        >
+                                            <Save size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div className="pt-4 border-t border-white/10">
+                                    <button 
+                                        onClick={handleResetAllLimits}
+                                        className="w-full py-3 bg-red-500/10 text-red-400 font-bold uppercase tracking-wider rounded border border-red-500/30 hover:bg-red-500 hover:text-white transition-all text-sm flex items-center justify-center gap-2"
+                                    >
+                                        <RefreshCw size={16} /> Reset All Limits to 0
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Temporary Password</label>
-                                <input 
-                                    type="password" 
-                                    className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-colors"
-                                    placeholder="••••••••"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required 
-                                />
-                            </div>
-                            <button type="submit" className="w-full py-3 bg-white text-black font-bold uppercase tracking-wider rounded border border-transparent hover:bg-transparent hover:border-white hover:text-white transition-all text-sm">
-                                Create Account
-                            </button>
-                        </form>
-                    </motion.div>
+                        </motion.div>
+                    </div>
 
                     {/* Member List */}
                     <motion.div 
@@ -208,6 +312,9 @@ const ManageCrewMembers = () => {
                                         <div className="font-bold text-lg">{member.username}</div>
                                         <div className="text-xs text-white/40 flex items-center gap-2 mt-1">
                                             Status: <span className={member.isActive ? 'text-green-400' : 'text-red-400'}>{member.isActive ? 'ACTIVE' : 'INACTIVE'}</span>
+                                        </div>
+                                        <div className="text-xs text-white/50 flex items-center gap-2 mt-1">
+                                            Push Updates: <span className={(member.usedPushUpdates || 0) >= garageLimit ? 'text-red-400 font-bold' : 'text-neon-purple'}>{member.usedPushUpdates || 0} / {garageLimit}</span>
                                         </div>
                                     </div>
                                     <div className="flex gap-3">
