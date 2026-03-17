@@ -251,28 +251,28 @@ export default function LoadingScreen({ isLoading, onComplete }) {
           {/* Connected Nodes */}
           <div className="trs-loader__node-group trs-loader__node-group--left-1">
             <div className="trs-loader__node-text">GARAGE</div>
-            <div className="trs-loader__node-line" style={{ width: '80px' }}></div>
+            <div className="trs-loader__node-line trs-loader__node-line--l1"></div>
             <div className="trs-loader__node-dot"></div>
           </div>
           <div className="trs-loader__node-group trs-loader__node-group--left-2">
             <div className="trs-loader__node-text">SHOWROOM</div>
-            <div className="trs-loader__node-line" style={{ width: '60px' }}></div>
+            <div className="trs-loader__node-line trs-loader__node-line--l2"></div>
             <div className="trs-loader__node-dot"></div>
           </div>
 
           <div className="trs-loader__node-group trs-loader__node-group--right-1">
             <div className="trs-loader__node-dot"></div>
-            <div className="trs-loader__node-line" style={{ width: '50px' }}></div>
+            <div className="trs-loader__node-line trs-loader__node-line--r1"></div>
             <div className="trs-loader__node-text">SHOWROOM</div>
           </div>
           <div className="trs-loader__node-group trs-loader__node-group--right-2">
             <div className="trs-loader__node-dot"></div>
-            <div className="trs-loader__node-line" style={{ width: '80px' }}></div>
+            <div className="trs-loader__node-line trs-loader__node-line--r2"></div>
             <div className="trs-loader__node-text">MEETS</div>
           </div>
           <div className="trs-loader__node-group trs-loader__node-group--right-3">
             <div className="trs-loader__node-dot"></div>
-            <div className="trs-loader__node-line" style={{ width: '60px' }}></div>
+            <div className="trs-loader__node-line trs-loader__node-line--r3"></div>
             <div className="trs-loader__node-text">MEMBERS</div>
           </div>
         </button>
