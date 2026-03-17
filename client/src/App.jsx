@@ -22,12 +22,16 @@ import ManageCrewMembers from './pages/ManageCrewMembers';
 import MemberLogin from './pages/MemberLogin';
 import MemberDashboard from './pages/MemberDashboard';
 import Memes from './pages/Memes';
+import PremiumLoader from './components/PremiumLoader';
 import { API_URL } from './config';
 
 function App() {
   const location = useLocation();
   const [role, setRole] = useState(localStorage.getItem('trs_role') || 'user');
   const [settings, setSettings] = useState(null);
+  const [isAppLoading, setIsAppLoading] = useState(true);
+  const [showLoader, setShowLoader] = useState(true);
+
   
   useEffect(() => {
     // Keep state in sync if local storage changes (e.g. login/logout)
@@ -40,8 +44,14 @@ function App() {
   useEffect(() => {
     fetch(`${API_URL}/settings`)
       .then(res => res.json())
-      .then(data => setSettings(data))
-      .catch(err => console.error("Failed to load settings:", err));
+      .then(data => {
+        setSettings(data);
+        setIsAppLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load settings:", err);
+        setIsAppLoading(false);
+      });
   }, []);
 
   const isAdmin = role === 'admin' || role === 'superadmin';
@@ -63,31 +73,54 @@ function App() {
 
   if (isSmartAdmin) {
     return (
-      <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
-        {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
-        <Routes>
-          {/* Force routing all unhandled smartadmin paths back to their control panel */}
-          <Route path="*" element={<SmartAdmin />} />
-        </Routes>
-      </div>
+      <>
+        {showLoader && (
+          <PremiumLoader 
+            isLoading={isAppLoading} 
+            onComplete={() => setShowLoader(false)} 
+          />
+        )}
+        <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
+          {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
+          <Routes>
+            {/* Force routing all unhandled smartadmin paths back to their control panel */}
+            <Route path="*" element={<SmartAdmin />} />
+          </Routes>
+        </div>
+      </>
     );
   }
 
   if (isPasswordManager) {
     return (
-      <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-oracle-gold/50">
-        {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
-        <Routes>
-          {/* Force routing all unhandled passwordmanager paths back to their control panel */}
-          <Route path="*" element={<PasswordManager />} />
-        </Routes>
-      </div>
+      <>
+        {showLoader && (
+          <PremiumLoader 
+            isLoading={isAppLoading} 
+            onComplete={() => setShowLoader(false)} 
+          />
+        )}
+        <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-oracle-gold/50">
+          {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
+          <Routes>
+            {/* Force routing all unhandled passwordmanager paths back to their control panel */}
+            <Route path="*" element={<PasswordManager />} />
+          </Routes>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
-      <ScrollToTop />
+    <>
+      {showLoader && (
+        <PremiumLoader 
+          isLoading={isAppLoading} 
+          onComplete={() => setShowLoader(false)} 
+        />
+      )}
+      <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
+        <ScrollToTop />
       {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
       <Routes>
         <Route path="/" element={<Home canEditHero={canEditHero} canPublishMeet={canPublishMeet} />} />
@@ -115,6 +148,7 @@ function App() {
         <p>&copy; {new Date().getFullYear()} Underground Meets. A GTA Online Crew.</p>
       </footer>
     </div>
+    </>
   );
 }
 
