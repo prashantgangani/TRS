@@ -22,7 +22,7 @@ import ManageCrewMembers from './pages/ManageCrewMembers';
 import MemberLogin from './pages/MemberLogin';
 import MemberDashboard from './pages/MemberDashboard';
 import Memes from './pages/Memes';
-import PremiumLoader from './components/PremiumLoader';
+import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import { API_URL } from './config';
 
 function App() {
@@ -30,7 +30,10 @@ function App() {
   const [role, setRole] = useState(localStorage.getItem('trs_role') || 'user');
   const [settings, setSettings] = useState(null);
   const [isAppLoading, setIsAppLoading] = useState(true);
-  const [showLoader, setShowLoader] = useState(true);
+  
+  // Skip loader for login paths so direct URL visits don't force a 5 second wait
+  const skipLoaderPaths = ['/admin-login', '/member-login'];
+  const [showLoader, setShowLoader] = useState(!skipLoaderPaths.includes(location.pathname));
 
   
   useEffect(() => {
@@ -42,9 +45,11 @@ function App() {
   }, [role]);
 
   useEffect(() => {
-    fetch(`${API_URL}/settings`)
-      .then(res => res.json())
-      .then(data => {
+    Promise.all([
+      fetch(`${API_URL}/settings`).then(res => res.json()),
+      new Promise(resolve => setTimeout(resolve, 5000))
+    ])
+      .then(([data]) => {
         setSettings(data);
         setIsAppLoading(false);
       })
@@ -75,7 +80,7 @@ function App() {
     return (
       <>
         {showLoader && (
-          <PremiumLoader 
+          <LoadingScreen 
             isLoading={isAppLoading} 
             onComplete={() => setShowLoader(false)} 
           />
@@ -95,7 +100,7 @@ function App() {
     return (
       <>
         {showLoader && (
-          <PremiumLoader 
+          <LoadingScreen 
             isLoading={isAppLoading} 
             onComplete={() => setShowLoader(false)} 
           />
@@ -114,7 +119,7 @@ function App() {
   return (
     <>
       {showLoader && (
-        <PremiumLoader 
+        <LoadingScreen 
           isLoading={isAppLoading} 
           onComplete={() => setShowLoader(false)} 
         />

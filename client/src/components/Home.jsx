@@ -21,12 +21,26 @@ const Home = ({ canEditHero, canPublishMeet }) => {
     useEffect(() => {
         if (location.hash) {
             const elementId = location.hash.replace('#', '');
-            setTimeout(() => {
+            
+            const scrollToElement = () => {
                 const element = document.getElementById(elementId);
                 if (element) {
                     element.scrollIntoView({ behavior: 'smooth' });
                 }
-            }, 100);
+            };
+
+            // Attempt scrolling at multiple intervals to account for 
+            // data fetching (UpcomingMeets, Countdown) and lazy-loaded components
+            // changing the DOM height
+            const timeout1 = setTimeout(scrollToElement, 100);
+            const timeout2 = setTimeout(scrollToElement, 600);
+            const timeout3 = setTimeout(scrollToElement, 1500);
+
+            return () => {
+                clearTimeout(timeout1);
+                clearTimeout(timeout2);
+                clearTimeout(timeout3);
+            };
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
