@@ -7,6 +7,7 @@ import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from './OptimizedImage';
+import LazyImage from './LazyImage';
 
 const UpcomingMeets = ({ isAdmin }) => {
     const [meets, setMeets] = useState([]);
@@ -108,8 +109,8 @@ const UpcomingMeets = ({ isAdmin }) => {
                     >
                         {/* Background Image on Card */}
                         <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
-                              <OptimizedImage src={meet.image} fallbackSrc={'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} variant="card" alt="Meet Thumbnail" className="w-full h-full object-cover grayscale group-hover:grayscale-0" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-deep-black/80 to-transparent"></div>
+                              <LazyImage src={meet.image} fallbackSrc={'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} variant="card" alt="Meet Thumbnail" className="grayscale group-hover:grayscale-0" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-deep-black/80 to-transparent pointer-events-none"></div>
                         </div>
 
                         {/* Subtle glow effect behind card */}
@@ -196,7 +197,8 @@ const UpcomingMeets = ({ isAdmin }) => {
 
                                 {/* Modal Header / Cover Image */}
                                 <div className="relative w-full h-64 md:h-80 shrink-0">
-                                      <OptimizedImage src={selectedMeet.image} variant="detail" fallbackSrc={'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} alt="Cover" className="w-full h-full object-cover" />
+                                      <LazyImage src={selectedMeet.image} variant="detail" fallbackSrc={'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} alt="Cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none"></div>
                                     <div className="absolute bottom-0 left-0 p-8 w-full">
                                         <div className="inline-block px-3 py-1 mb-3 border border-neon-purple/50 bg-neon-purple/20 rounded-sm text-xs uppercase tracking-widest text-neon-purple font-bold shadow-[0_0_10px_rgba(176,38,255,0.3)]">
                                             {selectedMeet.dressCode || selectedMeet.type || 'Standard Meet'}

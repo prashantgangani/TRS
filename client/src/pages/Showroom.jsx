@@ -5,6 +5,7 @@ import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyImage from '../components/LazyImage';
 
 const Showroom = ({ isAdmin }) => {
     const [showroomCars, setShowroomCars] = useState([]);
@@ -183,11 +184,11 @@ const Showroom = ({ isAdmin }) => {
                         >
                             {/* Image Section */}
                             <div className="w-full lg:w-[55%] h-[300px] sm:h-[400px] lg:h-auto min-h-[400px] relative overflow-hidden">
-                                  <OptimizedImage 
+                                  <LazyImage 
                                       src={car.image} 
                                       variant="detail" // Since it's huge, 800-1000 width
                                     alt={car.carName}
-                                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter saturate-50 group-hover:saturate-100"
+                                    className="group-hover:scale-105 transition-transform duration-700 filter saturate-50 group-hover:saturate-100"
                                 />
                                 {isAdmin && (
                                     <div className="absolute top-4 right-4 z-20 flex gap-2">

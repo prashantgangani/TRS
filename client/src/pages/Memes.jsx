@@ -4,6 +4,7 @@ import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyImage from '../components/LazyImage';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -192,11 +193,11 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                                     exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
                                     className="group relative h-96 md:h-[450px] rounded-lg overflow-hidden border border-white/10 shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.3)] transition-all duration-500"
                                 >
-                                        <OptimizedImage
+                                        <LazyImage
                                             src={meme.imageUrl}
                                             variant="card"
                                             alt={meme.title}
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
                                         />
                                     
                                     <div className="absolute bottom-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">

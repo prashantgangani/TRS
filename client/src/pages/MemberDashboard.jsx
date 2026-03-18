@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyImage from '../components/LazyImage';
 
 const MemberDashboard = ({ setAuthContext }) => {
     const [garageCard, setGarageCard] = useState(null);
@@ -234,16 +235,31 @@ const MemberDashboard = ({ setAuthContext }) => {
                             <h2 className="text-sm font-heading font-medium mb-4 flex items-center gap-2 uppercase tracking-widest text-white/60">
                                 <Camera size={14} className="text-neon-purple"/> Live Preview
                             </h2>
-                            <div className="group relative rounded-2xl overflow-hidden aspect-[16/11] border border-white/5 bg-[#0a0a0a] block shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                                  <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
-                                      <OptimizedImage 
-                                          src={previewUrl || formData.imageUrl} 
-                                          fallbackSrc="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop" 
-                                          variant="detail" 
-                                          className="w-full h-full object-cover" 
-                                      />
-                                  </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
+                            <div className="group relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
+                                <LazyImage
+                                    src={previewUrl || formData.imageUrl}
+                                    variant="detail"
+                                    fallbackSrc="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop"
+                                    alt={formData.carName || "Live Preview"}
+                                    className="group-hover:scale-[1.05]"
+                                />
+                            
+                                {/* Subtle Gradient Overlays */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+                                <div className="absolute inset-0 bg-gradient-to-tr from-electric-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+                                {/* Content */}
+                                <div className="absolute bottom-0 left-0 w-full p-6 pt-16 z-20 flex flex-col justify-end transform transition-transform duration-500 group-hover:-translate-y-1">
+                                    <div className="flex items-center gap-3 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <div className="w-8 h-[2px] bg-electric-blue shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
+                                        <p className="text-[11px] text-electric-blue uppercase tracking-[0.25em] font-black truncate">
+                                            {garageCard?.builtBy || "OWNER"}
+                                        </p>
+                                    </div>
+                                    <h3 className="text-2xl md:text-3xl font-black font-heading italic tracking-tight text-white drop-shadow-xl truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 transition-all duration-300">
+                                        {formData.carName || "VEHICLE NAME"}
+                                    </h3>
+                                </div>
                             </div>
                         </motion.div>
                     </div>

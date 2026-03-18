@@ -1,5 +1,6 @@
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyImage from '../components/LazyImage';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
@@ -246,15 +247,16 @@ const Members = ({ isSuperAdmin }) => {
                                             </button>
                                         </div>
                                     )}
-                                      <OptimizedImage
+                                      <LazyImage
                                           src={member.image}
                                           variant="card"
                                           fallbackSrc="https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&auto=format&fit=crop"
                                           alt={member.name}
-                                          className="w-full h-full p-2 object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100"
+                                          containerClassName="p-2"
+                                          className="group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100"
                                     />
                                     {/* Vignette */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90 pointer-events-none"></div>
                                 </div>
 
                                 {/* Text Detail Section */}
@@ -285,6 +287,13 @@ const Members = ({ isSuperAdmin }) => {
                       </div>
                   )}
             </div>
+
+            {/* SUPERADMIN STAFF MANAGEMENT */}
+            {isSuperAdmin && (
+                <div className="max-w-7xl mx-auto mt-20">
+                    <StaffManagement />
+                </div>
+            )}
         </section>
     );
 };

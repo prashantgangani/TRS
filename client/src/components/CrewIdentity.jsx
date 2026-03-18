@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from './OptimizedImage';
+import LazyImage from './LazyImage';
 
 const CrewIdentity = () => {
     return (
@@ -56,13 +57,13 @@ const CrewIdentity = () => {
                         className="w-full md:w-1/2 relative aspect-square md:aspect-auto md:h-[600px] rounded-sm overflow-hidden"
                     >
                         {/* Dark Cinematic overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-deep-black via-transparent to-transparent z-10"></div>
-                        <div className="absolute inset-0 border border-white/10 z-20 mix-blend-overlay"></div>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-deep-black via-transparent to-transparent z-10 pointer-events-none"></div>
+                        <div className="absolute inset-0 border border-white/10 z-20 mix-blend-overlay pointer-events-none"></div>
 
-                        <img
+                        <LazyImage
                             src="/meet.png"
                             alt="Car Meet Atmosphere"
-                            className="w-full h-full object-cover filter brightness-50 contrast-125 saturate-50"
+                            className="filter brightness-50 contrast-125 saturate-50"
                         />
 
                         <div className="absolute bottom-8 right-8 z-30 flex items-center gap-3 glass-panel px-6 py-4 rounded-sm border-l-4 border-l-neon-purple">

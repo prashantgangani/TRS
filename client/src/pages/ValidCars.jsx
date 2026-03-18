@@ -6,6 +6,7 @@ import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyImage from '../components/LazyImage';
 
 const ValidCars = ({ isAdmin }) => {
     const navigate = useNavigate();
@@ -339,7 +340,7 @@ const ValidCars = ({ isAdmin }) => {
                                                         </button>
                                                     </div>
                                                 )}
-                                                <OptimizedImage src={car.imageUrl} fallbackSrc={fallBackImage} variant="card" alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
+                                                <LazyImage src={car.imageUrl} fallbackSrc={fallBackImage} variant="card" alt={car.carName} className="group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
                                             </div>
                                             <div className="p-6 relative z-10 flex-1 flex flex-col">
@@ -404,7 +405,7 @@ const ValidCars = ({ isAdmin }) => {
                                                         </button>
                                                     </div>
                                                 )}
-                                                <OptimizedImage src={car.imageUrl} fallbackSrc={fallBackImage} variant="card" alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
+                                                <LazyImage src={car.imageUrl} fallbackSrc={fallBackImage} variant="card" alt={car.carName} className="group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
                                             </div>
                                             <div className="p-6 relative z-10 flex-1 flex flex-col">

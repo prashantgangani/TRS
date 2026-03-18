@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { API_URL } from '../config';
 import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyImage from '../components/LazyImage';
 
 const AdminCarLibrary = ({ isAdmin }) => {
     const navigate = useNavigate();
@@ -327,7 +328,7 @@ const AdminCarLibrary = ({ isAdmin }) => {
                         <div className="relative h-full bg-black/80 rounded-lg overflow-hidden border border-neon-blue/30 group-hover:border-neon-blue/60 transition-colors flex flex-col shadow-xl">
                             {car.imageUrl ? (
                                 <div className="h-48 overflow-hidden relative mask-image-b group-hover:mask-image-none transition-all duration-500 shrink-0">
-                                    <OptimizedImage src={car.imageUrl} variant="card" alt={car.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
+                                    <LazyImage src={car.imageUrl} variant="card" alt={car.name} className="group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
                                 </div>
                             ) : (

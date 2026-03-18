@@ -5,6 +5,7 @@ import { Plus, Trash2, Edit2, X, Search, Shuffle, MoveLeft, MoveRight, Save } fr
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 import OptimizedImage from '../components/OptimizedImage';
+import LazyImage from '../components/LazyImage';
 
 const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
     const [cars, setCars] = useState([]);
@@ -295,11 +296,11 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                         className="group relative"
                                     >
                                     <div className="relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
-                                        <OptimizedImage
+                                        <LazyImage
                                             src={car.image}
                                             variant="detail" // good quality for these large hero-style cards
                                             alt={car.carName}
-                                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                                            className="group-hover:scale-[1.05]"
                                         />
                                     
                                     {/* Subtle Gradient Overlays */}
