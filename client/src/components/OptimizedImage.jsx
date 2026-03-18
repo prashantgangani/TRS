@@ -16,6 +16,12 @@ export default function OptimizedImage({
     const [imgSrc, setImgSrc] = useState(src);
     const [hasError, setHasError] = useState(false);
 
+    // Reset error state if src prop changes
+    React.useEffect(() => {
+        setHasError(false);
+        setImgSrc(src);
+    }, [src]);
+
     // Variant Presets
     const presets = {
         avatar: { width: 150, quality: "eco" },
