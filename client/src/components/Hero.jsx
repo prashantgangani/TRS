@@ -11,11 +11,11 @@ const Hero = ({ isAdmin }) => {
         tonightsMeetTitle: 'Weekly Showcase',
         tonightsMeetLocation: 'Los Santos Custom',
         tonightsMeetTime: '8:00 PM',
-        atmosphereImage: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800',
-        meetImage: 'https://images.unsplash.com/photo-1596489394602-0e427ed4caeb?auto=format&fit=crop&q=80&w=800',
+        atmosphereImage: '/leftside.jpg',
+        meetImage: '/rightside.png',
         featuredBuildImage: 'https://images.unsplash.com/photo-1611821064430-0d40220e4b98?auto=format&fit=crop&q=80&w=1000',
-        featuredBuildName: 'Midnight RX-7',
-        featuredBuildOwner: 'GhostRider99'
+        featuredBuildName: 'Tornado',
+        featuredBuildOwner: 'JOYBOY'
     });
 
     const [isEditing, setIsEditing] = useState(false);
