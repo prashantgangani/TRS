@@ -12,6 +12,10 @@ const StaffManagement = () => {
     
     const [newPassManagerName, setNewPassManagerName] = useState('');
     const [newPassManagerPassword, setNewPassManagerPassword] = useState('');
+
+    const [newSuperName, setNewSuperName] = useState('');
+    const [newSuperPassword, setNewSuperPassword] = useState('');
+    const [superError, setSuperError] = useState('');
     
     // Member generation state
     const [newMemberName, setNewMemberName] = useState('');
@@ -138,24 +142,26 @@ const StaffManagement = () => {
         setIsSubmitting(true);
         if (roleType === 'admin') setError('');
         else if (roleType === 'smartadmin') setSmartError('');
-        else setPassManagerError('');
-        
+        else if (roleType === 'passwordmanager') setPassManagerError('');
+        else if (roleType === 'superadmin') setSuperError('');
+
         try {
             let reqName, reqPass;
             if (roleType === 'admin') { reqName = newName; reqPass = newPassword; }
             else if (roleType === 'smartadmin') { reqName = newSmartName; reqPass = newSmartPassword; }
-            else { reqName = newPassManagerName; reqPass = newPassManagerPassword; }
-            
+            else if (roleType === 'passwordmanager') { reqName = newPassManagerName; reqPass = newPassManagerPassword; }
+            else if (roleType === 'superadmin') { reqName = newSuperName; reqPass = newSuperPassword; }
+
             const response = await fetch(`${API_URL}/auth/register-admin`, {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ name: reqName, password: reqPass, role: roleType })
             });
             const data = await response.json();
-            
+
             if (response.ok) {
                 fetchAdmins();
                 if (roleType === 'admin') {
@@ -164,19 +170,24 @@ const StaffManagement = () => {
                 } else if (roleType === 'smartadmin') {
                     setNewSmartName('');
                     setNewSmartPassword('');
-                } else {
+                } else if (roleType === 'passwordmanager') {
                     setNewPassManagerName('');
                     setNewPassManagerPassword('');
+                } else if (roleType === 'superadmin') {
+                    setNewSuperName('');
+                    setNewSuperPassword('');
                 }
             } else {
                 if (roleType === 'admin') setError(data.message || 'Failed to create admin');
                 else if (roleType === 'smartadmin') setSmartError(data.message || 'Failed to create admin');
-                else setPassManagerError(data.message || 'Failed to create admin');
+                else if (roleType === 'passwordmanager') setPassManagerError(data.message || 'Failed to create admin');
+                else if (roleType === 'superadmin') setSuperError(data.message || 'Failed to create admin');
             }
         } catch (err) {
             if (roleType === 'admin') setError('Server error.');
             else if (roleType === 'smartadmin') setSmartError('Server error.');
-            else setPassManagerError('Server error.');
+            else if (roleType === 'passwordmanager') setPassManagerError('Server error.');
+            else if (roleType === 'superadmin') setSuperError('Server error.');
         } finally {
             setIsSubmitting(false);
         }
@@ -499,6 +510,84 @@ const StaffManagement = () => {
                                             >
                                                 Revoke
                                             </button>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Super Admin Generation Terminal */}
+                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-neon-red/30 bg-neon-red/5">
+                    <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-2 justify-center">
+                        <KeyRound className="text-neon-red" size={20} /> Super Admin Setup
+                    </h3>
+                    <p className="text-[10px] text-center text-white/50 uppercase tracking-widest mb-6">Create top-level credentials with full system access.</p>
+                    
+                    <form onSubmit={(e) => handleAddAdmin(e, 'superadmin')} className="space-y-4">
+                        <div>
+                            <input required type="text" value={newSuperName} onChange={e => setNewSuperName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-neon-red text-center" placeholder="Super Admin Alias" />
+                        </div>
+                        <div>
+                            <input required type="password" value={newSuperPassword} onChange={e => setNewSuperPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-neon-red text-center" placeholder="••••••••" />
+                        </div>
+                        
+                        {superError && <p className="text-red-400 text-xs font-bold text-center">{superError}</p>}
+                        
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-neon-red hover:bg-neon-red/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(255,51,102,0.4)]">
+                            {isSubmitting ? 'Encrypting...' : 'Generate Super Admin'}
+                        </button>
+                    </form>
+                </div>
+
+                {/* Active Super Admin Log */}
+                <div className="md:col-span-2">
+                    <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
+                        <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
+                            <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Super Admin Network</h3>
+                            <span className="text-xs text-neon-red font-bold px-2 py-1 bg-neon-red/20 rounded">{admins.filter(a => a.role === 'superadmin').length} Systems Online</span>
+                        </div>
+                        
+                        <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
+                            {loading ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">Accessing Mainframe...</div>
+                            ) : admins.filter(a => a.role === 'superadmin').length === 0 ? (
+                                <div className="text-white/30 text-xs uppercase tracking-widest text-center py-10">No active super administrators found.</div>
+                            ) : (
+                                <AnimatePresence>
+                                    {admins.filter(a => a.role === 'superadmin').map(admin => (
+                                        <motion.div 
+                                            key={admin._id}
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -20 }}
+                                            className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(255,51,102,0.1)] text-neon-red">
+                                                    <ShieldAlert size={14} />
+                                                </div>
+                                                <div>
+                                                    <div className="text-white font-bold">{admin.name} <span className="text-[9px] uppercase ml-2 text-white/40 bg-black px-1.5 py-0.5 rounded">{admin.role}</span></div>
+                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">ID: {admin._id.slice(-6)}</div>
+                                                </div>
+                                            </div>
+                                            
+                                            {admin.name === 'JOYBOY' ? (
+                                                <span className="px-3 py-1.5 text-[10px] text-neon-red/50 border border-neon-red/20 rounded uppercase tracking-widest font-bold">
+                                                    Master
+                                                </span>
+                                            ) : (
+                                                <button 
+                                                    onClick={() => handleDelete(admin._id)}
+                                                    className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-neon-red bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
+                                                >
+                                                    Revoke
+                                                </button>
+                                            )}
                                         </motion.div>
                                     ))}
                                 </AnimatePresence>

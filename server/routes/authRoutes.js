@@ -49,7 +49,7 @@ const requireSuperAdmin = (req, res, next) => {
 // 3. SuperAdmin: Get all standard Admins & Smart Admins
 router.get('/admins', [verifyToken, requireSuperAdmin], async (req, res) => {
     try {
-        const admins = await Admin.find({ role: { $in: ['admin', 'smartadmin', 'passwordmanager'] } }).select('-password').lean();
+        const admins = await Admin.find({ role: { $in: ['admin', 'smartadmin', 'passwordmanager', 'superadmin'] } }).select('-password').lean();
         res.json(admins);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -68,6 +68,7 @@ router.post('/register-admin', [verifyToken, requireSuperAdmin], async (req, res
         let adminRole = 'admin';
         if (role === 'smartadmin') adminRole = 'smartadmin';
         if (role === 'passwordmanager') adminRole = 'passwordmanager';
+        if (role === 'superadmin') adminRole = 'superadmin';
 
         const newAdmin = new Admin({ name, password: hashedPassword, role: adminRole });
         await newAdmin.save();
@@ -78,9 +79,16 @@ router.post('/register-admin', [verifyToken, requireSuperAdmin], async (req, res
     }
 });
 
-// 5. SuperAdmin: Delete a normal Admin
+// 5. SuperAdmin: Delete an Admin
 router.delete('/admins/:id', [verifyToken, requireSuperAdmin], async (req, res) => {
     try {
+        const adminToDelete = await Admin.findById(req.params.id);
+        if (!adminToDelete) {
+            return res.status(404).json({ message: 'Admin not found' });
+        }
+        if (adminToDelete.name === 'JOYBOY') {
+            return res.status(403).json({ message: 'Master SuperAdmin "JOYBOY" cannot be revoked' });
+        }
         await Admin.findByIdAndDelete(req.params.id);
         res.json({ message: 'Admin deleted successfully' });
     } catch (err) {
