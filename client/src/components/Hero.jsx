@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Edit2, X, Save } from 'lucide-react';
-import { createPortal } from 'react-dom';
 import { API_URL } from '../config';
-import { optimizeImage } from '../utils/imageOptimizer';
 import OptimizedImage from './OptimizedImage';
 
 const Hero = ({ isAdmin }) => {

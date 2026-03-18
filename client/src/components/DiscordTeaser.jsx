@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, Send, Server, Users, Instagram } from 'lucide-react';
+import { Terminal, Send, Server, Instagram } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const DiscordTeaser = () => {

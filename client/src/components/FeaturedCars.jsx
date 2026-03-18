@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Database, Zap, ArrowRight, Layers, Star, Hexagon, Shield, Focus, LayoutGrid } from 'lucide-react';
+import { Layers, Star, LayoutGrid } from 'lucide-react';
 
 const FeaturedCars = () => {
     // Subtle float animation

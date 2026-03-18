@@ -1,0 +1,188 @@
+[
+  {
+    "file": "\\src\\App.jsx",
+    "errors": [
+      {
+        "line": 43,
+        "rule": "react-hooks/set-state-in-effect"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\Hero.jsx",
+    "errors": [
+      {
+        "line": 189,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\LoadingScreen\\LoadingScreen.jsx",
+    "errors": [
+      {
+        "line": 66,
+        "rule": "react-hooks/set-state-in-effect"
+      },
+      {
+        "line": 116,
+        "rule": "react-hooks/set-state-in-effect"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\OptimizedImage.jsx",
+    "errors": [
+      {
+        "line": 16,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\StaffManagement.jsx",
+    "errors": [
+      {
+        "line": 138,
+        "rule": "react-hooks/exhaustive-deps"
+      },
+      {
+        "line": 186,
+        "rule": "unused-imports/no-unused-vars"
+      },
+      {
+        "line": 222,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\AdminAddMeet.jsx",
+    "errors": [
+      {
+        "line": 18,
+        "rule": "react-hooks/rules-of-hooks"
+      },
+      {
+        "line": 19,
+        "rule": "react-hooks/rules-of-hooks"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\AdminCarLibrary.jsx",
+    "errors": [
+      {
+        "line": 22,
+        "rule": "react-hooks/exhaustive-deps"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\AdminLogin.jsx",
+    "errors": [
+      {
+        "line": 48,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Garage.jsx",
+    "errors": [
+      {
+        "line": 22,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Laws.jsx",
+    "errors": [
+      {
+        "line": 17,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\MemberDashboard.jsx",
+    "errors": [
+      {
+        "line": 58,
+        "rule": "react-hooks/exhaustive-deps"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Members.jsx",
+    "errors": [
+      {
+        "line": 8,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Memes.jsx",
+    "errors": [
+      {
+        "line": 7,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\SmartAdmin.jsx",
+    "errors": [
+      {
+        "line": 12,
+        "rule": "react-hooks/immutability"
+      },
+      {
+        "line": 33,
+        "rule": "no-prototype-builtins"
+      },
+      {
+        "line": 96,
+        "rule": "no-prototype-builtins"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\SubmitFeedback.jsx",
+    "errors": [
+      {
+        "line": 36,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Timezones.jsx",
+    "errors": [
+      {
+        "line": 17,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\ValidCars.jsx",
+    "errors": [
+      {
+        "line": 30,
+        "rule": "react-hooks/immutability"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\utils\\imageOptimizer.js",
+    "errors": [
+      {
+        "line": 1,
+        "rule": "unused-imports/no-unused-vars"
+      }
+    ]
+  }
+]

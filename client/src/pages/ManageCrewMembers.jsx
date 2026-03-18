@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Plus, Trash2, Key, Users, Search, RefreshCw, Save } from 'lucide-react';
+import { Plus, Trash2, Key, Users, Search, RefreshCw, Save } from 'lucide-react';
 import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 

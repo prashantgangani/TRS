@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 import { Trash2, Edit2, CheckCircle, XCircle, Download, FileText } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from '../components/OptimizedImage';
 import LazyImage from '../components/LazyImage';
 
 const ValidCars = ({ isAdmin }) => {
@@ -28,11 +26,7 @@ const ValidCars = ({ isAdmin }) => {
         isValid: true
     });
 
-    useEffect(() => {
-        fetchCarsAndSettings();
-    }, []);
-
-    const fetchCarsAndSettings = async () => {
+const fetchCarsAndSettings = async () => {
         try {
             const [carsRes, settingsRes] = await Promise.all([
                 fetch(`${API_URL}/valid-cars`),
@@ -40,7 +34,7 @@ const ValidCars = ({ isAdmin }) => {
             ]);
             const carsData = await carsRes.json();
             const settingsData = await settingsRes.json();
-            
+
             setCars(carsData);
             setSettings(settingsData);
             setPdfUrl(settingsData.validCarsPdfUrl || '');
@@ -51,6 +45,14 @@ const ValidCars = ({ isAdmin }) => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        let mounted = true;
+        fetchCarsAndSettings().then(() => {
+            if (!mounted) return;
+        });
+        return () => { mounted = false };
+    }, []);
 
     const handlePdfSubmit = async (e) => {
         e.preventDefault();

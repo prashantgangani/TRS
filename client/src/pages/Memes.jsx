@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from '../components/OptimizedImage';
 import LazyImage from '../components/LazyImage';
 
 const containerVariants = {

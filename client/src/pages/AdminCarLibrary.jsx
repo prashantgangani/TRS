@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { PlusCircle, Search, Edit2, Trash2, CheckCircle, XCircle, ArrowLeft, DownloadCloud } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { API_URL } from '../config';
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from '../components/OptimizedImage';
 import LazyImage from '../components/LazyImage';
 
 const AdminCarLibrary = ({ isAdmin }) => {

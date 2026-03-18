@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Clock, User, ShieldAlert, Plus, Save, X, Trash2, Camera, Car, Info, Gavel } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
@@ -9,12 +8,6 @@ const AdminAddMeet = ({ isAdmin }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const editMeet = location.state?.editMeet || null;
-    
-    // Redirect if not admin
-    if (!isAdmin) {
-        navigate('/');
-        return null;
-    }
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState(editMeet ? {
@@ -30,9 +23,17 @@ const AdminAddMeet = ({ isAdmin }) => {
         rules: editMeet.rules || '',
         image: editMeet.image || ''
     } : {
-        theme: '', date: '', time: '', location: '', 
+        theme: '', date: '', time: '', location: '',
         dressCode: '', car: '', cmlLead: '', host: '', description: '', rules: '', image: ''
     });
+
+    React.useEffect(() => {
+        if (!isAdmin) {
+            navigate('/');
+        }
+    }, [isAdmin, navigate]);
+
+    if (!isAdmin) return null;
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

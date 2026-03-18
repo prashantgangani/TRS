@@ -8,10 +8,6 @@ const SmartAdmin = () => {
     const [settings, setSettings] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchSettings();
-    }, []);
-
     const fetchSettings = async () => {
         try {
             const response = await fetch(`${API_URL}/settings`);
@@ -24,13 +20,21 @@ const SmartAdmin = () => {
         }
     };
 
+    useEffect(() => {
+        let mounted = true;
+        fetchSettings().then(() => {
+            if (!mounted) return;
+        });
+        return () => { mounted = false };
+    }, []);
+
     const handleToggle = async (key) => {
         // Handle defaults based on key since older db entries might not have them
         const defaultValues = {
             memberLoginEnabled: false,
             allowAdminCarArrange: true
         };
-        const currentValue = settings.hasOwnProperty(key) ? settings[key] : (defaultValues[key] !== undefined ? defaultValues[key] : true);
+        const currentValue = Object.prototype.hasOwnProperty.call(settings, key) ? settings[key] : (defaultValues[key] !== undefined ? defaultValues[key] : true);
         const newSettings = { ...settings, [key]: !currentValue };
         setSettings(newSettings);
 
@@ -93,8 +97,8 @@ const SmartAdmin = () => {
                 <div className="space-y-4">
                     {features.map((feature, i) => {
                         const defaultValues = { memberLoginEnabled: false, allowAdminCarArrange: true };
-                        const isEnabled = settings.hasOwnProperty(feature.key) 
-                            ? settings[feature.key] 
+                        const isEnabled = Object.prototype.hasOwnProperty.call(settings, feature.key) 
+                            ? settings[feature.key]
                             : (defaultValues[feature.key] !== undefined ? defaultValues[feature.key] : true);
                         return (
                             <motion.div 

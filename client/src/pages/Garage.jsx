@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Plus, Trash2, Edit2, X, Search, Shuffle, MoveLeft, MoveRight, Save } from 'lucide-react';
+import { Plus, Trash2, Edit2, X, Search, Shuffle, MoveLeft, MoveRight } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
-import OptimizedImage from '../components/OptimizedImage';
 import LazyImage from '../components/LazyImage';
 
 const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {

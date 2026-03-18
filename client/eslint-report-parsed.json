@@ -1,0 +1,613 @@
+[
+  {
+    "file": "\\src\\App.jsx",
+    "errors": [
+      {
+        "line": 43,
+        "rule": "react-hooks/set-state-in-effect",
+        "msg": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n  41 |     const storedRole = localStorage.getItem('trs_role') || 'user';\n  42 |     if (storedRole !== role) {\n> 43 |       setRole(storedRole);\n     |       ^^^^^^^ Avoid calling setState() directly within an effect\n  44 |     }\n  45 |   }, [role]);\n  46 |",
+        "nodeType": null
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\CrewIdentity.jsx",
+    "errors": [
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\DiscordTeaser.jsx",
+    "errors": [
+      {
+        "line": 2,
+        "rule": "no-unused-vars",
+        "msg": "'Users' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\FeaturedCars.jsx",
+    "errors": [
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'Database' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'Zap' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'ArrowRight' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'Hexagon' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'Shield' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'Focus' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\Hero.jsx",
+    "errors": [
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'createPortal' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 6,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 191,
+        "rule": "no-unused-vars",
+        "msg": "'e' is defined but never used. Allowed unused args must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\LoadingScreen\\LoadingScreen.jsx",
+    "errors": [
+      {
+        "line": 66,
+        "rule": "react-hooks/set-state-in-effect",
+        "msg": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n  64 |     let charIndex = 0;\n  65 |     const currentMessage = messages[messageIndex];\n> 66 |     setTypedText(\"\");\n     |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  67 |\n  68 |     clearInterval(typingIntervalRef.current);\n  69 |     typingIntervalRef.current = setInterval(() => {",
+        "nodeType": null
+      },
+      {
+        "line": 116,
+        "rule": "react-hooks/set-state-in-effect",
+        "msg": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n  114 |   useEffect(() => {\n  115 |     if (!isLoading) {\n> 116 |       setMessageIndex(messages.length - 1);\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  117 |     }\n  118 |   }, [isLoading]);\n  119 |",
+        "nodeType": null
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\OptimizedImage.jsx",
+    "errors": [
+      {
+        "line": 16,
+        "rule": "no-unused-vars",
+        "msg": "'imgSrc' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\StaffManagement.jsx",
+    "errors": [
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'UserPlus' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Shield' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'ShieldCheck' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'X' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'AlertTriangle' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'ListFilter' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 138,
+        "rule": "react-hooks/exhaustive-deps",
+        "msg": "React Hook useEffect has missing dependencies: 'fetchAdmins' and 'fetchMembers'. Either include them or remove the dependency array.",
+        "nodeType": "ArrayExpression"
+      },
+      {
+        "line": 186,
+        "rule": "no-unused-vars",
+        "msg": "'err' is defined but never used.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 222,
+        "rule": "no-unused-vars",
+        "msg": "'err' is defined but never used.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\components\\UpcomingMeets.jsx",
+    "errors": [
+      {
+        "line": 8,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 9,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\AdminAddMeet.jsx",
+    "errors": [
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Calendar' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'MapPin' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Clock' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'User' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'ShieldAlert' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Plus' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Save' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'X' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Trash2' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Camera' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Car' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Info' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Gavel' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 19,
+        "rule": "react-hooks/rules-of-hooks",
+        "msg": "React Hook \"useState\" is called conditionally. React Hooks must be called in the exact same order in every component render.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 20,
+        "rule": "react-hooks/rules-of-hooks",
+        "msg": "React Hook \"useState\" is called conditionally. React Hooks must be called in the exact same order in every component render.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\AdminCarLibrary.jsx",
+    "errors": [
+      {
+        "line": 6,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 7,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 24,
+        "rule": "react-hooks/exhaustive-deps",
+        "msg": "React Hook useEffect has a missing dependency: 'fetchCars'. Either include it or remove the dependency array.",
+        "nodeType": "ArrayExpression"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\AdminLogin.jsx",
+    "errors": [
+      {
+        "line": 2,
+        "rule": "no-unused-vars",
+        "msg": "'AnimatePresence' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'ShieldCheck' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'UserPlus' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Lock' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'User' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'ArrowRight' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'AlertCircle' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Loader2' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 48,
+        "rule": "no-unused-vars",
+        "msg": "'err' is defined but never used.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Garage.jsx",
+    "errors": [
+      {
+        "line": 4,
+        "rule": "no-unused-vars",
+        "msg": "'Save' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 7,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 23,
+        "rule": "no-unused-vars",
+        "msg": "'setIsArrangeMode' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Laws.jsx",
+    "errors": [
+      {
+        "line": 17,
+        "rule": "no-unused-vars",
+        "msg": "'isSuperAdmin' is defined but never used. Allowed unused args must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\ManageCrewMembers.jsx",
+    "errors": [
+      {
+        "line": 3,
+        "rule": "no-unused-vars",
+        "msg": "'Shield' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\MemberDashboard.jsx",
+    "errors": [
+      {
+        "line": 6,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 7,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 60,
+        "rule": "react-hooks/exhaustive-deps",
+        "msg": "React Hook useEffect has a missing dependency: 'handleLogout'. Either include it or remove the dependency array.",
+        "nodeType": "ArrayExpression"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Members.jsx",
+    "errors": [
+      {
+        "line": 1,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 2,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 10,
+        "rule": "no-unused-vars",
+        "msg": "'containerVariants' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Memes.jsx",
+    "errors": [
+      {
+        "line": 5,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 6,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 9,
+        "rule": "no-unused-vars",
+        "msg": "'containerVariants' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\PreviousMeets.jsx",
+    "errors": [
+      {
+        "line": 1,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 2,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Showroom.jsx",
+    "errors": [
+      {
+        "line": 6,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 7,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\SmartAdmin.jsx",
+    "errors": [
+      {
+        "line": 12,
+        "rule": "react-hooks/immutability",
+        "msg": "Error: Cannot access variable before it is declared\n\n`fetchSettings` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.\n\n  10 |\n  11 |     useEffect(() => {\n> 12 |         fetchSettings();\n     |         ^^^^^^^^^^^^^ `fetchSettings` accessed before it is declared\n  13 |     }, []);\n  14 |\n  15 |     const fetchSettings = async () => {\n\n  13 |     }, []);\n  14 |\n> 15 |     const fetchSettings = async () => {\n     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n> 16 |         try {\n     | ^^^^^^^^^^^^^\n> 17 |             const response = await fetch(`${API_URL}/settings`);\n     …\n     | ^^^^^^^^^^^^^\n> 24 |         }\n     | ^^^^^^^^^^^^^\n> 25 |     };\n     | ^^^^^^^ `fetchSettings` is declared here\n  26 |\n  27 |     const handleToggle = async (key) => {\n  28 |         // Handle defaults based on key since older db entries might not have them",
+        "nodeType": null
+      },
+      {
+        "line": 33,
+        "rule": "no-prototype-builtins",
+        "msg": "Do not access Object.prototype method 'hasOwnProperty' from target object.",
+        "nodeType": "CallExpression"
+      },
+      {
+        "line": 96,
+        "rule": "no-prototype-builtins",
+        "msg": "Do not access Object.prototype method 'hasOwnProperty' from target object.",
+        "nodeType": "CallExpression"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\SubmitFeedback.jsx",
+    "errors": [
+      {
+        "line": 36,
+        "rule": "no-unused-vars",
+        "msg": "'err' is defined but never used.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\Timezones.jsx",
+    "errors": [
+      {
+        "line": 17,
+        "rule": "no-unused-vars",
+        "msg": "'isSuperAdmin' is defined but never used. Allowed unused args must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  },
+  {
+    "file": "\\src\\pages\\ValidCars.jsx",
+    "errors": [
+      {
+        "line": 7,
+        "rule": "no-unused-vars",
+        "msg": "'optimizeImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 8,
+        "rule": "no-unused-vars",
+        "msg": "'OptimizedImage' is defined but never used. Allowed unused vars must match /^_/u.",
+        "nodeType": "Identifier"
+      },
+      {
+        "line": 32,
+        "rule": "react-hooks/immutability",
+        "msg": "Error: Cannot access variable before it is declared\n\n`fetchCarsAndSettings` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.\n\n  30 |\n  31 |     useEffect(() => {\n> 32 |         fetchCarsAndSettings();\n     |         ^^^^^^^^^^^^^^^^^^^^ `fetchCarsAndSettings` accessed before it is declared\n  33 |     }, []);\n  34 |\n  35 |     const fetchCarsAndSettings = async () => {\n\n  33 |     }, []);\n  34 |\n> 35 |     const fetchCarsAndSettings = async () => {\n     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n> 36 |         try {\n     | ^^^^^^^^^^^^^\n> 37 |             const [carsRes, settingsRes] = await Promise.all([\n     …\n     | ^^^^^^^^^^^^^\n> 52 |         }\n     | ^^^^^^^^^^^^^\n> 53 |     };\n     | ^^^^^^^ `fetchCarsAndSettings` is declared here\n  54 |\n  55 |     const handlePdfSubmit = async (e) => {\n  56 |         e.preventDefault();",
+        "nodeType": null
+      }
+    ]
+  },
+  {
+    "file": "\\src\\utils\\imageOptimizer.js",
+    "errors": [
+      {
+        "line": 1,
+        "rule": "no-unused-vars",
+        "msg": "'options' is assigned a value but never used. Allowed unused args must match /^_/u.",
+        "nodeType": "Identifier"
+      }
+    ]
+  }
+]

@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from './OptimizedImage';
 import LazyImage from './LazyImage';
 
 const UpcomingMeets = ({ isAdmin }) => {

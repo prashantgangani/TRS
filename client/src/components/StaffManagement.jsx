@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserPlus, Shield, ShieldCheck, Trash2, X, AlertTriangle, ListFilter, Search, ShieldAlert, KeyRound, Users, RefreshCw, Save } from 'lucide-react';
+import { Trash2, Search, ShieldAlert, KeyRound, Users, RefreshCw, Save } from 'lucide-react';
 import { API_URL } from '../config';
 
 const StaffManagement = () => {

@@ -37,11 +37,14 @@ function App() {
 
   
   useEffect(() => {
-    // Keep state in sync if local storage changes (e.g. login/logout)
-    const storedRole = localStorage.getItem('trs_role') || 'user';
-    if (storedRole !== role) {
-      setRole(storedRole);
-    }
+    const handleStorageChange = () => {
+      const storedRole = localStorage.getItem('trs_role') || 'user';
+      if (storedRole !== role) {
+        setRole(storedRole);
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, [role]);
 
   useEffect(() => {

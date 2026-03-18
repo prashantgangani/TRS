@@ -63,7 +63,9 @@ export default function LoadingScreen({ isLoading, onComplete }) {
 
     let charIndex = 0;
     const currentMessage = messages[messageIndex];
-    setTypedText("");
+    
+    // Defer the synchronous state update to avoid cascading renders
+    setTimeout(() => setTypedText(""), 0);
 
     clearInterval(typingIntervalRef.current);
     typingIntervalRef.current = setInterval(() => {
@@ -113,7 +115,9 @@ export default function LoadingScreen({ isLoading, onComplete }) {
 
   useEffect(() => {
     if (!isLoading) {
-      setMessageIndex(messages.length - 1);
+      setTimeout(() => {
+        setMessageIndex(messages.length - 1);
+      }, 0);
     }
   }, [isLoading]);
 

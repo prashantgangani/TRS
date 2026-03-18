@@ -1,5 +1,3 @@
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from '../components/OptimizedImage';
 import LazyImage from '../components/LazyImage';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';

@@ -3,8 +3,6 @@ import { motion } from 'framer-motion';
 import { Save, LogOut, Check, AlertCircle, Camera } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from '../components/OptimizedImage';
 import LazyImage from '../components/LazyImage';
 
 const MemberDashboard = ({ setAuthContext }) => {
@@ -213,7 +211,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                                             disabled={!!formData.imageFile}
                                         />
                                     </div>
-                                    <p className="text-white/30 text-xs mt-2">Upload a high-quality image of your vehicle (Max 800KB), or paste a direct URL.</p>
+                                    <p className="text-white/30 text-xs mt-2">Upload a screenshot of the image of your vehicle (Max 800KB), or paste a direct URL.</p>
                                 </div>
 
                                 <button

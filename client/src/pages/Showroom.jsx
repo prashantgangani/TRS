@@ -3,8 +3,6 @@ import { motion } from 'framer-motion';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from '../components/OptimizedImage';
 import LazyImage from '../components/LazyImage';
 
 const Showroom = ({ isAdmin }) => {

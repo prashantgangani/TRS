@@ -1,7 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { optimizeImage } from '../utils/imageOptimizer';
-import OptimizedImage from './OptimizedImage';
 import LazyImage from './LazyImage';
 
 const CrewIdentity = () => {
