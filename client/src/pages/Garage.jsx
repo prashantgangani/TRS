@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Plus, Trash2, Edit2, X, Search, Shuffle, MoveLeft, MoveRight, Save } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
-import { optimizeImage } from '../utils/imageOptimizer';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
     const [cars, setCars] = useState([]);
@@ -24,6 +24,9 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
 
     // Search State
     const [searchOwner, setSearchOwner] = useState('');
+    
+    // Pagination / Load More state
+    const [visibleCount, setVisibleCount] = useState(12);
 
     useEffect(() => {
         const fetchCars = async () => {
@@ -278,25 +281,26 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                         {searchOwner ? 'No cars found for that owner.' : 'Garage is currently empty.'}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-                        <AnimatePresence>
-                            {filteredCars.map((car, i) => (
-                                <motion.div
-                                    layout
-                                    key={car._id}
-                                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                                    transition={{ duration: 0.5, ease: "easeOut" }}
-                                    className="group relative"
-                                >
-                                <div className="relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
-                                    <img
-                                        src={optimizeImage(car.image, 800)}
-                                        alt={car.carName}
-                                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                                        loading="lazy"
-                                    />
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+                            <AnimatePresence>
+                                {filteredCars.slice(0, visibleCount).map((car, i) => (
+                                    <motion.div
+                                        layout
+                                        key={car._id}
+                                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                                        transition={{ duration: 0.5, ease: "easeOut" }}
+                                        className="group relative"
+                                    >
+                                    <div className="relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
+                                        <OptimizedImage
+                                            src={car.image}
+                                            variant="detail" // good quality for these large hero-style cards
+                                            alt={car.carName}
+                                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                                        />
                                     
                                     {/* Subtle Gradient Overlays */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
@@ -351,8 +355,19 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                 </div>
                             </motion.div>
                         ))}
-                        </AnimatePresence>
-                    </div>
+                            </AnimatePresence>
+                        </div>
+                        {visibleCount < filteredCars.length && (
+                            <div className="mt-12 flex justify-center">
+                                <button
+                                    onClick={() => setVisibleCount(prev => prev + 12)}
+                                    className="px-8 py-4 border border-white/20 hover:border-electric-blue hover:text-electric-blue transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                                >
+                                    Load More
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </main>

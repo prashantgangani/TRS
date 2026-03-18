@@ -5,6 +5,7 @@ import { Trash2, Edit2, CheckCircle, XCircle, Download, FileText } from 'lucide-
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 import { optimizeImage } from '../utils/imageOptimizer';
+import OptimizedImage from '../components/OptimizedImage';
 
 const ValidCars = ({ isAdmin }) => {
     const navigate = useNavigate();
@@ -14,6 +15,11 @@ const ValidCars = ({ isAdmin }) => {
     const [pdfUrl, setPdfUrl] = useState('');
     const [newPdfUrl, setNewPdfUrl] = useState('');
     const [settings, setSettings] = useState(null);
+    
+    // Pagination controls for both lists
+    const [visibleValidCount, setVisibleValidCount] = useState(12);
+    const [visibleInvalidCount, setVisibleInvalidCount] = useState(12);
+
     const [formData, setFormData] = useState({
         carName: '',
         description: '',
@@ -312,7 +318,7 @@ const ValidCars = ({ isAdmin }) => {
                                 <h2 className="text-3xl font-bold font-heading text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]">Valid Cars</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {validCarsList.map((car, idx) => (
+                                  {validCarsList.slice(0, visibleValidCount).map((car, idx) => (
                                     <motion.div 
                                         key={car._id}
                                         initial={{ opacity: 0, scale: 0.95 }}
@@ -333,7 +339,7 @@ const ValidCars = ({ isAdmin }) => {
                                                         </button>
                                                     </div>
                                                 )}
-                                                <img src={optimizeImage(car.imageUrl, 400) || fallBackImage} alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
+                                                <OptimizedImage src={car.imageUrl} fallbackSrc={fallBackImage} variant="card" alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100" />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
                                             </div>
                                             <div className="p-6 relative z-10 flex-1 flex flex-col">
@@ -357,8 +363,16 @@ const ValidCars = ({ isAdmin }) => {
                                         </div>
                                     </motion.div>
                                 ))}
-                            </div>
-                        </div>
+                            </div>                              {validCarsList.length > visibleValidCount && (
+                                  <div className="mt-8 flex justify-center">
+                                      <button
+                                          onClick={() => setVisibleValidCount(prev => prev + 12)}
+                                          className="px-6 py-3 border border-white/20 hover:border-green-400 hover:text-green-400 transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                                      >
+                                          Load More
+                                      </button>
+                                  </div>
+                              )}                        </div>
                     )}
 
                     {/* Invalid Cars Section */}
@@ -369,7 +383,7 @@ const ValidCars = ({ isAdmin }) => {
                                 <h2 className="text-3xl font-bold font-heading text-neon-red drop-shadow-[0_0_8px_rgba(255,51,102,0.5)]">Invalid Cars</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {invalidCarsList.map((car, idx) => (
+                                  {invalidCarsList.slice(0, visibleInvalidCount).map((car, idx) => (
                                     <motion.div 
                                         key={car._id}
                                         initial={{ opacity: 0, scale: 0.95 }}
@@ -390,7 +404,7 @@ const ValidCars = ({ isAdmin }) => {
                                                         </button>
                                                     </div>
                                                 )}
-                                                <img src={optimizeImage(car.imageUrl, 400) || fallBackImage} alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
+                                                <OptimizedImage src={car.imageUrl} fallbackSrc={fallBackImage} variant="card" alt={car.carName} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
                                             </div>
                                             <div className="p-6 relative z-10 flex-1 flex flex-col">
@@ -415,6 +429,16 @@ const ValidCars = ({ isAdmin }) => {
                                     </motion.div>
                                 ))}
                             </div>
+                            {invalidCarsList.length > visibleInvalidCount && (
+                                <div className="mt-8 flex justify-center">
+                                    <button
+                                        onClick={() => setVisibleInvalidCount(prev => prev + 12)}
+                                        className="px-6 py-3 border border-white/20 hover:border-neon-red hover:text-neon-red transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                                    >
+                                        Load More
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
                     

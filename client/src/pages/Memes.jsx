@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
 import { optimizeImage } from '../utils/imageOptimizer';
+import OptimizedImage from '../components/OptimizedImage';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,6 +26,9 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
     const [title, setTitle] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Limit initial visible loaded memes
+    const [visibleCount, setVisibleCount] = useState(12);
 
     const canEdit = isAdmin || isSuperAdmin;
     const adminUsername = localStorage.getItem('trs_username') || 'Unknown';
@@ -149,6 +153,7 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                 {loading ? (
                     <div className="text-center text-white/50 py-20 font-heading tracking-widest animate-pulse">Loading Database...</div>
                 ) : (
+                    <>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                         {canEdit && (
                             <motion.div
@@ -178,7 +183,7 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                         )}
 
                         <AnimatePresence>
-                            {memes.map((meme, index) => (
+                            {memes.slice(0, visibleCount).map((meme, index) => (
                                 <motion.div
                                     key={meme._id}
                                     variants={cardVariants}
@@ -187,10 +192,12 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                                     exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
                                     className="group relative h-96 md:h-[450px] rounded-lg overflow-hidden border border-white/10 shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.3)] transition-all duration-500"
                                 >
-                                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                                        style={{ backgroundImage: `url(${optimizeImage(meme.imageUrl, 400)})` }}>
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                                        <OptimizedImage
+                                            src={meme.imageUrl}
+                                            variant="card"
+                                            alt={meme.title}
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        />
                                     
                                     <div className="absolute bottom-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                                         {meme.title && (
@@ -220,6 +227,17 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                             ))}
                         </AnimatePresence>
                     </div>
+                    {memes.length > visibleCount && (
+                        <div className="mt-12 flex justify-center w-full">
+                            <button
+                                onClick={() => setVisibleCount(prev => prev + 12)}
+                                className="px-8 py-4 border border-white/20 hover:border-pink-500 hover:text-pink-500 transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                            >
+                                Load More
+                            </button>
+                        </div>
+                    )}
+                    </>
                 )}
             </div>
         </section>

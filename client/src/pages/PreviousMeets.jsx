@@ -1,4 +1,5 @@
 import { optimizeImage } from '../utils/imageOptimizer';
+import OptimizedImage from '../components/OptimizedImage';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, Plus, Edit2, X, ChevronUp, ChevronDown } from 'lucide-react';
@@ -8,9 +9,12 @@ import { logAdminAction } from '../utils/logger';
 const PreviousMeets = ({ isAdmin }) => {
     const [meets, setMeets] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({ themeName: '', url1: '', url2: '', url3: '' });  
+    const [formData, setFormData] = useState({ themeName: '', url1: '', url2: '', url3: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [editingId, setEditingId] = useState(null);
+
+    // Limit initial loaded meets for bandwidth
+    const [visibleCount, setVisibleCount] = useState(5); // 5 meets, each has up to 3 images
 
     useEffect(() => {
         fetchMeets();
@@ -215,9 +219,8 @@ const PreviousMeets = ({ isAdmin }) => {
                 <div className="text-center text-white/50 py-10 uppercase tracking-widest text-sm">Loading memories...</div>
             ) : meets.length === 0 ? (
                 <div className="text-center text-white/50 py-10 uppercase tracking-widest">No previous meets logged yet.</div>
-            ) : (
-                <div className="flex flex-col space-y-20 md:space-y-28">
-                    {meets.map((meet, idx) => {
+            ) : (                <>                <div className="flex flex-col space-y-20 md:space-y-28">
+                      {meets.slice(0, visibleCount).map((meet, idx) => {
                         const urls = meet.imageUrls && meet.imageUrls.length > 0 
                             ? meet.imageUrls 
                             : [meet.imageUrl || 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000'];
@@ -293,11 +296,12 @@ const PreviousMeets = ({ isAdmin }) => {
                                         >
                                             <div className="absolute inset-0 bg-gradient-to-br from-neon-purple via-charcoal to-electric-blue opacity-50 group-hover:opacity-100 transition-opacity duration-700 animate-pulse-slow"></div>
                                             <div className="absolute inset-[2px] rounded-tr-[22px] rounded-bl-[22px] bg-charcoal overflow-hidden relative">
-                                                <img
-                                                    src={optimizeImage(url, 600)}
-                                                    alt={`${meet.themeName} Plaque ${i + 1}`}
-                                                    className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-103"
-                                                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000' }}
+                                                  <OptimizedImage
+                                                      src={url}
+                                                      variant="card"
+                                                      alt={`${meet.themeName} Plaque ${i + 1}`}
+                                                      className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-103"
+                                                      fallbackSrc='https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000'
                                                 />
                                             </div>
                                         </motion.div>
@@ -307,6 +311,17 @@ const PreviousMeets = ({ isAdmin }) => {
                         );
                     })}
                 </div>
+                {meets.length > visibleCount && (
+                    <div className="mt-12 flex justify-center pb-8">
+                        <button
+                            onClick={() => setVisibleCount(prev => prev + 5)}
+                            className="px-8 py-4 border border-neon-purple/50 hover:bg-neon-purple/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm"
+                        >
+                            Load More Meets
+                        </button>
+                    </div>
+                )}
+                </>
             )}
         </div>
     );

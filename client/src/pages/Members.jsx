@@ -1,4 +1,5 @@
 import { optimizeImage } from '../utils/imageOptimizer';
+import OptimizedImage from '../components/OptimizedImage';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
@@ -29,6 +30,9 @@ const Members = ({ isSuperAdmin }) => {
     const [color, setColor] = useState('from-neon-purple to-purple-900');
     const [editingId, setEditingId] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Limit visible members for bandwidth
+    const [visibleCount, setVisibleCount] = useState(12);
 
     const fetchMembers = async () => {
         try {
@@ -210,7 +214,7 @@ const Members = ({ isSuperAdmin }) => {
                         <div className="text-white/50 col-span-1 text-center py-10 tracking-widest uppercase text-sm">Loading Roster Data...</div>
                     ) : (
                     <AnimatePresence>
-                    {members.map((member, index) => (
+                      {members.slice(0, visibleCount).map((member, index) => (
                         <motion.div key={member._id} variants={cardVariants} initial="hidden" animate="show" exit={{ opacity: 0, scale: 0.9 }} className="group relative" layout>
                             {/* SuperAdmin Hierarchy Controls */}
                             {isSuperAdmin && (
@@ -242,10 +246,12 @@ const Members = ({ isSuperAdmin }) => {
                                             </button>
                                         </div>
                                     )}
-                                    <img
-                                        src={optimizeImage(member.image, 400) || 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&auto=format&fit=crop'}
-                                        alt={member.name}
-                                        className="w-full h-full p-2 object-scale-down object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100"
+                                      <OptimizedImage
+                                          src={member.image}
+                                          variant="card"
+                                          fallbackSrc="https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&auto=format&fit=crop"
+                                          alt={member.name}
+                                          className="w-full h-full p-2 object-cover object-center group-hover:scale-110 transition-transform duration-700 saturate-50 group-hover:saturate-100"
                                     />
                                     {/* Vignette */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-deep-black via-transparent to-transparent opacity-90"></div>
@@ -268,10 +274,16 @@ const Members = ({ isSuperAdmin }) => {
                     )}
                 </div>
 
-                {/* SUPERADMIN ONLY: STAFF ACCOUNT MANAGEMENT */}
-                {isSuperAdmin && (
-                    <StaffManagement />
-                )}
+                  {!loading && members.length > visibleCount && (
+                      <div className="mt-12 flex justify-center w-full">
+                          <button
+                              onClick={() => setVisibleCount(prev => prev + 12)}
+                              className="px-8 py-4 border border-white/20 hover:border-electric-blue hover:text-electric-blue transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                          >
+                              Load More
+                          </button>
+                      </div>
+                  )}
             </div>
         </section>
     );

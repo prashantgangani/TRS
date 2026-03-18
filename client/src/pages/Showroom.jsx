@@ -4,6 +4,7 @@ import { Plus, Trash2, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 import { optimizeImage } from '../utils/imageOptimizer';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Showroom = ({ isAdmin }) => {
     const [showroomCars, setShowroomCars] = useState([]);
@@ -17,6 +18,9 @@ const Showroom = ({ isAdmin }) => {
     const [image, setImage] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Limit visible default to save bandwidth
+    const [visibleCount, setVisibleCount] = useState(10);
 
     // Fetch Cars from Backend
     useEffect(() => {
@@ -167,9 +171,10 @@ const Showroom = ({ isAdmin }) => {
                     ) : showroomCars.length === 0 ? (
                         <div className="text-white/50 text-center py-20 tracking-widest uppercase">The showroom is currently empty. Wait for the next meet.</div>
                     ) : (
-                        showroomCars.map((car, index) => (
-                        <motion.div 
-                            key={car._id}
+                        <>
+                            {showroomCars.slice(0, visibleCount).map((car, index) => (
+                            <motion.div
+                                key={car._id}
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
@@ -178,8 +183,9 @@ const Showroom = ({ isAdmin }) => {
                         >
                             {/* Image Section */}
                             <div className="w-full lg:w-[55%] h-[300px] sm:h-[400px] lg:h-auto min-h-[400px] relative overflow-hidden">
-                                <img 
-                                    src={optimizeImage(car.image, 800)} 
+                                  <OptimizedImage 
+                                      src={car.image} 
+                                      variant="detail" // Since it's huge, 800-1000 width
                                     alt={car.carName}
                                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter saturate-50 group-hover:saturate-100"
                                 />
@@ -225,7 +231,19 @@ const Showroom = ({ isAdmin }) => {
                                 </div>
                             </div>
                         </motion.div>
-                    )))}
+                        ))}
+                        {showroomCars.length > visibleCount && (
+                            <div className="mt-12 flex justify-center w-full">
+                                <button
+                                    onClick={() => setVisibleCount(prev => prev + 10)}
+                                    className="px-8 py-4 border border-white/20 hover:border-electric-blue hover:text-electric-blue transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                                >
+                                    Load More
+                                </button>
+                            </div>
+                        )}
+                        </>
+                    )}
                 </div>
             </div>
         </div>

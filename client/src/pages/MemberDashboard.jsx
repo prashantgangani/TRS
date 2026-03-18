@@ -4,6 +4,7 @@ import { Save, LogOut, Check, AlertCircle, Camera } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../config';
 import { optimizeImage } from '../utils/imageOptimizer';
+import OptimizedImage from '../components/OptimizedImage';
 
 const MemberDashboard = ({ setAuthContext }) => {
     const [garageCard, setGarageCard] = useState(null);
@@ -109,8 +110,8 @@ const MemberDashboard = ({ setAuthContext }) => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            if (file.size > 5 * 1024 * 1024) {
-                setMessage({ text: 'Image size should be less than 5MB', type: 'error' });
+            if (file.size > 800 * 1024) {
+                setMessage({ text: 'Image size should be less than 800KB', type: 'error' });
                 return;
             }
             setFormData(prev => ({ ...prev, imageFile: file }));
@@ -211,7 +212,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                                             disabled={!!formData.imageFile}
                                         />
                                     </div>
-                                    <p className="text-white/30 text-xs mt-2">Upload a high-quality image of your vehicle (Max 5MB), or paste a direct URL.</p>
+                                    <p className="text-white/30 text-xs mt-2">Upload a high-quality image of your vehicle (Max 800KB), or paste a direct URL.</p>
                                 </div>
 
                                 <button
@@ -234,7 +235,14 @@ const MemberDashboard = ({ setAuthContext }) => {
                                 <Camera size={14} className="text-neon-purple"/> Live Preview
                             </h2>
                             <div className="group relative rounded-2xl overflow-hidden aspect-[16/11] border border-white/5 bg-[#0a0a0a] block shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url(${previewUrl || optimizeImage(formData.imageUrl, 800) || 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop'})` }}/>
+                                  <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+                                      <OptimizedImage 
+                                          src={previewUrl || formData.imageUrl} 
+                                          fallbackSrc="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=1920&q=80&auto=format&fit=crop" 
+                                          variant="detail" 
+                                          className="w-full h-full object-cover" 
+                                      />
+                                  </div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
                             </div>
                         </motion.div>
