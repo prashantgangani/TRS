@@ -230,7 +230,7 @@ const Hero = ({ isAdmin }) => {
                     >
                         <div className="absolute -inset-2 bg-gradient-to-r from-electric-blue/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div className="relative w-full aspect-[4/3] bg-black rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden">
-                              <OptimizedImage src={heroData.atmosphereImage} variant="detail" loading="eager" alt="Night Drive Atmosphere" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-40 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[2px] group-hover:blur-0" />
+                              <img src="/leftside.jpg" alt="Night Drive Atmosphere" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-40 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[2px] group-hover:blur-0" />
 
 
                         </div>
@@ -247,7 +247,7 @@ const Hero = ({ isAdmin }) => {
                     >
                         <div className="absolute -inset-2 bg-gradient-to-l from-neon-purple/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div className="relative w-full aspect-square sm:aspect-[4/3] bg-black rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden">
-                              <OptimizedImage src={heroData.meetImage} variant="detail" loading="eager" alt="Meet Scene" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-50 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[1px] group-hover:blur-0 scale-x-[-1]" />
+                              <img src="/rightside.png" alt="Meet Scene" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-50 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[1px] group-hover:blur-0 scale-x-[-1]" />
 
 
                         </div>
@@ -453,26 +453,6 @@ const Hero = ({ isAdmin }) => {
                                             className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-white/40 outline-none"
                                             placeholder="Paste Image URL here..."
                                         />
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-[10px] uppercase tracking-widest text-white/40 font-bold mb-2">Atmosphere Image (Left)</label>
-                                            <input
-                                                type="text"
-                                                value={editForm.atmosphereImage}
-                                                onChange={(e) => setEditForm({ ...editForm, atmosphereImage: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-white/40 outline-none"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-[10px] uppercase tracking-widest text-white/40 font-bold mb-2">Meet Scene Image (Right)</label>
-                                            <input
-                                                type="text"
-                                                value={editForm.meetImage}
-                                                onChange={(e) => setEditForm({ ...editForm, meetImage: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-white/40 outline-none"
-                                            />
-                                        </div>
                                     </div>
                                 </div>
 

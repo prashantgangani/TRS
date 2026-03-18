@@ -59,9 +59,8 @@ const CrewIdentity = () => {
                         <div className="absolute inset-0 bg-gradient-to-tr from-deep-black via-transparent to-transparent z-10"></div>
                         <div className="absolute inset-0 border border-white/10 z-20 mix-blend-overlay"></div>
 
-                        <OptimizedImage
-                            src="https://res.cloudinary.com/dhgmfl8tk/image/upload/v1773290026/meet_gqmaw7.png"
-                            variant="detail"
+                        <img
+                            src="/meet.png"
                             alt="Car Meet Atmosphere"
                             className="w-full h-full object-cover filter brightness-50 contrast-125 saturate-50"
                         />
