@@ -17,14 +17,14 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
     const [image, setImage] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+
     // Arrange State
     const [isArrangeMode, setIsArrangeMode] = useState(false);
     const [isSavingOrder, setIsSavingOrder] = useState(false);
 
     // Search State
     const [searchOwner, setSearchOwner] = useState('');
-    
+
     // Pagination / Load More state
     const [visibleCount, setVisibleCount] = useState(12);
 
@@ -55,11 +55,11 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1920&q=80&auto=format&fit=crop'
             ];
             const defaultImage = randomImages[Math.floor(Math.random() * randomImages.length)];
-            
-            const payload = { 
-                carName, 
-                builtBy, 
-                image: image || defaultImage 
+
+            const payload = {
+                carName,
+                builtBy,
+                image: image || defaultImage
             };
 
             if (editingId) {
@@ -73,7 +73,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                 setCars(cars.map(c => c._id === editingId ? updatedCar : c));
                 setEditingId(null);
             } else {
-                 const response = await fetch(`${API_URL}/featured-cars`, {
+                const response = await fetch(`${API_URL}/featured-cars`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -82,7 +82,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                 await logAdminAction('Added Garage Car', `Car: ${newCar.carName} | Owner: ${newCar.builtBy}`);
                 setCars([newCar, ...cars]);
             }
-            
+
             // Reset form
             setCarName(''); setBuiltBy(''); setImage('');
             setIsFormOpen(false);
@@ -161,40 +161,40 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
         }
     };
 
-    const filteredCars = cars.filter(car => 
+    const filteredCars = cars.filter(car =>
         car.builtBy.toLowerCase().includes(searchOwner.toLowerCase())
     );
 
     return (
         <main className="pt-32 pb-32 bg-deep-black min-h-screen relative overflow-hidden">
-             {/* Creative Backgrounds */}
-             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-electric-blue/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-neon-purple/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
+            {/* Creative Backgrounds */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-ls-gold/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-ls-orange/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 w-full">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 pt-10">
                     <div className="max-w-2xl relative">
-                        <motion.div 
+                        <motion.div
                             initial={{ x: -20, opacity: 0 }}
                             whileInView={{ x: 0, opacity: 1 }}
                             viewport={{ once: true }}
-                            className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-electric-blue to-neon-purple hidden md:block"
+                            className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-ls-gold to-ls-orange hidden md:block"
                         />
                         <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 font-heading uppercase italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 drop-shadow-lg">
-                            The <span className="text-electric-blue drop-shadow-[0_0_15px_rgba(0,229,255,0.5)] text-glow-blue">Garage</span>
+                            The <span className="text-ls-gold drop-shadow-[0_0_15px_rgba(0,229,255,0.5)] text-glow-gold">Garage</span>
                         </h1>
                         <p className="text-white/60 text-lg md:text-xl font-light tracking-wide max-w-xl">
                             A curated selection of the most aggressive and meticulously crafted builds from the underground.
                         </p>
                     </div>
-                    
+
                     <div className="flex items-center gap-4 flex-wrap pb-2">
                         {isSuperAdmin && (
                             <button
                                 onClick={handleShuffle}
                                 disabled={isSavingOrder}
-                                className="px-6 py-3 border border-neon-purple/50 bg-neon-purple/10 hover:bg-neon-purple/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2"
+                                className="px-6 py-3 border border-ls-orange/50 bg-ls-orange/10 hover:bg-ls-orange/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2"
                             >
                                 <Shuffle size={18} />
                                 {isSavingOrder ? 'Wait...' : 'Shuffle'}
@@ -216,13 +216,13 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                 </div>
 
                 {/* Search Bar */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="flex flex-col md:flex-row justify-end mb-10 -mt-6 relative z-10"
                 >
                     <div className={`bg-[#0a0a0a] border border-white/10 rounded-xl p-4 flex items-center gap-4 shadow-lg w-full md:w-[400px] ${isArrangeMode ? 'opacity-50' : ''}`}>
-                        <Search size={20} className="text-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" />
+                        <Search size={20} className="text-ls-gold drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]" />
                         <input
                             type="text"
                             placeholder="Search cars by owner name..."
@@ -243,7 +243,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                             exit={{ opacity: 0, height: 0 }}
                             className="mb-12"
                         >
-                            <div className="glass-panel p-8 rounded-xl border-t border-electric-blue/30 bg-black/40 backdrop-blur-xl relative shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                            <div className="glass-panel p-8 rounded-xl border-t border-ls-gold/30 bg-black/40 backdrop-blur-xl relative shadow-[0_0_30px_rgba(0,0,0,0.5)]">
                                 <h3 className="text-2xl font-bold mb-6 font-heading text-white flex items-center gap-3">
                                     {editingId ? 'Edit Garage Build' : 'Feature New Build'}
                                 </h3>
@@ -251,19 +251,19 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         <div className="space-y-2">
                                             <label className="text-[10px] uppercase tracking-widest text-white/50 pl-1">Car Name</label>
-                                            <input required type="text" placeholder="e.g. Annis Remus" value={carName} onChange={e => setCarName(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-electric-blue transition-colors" />
+                                            <input required type="text" placeholder="e.g. Annis Remus" value={carName} onChange={e => setCarName(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-ls-gold transition-colors" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] uppercase tracking-widest text-white/50 pl-1">Built By</label>
-                                            <input required type="text" placeholder="Owner / Tuner Name" value={builtBy} onChange={e => setBuiltBy(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-electric-blue transition-colors" />
+                                            <input required type="text" placeholder="Owner / Tuner Name" value={builtBy} onChange={e => setBuiltBy(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-ls-gold transition-colors" />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] uppercase tracking-widest text-white/50 pl-1">Image URL (Optional)</label>
-                                        <input type="url" placeholder="Leave empty for a random car image..." value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-electric-blue transition-colors" />
+                                        <input type="url" placeholder="Leave empty for a random car image..." value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/60 border border-white/10 rounded-md px-4 py-3.5 text-sm text-white focus:outline-none focus:border-ls-gold transition-colors" />
                                     </div>
-                                    
-                                    <button disabled={isSubmitting} type="submit" className="w-full py-4 mt-6 bg-gradient-to-r from-electric-blue to-neon-purple hover:from-electric-blue/80 hover:to-neon-purple/80 text-white text-sm font-bold uppercase tracking-widest rounded-md transition-all shadow-[0_0_20px_rgba(0,229,255,0.3)]">
+
+                                    <button disabled={isSubmitting} type="submit" className="w-full py-4 mt-6 bg-gradient-to-r from-ls-gold to-ls-orange hover:from-ls-gold/80 hover:to-ls-orange/80 text-white text-sm font-bold uppercase tracking-widest rounded-md transition-all shadow-[0_0_20px_rgba(0,229,255,0.3)]">
                                         {isSubmitting ? 'Saving...' : (editingId ? 'Update Build' : 'Deploy to Garage')}
                                     </button>
                                 </form>
@@ -274,7 +274,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
 
                 {loading ? (
                     <div className="flex justify-center items-center py-32">
-                        <div className="w-12 h-12 border-4 border-white/10 border-t-electric-blue rounded-full animate-spin"></div>
+                        <div className="w-12 h-12 border-4 border-white/10 border-t-ls-gold rounded-full animate-spin"></div>
                     </div>
                 ) : filteredCars.length === 0 ? (
                     <div className="text-white/40 text-center py-32 tracking-widest uppercase font-bold text-xl border border-dashed border-white/10 rounded-xl bg-white/5">
@@ -294,74 +294,74 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                         transition={{ duration: 0.5, ease: "easeOut" }}
                                         className="group relative"
                                     >
-                                    <div className="relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
-                                        <LazyImage
-                                            src={car.image}
-                                            variant="detail" // good quality for these large hero-style cards
-                                            alt={car.carName}
-                                            className="group-hover:scale-[1.05]"
-                                        />
-                                    
-                                    {/* Subtle Gradient Overlays */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-electric-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                                    
-                                    {/* Admin Controls */}
-                                    {isAdmin && (
-                                        <div className="absolute top-5 right-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
-                                            <button onClick={() => handleEdit(car)} className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md shadow-lg">
-                                                <Edit2 size={16} />
-                                            </button>
-                                            <button onClick={() => handleDelete(car._id)} className="p-3 bg-black/60 hover:bg-red-500 text-white rounded-xl transition-all backdrop-blur-md shadow-lg">
-                                                <Trash2 size={16} />
-                                            </button>
-                                        </div>
-                                    )}
+                                        <div className="relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-ls-gold/30 bg-[#0a0a0a]">
+                                            <LazyImage
+                                                src={car.image}
+                                                variant="detail" // good quality for these large hero-style cards
+                                                alt={car.carName}
+                                                className="group-hover:scale-[1.05]"
+                                            />
 
-                                    {/* Arrange Controls */}
-                                    {canArrangeGarage && (
-                                        <div className="absolute top-5 left-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
-                                            <button 
-                                                onClick={() => handleMove(car._id, 'left')} 
-                                                disabled={i === 0}
-                                                className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/60 disabled:hover:text-white disabled:cursor-not-allowed shadow-lg"
-                                                title="Move Forward"
-                                            >
-                                                <MoveLeft size={16} />
-                                            </button>
-                                            <button 
-                                                onClick={() => handleMove(car._id, 'right')} 
-                                                disabled={i === filteredCars.length - 1}
-                                                className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/60 disabled:hover:text-white disabled:cursor-not-allowed shadow-lg"
-                                                title="Move Backward"
-                                            >
-                                                <MoveRight size={16} />
-                                            </button>
-                                        </div>
-                                    )}
+                                            {/* Subtle Gradient Overlays */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+                                            <div className="absolute inset-0 bg-gradient-to-tr from-ls-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-                                    {/* Content */}
-                                    <div className="absolute bottom-0 left-0 w-full p-6 pt-16 z-20 flex flex-col justify-end transform transition-transform duration-500 group-hover:-translate-y-1">
-                                        <div className="flex items-center gap-3 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div className="w-8 h-[2px] bg-electric-blue shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
-                                            <p className="text-[11px] text-electric-blue uppercase tracking-[0.25em] font-black truncate">
-                                                {car.builtBy}
-                                            </p>
+                                            {/* Admin Controls */}
+                                            {isAdmin && (
+                                                <div className="absolute top-5 right-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
+                                                    <button onClick={() => handleEdit(car)} className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md shadow-lg">
+                                                        <Edit2 size={16} />
+                                                    </button>
+                                                    <button onClick={() => handleDelete(car._id)} className="p-3 bg-black/60 hover:bg-red-500 text-white rounded-xl transition-all backdrop-blur-md shadow-lg">
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            {/* Arrange Controls */}
+                                            {canArrangeGarage && (
+                                                <div className="absolute top-5 left-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
+                                                    <button
+                                                        onClick={() => handleMove(car._id, 'left')}
+                                                        disabled={i === 0}
+                                                        className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/60 disabled:hover:text-white disabled:cursor-not-allowed shadow-lg"
+                                                        title="Move Forward"
+                                                    >
+                                                        <MoveLeft size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleMove(car._id, 'right')}
+                                                        disabled={i === filteredCars.length - 1}
+                                                        className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md disabled:opacity-30 disabled:hover:bg-black/60 disabled:hover:text-white disabled:cursor-not-allowed shadow-lg"
+                                                        title="Move Backward"
+                                                    >
+                                                        <MoveRight size={16} />
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            {/* Content */}
+                                            <div className="absolute bottom-0 left-0 w-full p-6 pt-16 z-20 flex flex-col justify-end transform transition-transform duration-500 group-hover:-translate-y-1">
+                                                <div className="flex items-center gap-3 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                    <div className="w-8 h-[2px] bg-ls-gold shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
+                                                    <p className="text-[11px] text-ls-gold uppercase tracking-[0.25em] font-black truncate">
+                                                        {car.builtBy}
+                                                    </p>
+                                                </div>
+                                                <h3 className="text-2xl md:text-3xl font-black font-heading italic tracking-tight text-white drop-shadow-xl truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 transition-all duration-300">
+                                                    {car.carName}
+                                                </h3>
+                                            </div>
                                         </div>
-                                        <h3 className="text-2xl md:text-3xl font-black font-heading italic tracking-tight text-white drop-shadow-xl truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/60 transition-all duration-300">
-                                            {car.carName}
-                                        </h3>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                    </motion.div>
+                                ))}
                             </AnimatePresence>
                         </div>
                         {visibleCount < filteredCars.length && (
                             <div className="mt-12 flex justify-center">
                                 <button
                                     onClick={() => setVisibleCount(prev => prev + 12)}
-                                    className="px-8 py-4 border border-white/20 hover:border-electric-blue hover:text-electric-blue transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                                    className="px-8 py-4 border border-white/20 hover:border-ls-gold hover:text-ls-gold transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
                                 >
                                     Load More
                                 </button>

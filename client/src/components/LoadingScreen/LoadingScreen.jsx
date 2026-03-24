@@ -5,7 +5,6 @@ const messages = [
   "GARAGE MODULE: READY",
   "SHOWROOM MODULE: SYNCING...",
   "CREW DATA: LOADED",
-  "CALIBRATING MEMBER ACCESS...",
   "FINALIZING LIVE INTERFACE..."
 ];
 
@@ -181,11 +180,11 @@ export default function LoadingScreen({ isLoading, onComplete }) {
 
       <div className="trs-loader__status">
         <div className="trs-loader__status-row">
-          <span className="trs-loader__status-dot">♦</span>
-          <span>SYSTEM ACTIVE</span>
+          <span className="trs-loader__status-dot">✦</span>
+          <span>SYSTEM ONLINE</span>
         </div>
         <div className="trs-loader__status-row trs-loader__status-sub">
-          <span>SIGNAL: STABLE</span>
+          <span>SIGNAL: STRONG</span>
         </div>
         <div className="trs-loader__status-row trs-loader__status-sub">
           <span>LINK: SECURE</span>
@@ -193,9 +192,21 @@ export default function LoadingScreen({ isLoading, onComplete }) {
       </div>
 
       <div className="trs-loader__center">
-        <div className="trs-loader__logo-wrap">
-          <div className="trs-loader__logo-glow"></div>
-          <img src="/TRS_LOGO.png" alt="TRS Logo" className="trs-loader__logo-image" />
+        <div className="trs-loader__logo-container">
+          <div className="trs-loader__logo-wing trs-loader__logo-wing--left">
+            <div className="trs-loader__wing-lines"></div>
+            <div className="trs-loader__wing-accent"></div>
+          </div>
+          
+          <div className="trs-loader__logo-wrap">
+            <div className="trs-loader__logo-glow"></div>
+            <img src="/TRS_LOGO.png" alt="TRS Logo" className="trs-loader__logo-image" />
+          </div>
+
+          <div className="trs-loader__logo-wing trs-loader__logo-wing--right">
+            <div className="trs-loader__wing-accent"></div>
+            <div className="trs-loader__wing-lines"></div>
+          </div>
         </div>
 
         <h1 className="trs-loader__title">
@@ -203,7 +214,7 @@ export default function LoadingScreen({ isLoading, onComplete }) {
           <span>SORCERERS</span>
         </h1>
 
-        <div className="trs-loader__diamond-divider">♦</div>
+        <div className="trs-loader__diamond-divider">✦</div>
 
         <button
           type="button"
@@ -271,11 +282,6 @@ export default function LoadingScreen({ isLoading, onComplete }) {
           </div>
           <div className="trs-loader__node-group trs-loader__node-group--right-2">
             <div className="trs-loader__node-dot"></div>
-            <div className="trs-loader__node-line trs-loader__node-line--r2"></div>
-            <div className="trs-loader__node-text">MEETS</div>
-          </div>
-          <div className="trs-loader__node-group trs-loader__node-group--right-3">
-            <div className="trs-loader__node-dot"></div>
             <div className="trs-loader__node-line trs-loader__node-line--r3"></div>
             <div className="trs-loader__node-text">MEMBERS</div>
           </div>
@@ -298,9 +304,8 @@ export default function LoadingScreen({ isLoading, onComplete }) {
           </div>
 
           <div className="trs-loader__meta">
-            <span>TRS CORE: INITIALIZED</span>
-            <span>V2.4.0_BUILD</span>
-            <span>ACCESS LAYER: PRIME</span>
+            <span>TRS CORE: ARMED</span>
+            <span>V2.4.5_BUILD Access VERIFIED</span>
           </div>
         </div>
 

@@ -53,7 +53,7 @@ const AdminLogs = () => {
     return (
         <section className="min-h-screen bg-deep-black pt-32 pb-24 px-6 md:px-12 relative overflow-hidden font-mono">
             {/* Background */}
-            <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-oracle-gold/5 to-transparent pointer-events-none -z-10"></div>
+            <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-ls-gold/5 to-transparent pointer-events-none -z-10"></div>
             
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
@@ -122,7 +122,7 @@ const AdminLogs = () => {
                                                     <td className="px-6 py-1 md:py-3 whitespace-nowrap text-sm font-bold text-white">
                                                         {log.adminName}
                                                     </td>
-                                                    <td className="px-6 py-1 md:py-3 whitespace-nowrap text-sm text-electric-blue">
+                                                    <td className="px-6 py-1 md:py-3 whitespace-nowrap text-sm text-ls-gold">
                                                         {log.action}
                                                     </td>
                                                     <td className="px-6 py-1 md:py-3 text-sm text-white/70 max-w-[300px] truncate">

@@ -52,7 +52,7 @@ const UpcomingMeets = ({ isAdmin }) => {
         <section id="meets" className="py-32 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
             <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-glow">Upcoming <span className="text-neon-purple">Meets</span></h2>
+                    <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-glow">Upcoming <span className="text-ls-orange">Meets</span></h2>
                     <p className="text-white/60 text-lg max-w-2xl">The streets are calling. Check out the schedule, prep your ride, and join the crew at our next organized showcase.</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -65,9 +65,9 @@ const UpcomingMeets = ({ isAdmin }) => {
                     </button>
                     <button 
                         onClick={() => navigate('/valid-cars')}
-                        className="flex items-center justify-center gap-2 px-6 py-3 bg-black border border-neon-purple/50 rounded-full hover:bg-neon-purple/10 hover:shadow-[0_0_15px_rgba(176,38,255,0.4)] transition-all font-bold tracking-widest text-sm uppercase whitespace-nowrap"
+                        className="flex items-center justify-center gap-2 px-6 py-3 bg-black border border-ls-orange/50 rounded-full hover:bg-ls-orange/10 hover:shadow-[0_0_15px_rgba(176,38,255,0.4)] transition-all font-bold tracking-widest text-sm uppercase whitespace-nowrap"
                     >
-                        <Car size={18} className="text-neon-purple" />
+                        <Car size={18} className="text-ls-orange" />
                         Valid Cars List
                     </button>
                 </div>
@@ -80,14 +80,14 @@ const UpcomingMeets = ({ isAdmin }) => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="glass-panel p-6 rounded-sm border-2 border-dashed border-neon-purple/50 bg-neon-purple/5 relative flex flex-col justify-center items-center text-center min-h-[300px]"
+                        className="glass-panel p-6 rounded-sm border-2 border-dashed border-ls-orange/50 bg-ls-orange/5 relative flex flex-col justify-center items-center text-center min-h-[300px]"
                     >
-                        <h3 className="text-xl font-bold mb-4 font-heading text-neon-purple flex items-center gap-2">
+                        <h3 className="text-xl font-bold mb-4 font-heading text-ls-orange flex items-center gap-2">
                             <Plus size={20} /> Publish New Meet
                         </h3>
                         <p className="text-white/50 text-sm mb-6">Enter official dispatch interface to detail Theme, Date, Time, Location, Dress Code, Vehicle Requirements, Cml/Lead, Rules, and Host.</p>
                         
-                        <button onClick={() => navigate('/admin/add-meet')} className="w-full py-4 bg-neon-purple hover:bg-neon-purple/80 text-white text-sm font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(176,38,255,0.4)]">
+                        <button onClick={() => navigate('/admin/add-meet')} className="w-full py-4 bg-ls-orange hover:bg-ls-orange/80 text-white text-sm font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(176,38,255,0.4)]">
                             Open Console
                         </button>
                     </motion.div>
@@ -103,7 +103,7 @@ const UpcomingMeets = ({ isAdmin }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.6, delay: index * 0.1 }}
-                        className="glass-panel p-6 rounded-sm group hover:border-neon-purple/50 transition-colors duration-500 overflow-hidden relative flex flex-col"
+                        className="glass-panel p-6 rounded-sm group hover:border-ls-orange/50 transition-colors duration-500 overflow-hidden relative flex flex-col"
                     >
                         {/* Background Image on Card */}
                         <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
@@ -112,14 +112,14 @@ const UpcomingMeets = ({ isAdmin }) => {
                         </div>
 
                         {/* Subtle glow effect behind card */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-neon-purple/10 rounded-full blur-3xl -z-10 group-hover:bg-neon-purple/20 transition-all duration-500"></div>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-ls-orange/10 rounded-full blur-3xl -z-10 group-hover:bg-ls-orange/20 transition-all duration-500"></div>
 
                         {isAdmin && (
                             <div className="absolute top-4 right-4 z-20 flex gap-2">
                                 <button onClick={(e) => { 
                                     e.stopPropagation(); 
                                     navigate('/admin/add-meet', { state: { editMeet: meet } }); 
-                                }} className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md z-30 relative">
+                                }} className="p-2 bg-black/60 hover:bg-ls-gold/80 text-white rounded-full transition-colors backdrop-blur-md z-30 relative">
                                     <Edit2 size={16} />
                                 </button>
                                 <button onClick={async (e) => {
@@ -149,16 +149,16 @@ const UpcomingMeets = ({ isAdmin }) => {
 
                             <div className="space-y-4 mb-6 text-white/70 flex-1 drop-shadow-md">
                                 <div className="flex items-center gap-3">
-                                    <Calendar className="text-neon-purple" size={16} />
+                                    <Calendar className="text-ls-orange" size={16} />
                                     <span className="text-sm font-medium">{meet.date} <span className="text-white/40">|</span> {meet.time || 'TBA'}</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <MapPin className="text-electric-blue" size={16} />
+                                    <MapPin className="text-ls-gold" size={16} />
                                     <span className="text-sm font-medium">{meet.location}</span>
                                 </div>
                             </div>
 
-                            <button onClick={() => setSelectedMeet(meet)} className="w-full py-3 mt-auto rounded-sm border border-white/10 hover:border-neon-purple text-white/70 hover:text-neon-purple transition-colors text-sm font-bold uppercase tracking-widest bg-black/40 backdrop-blur-sm">
+                            <button onClick={() => setSelectedMeet(meet)} className="w-full py-3 mt-auto rounded-sm border border-white/10 hover:border-ls-orange text-white/70 hover:text-ls-orange transition-colors text-sm font-bold uppercase tracking-widest bg-black/40 backdrop-blur-sm">
                                 RSVP Details
                             </button>
                         </div>
@@ -198,7 +198,7 @@ const UpcomingMeets = ({ isAdmin }) => {
                                       <LazyImage src={selectedMeet.image} variant="detail" fallbackSrc={'https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=800&auto=format&fit=crop'} alt="Cover" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none"></div>
                                     <div className="absolute bottom-0 left-0 p-8 w-full">
-                                        <div className="inline-block px-3 py-1 mb-3 border border-neon-purple/50 bg-neon-purple/20 rounded-sm text-xs uppercase tracking-widest text-neon-purple font-bold shadow-[0_0_10px_rgba(176,38,255,0.3)]">
+                                        <div className="inline-block px-3 py-1 mb-3 border border-ls-orange/50 bg-ls-orange/20 rounded-sm text-xs uppercase tracking-widest text-ls-orange font-bold shadow-[0_0_10px_rgba(176,38,255,0.3)]">
                                             {selectedMeet.dressCode || selectedMeet.type || 'Standard Meet'}
                                         </div>
                                         <h2 className="text-4xl md:text-5xl font-black font-heading tracking-tight text-white drop-shadow-lg text-glow">
@@ -214,7 +214,7 @@ const UpcomingMeets = ({ isAdmin }) => {
                                         {/* Left Column: Core Logistics */}
                                         <div className="space-y-6">
                                             <div>
-                                                <h4 className="text-xs uppercase tracking-widest text-electric-blue mb-3 font-bold border-l-2 border-electric-blue pl-2">Time & Location</h4>
+                                                <h4 className="text-xs uppercase tracking-widest text-ls-gold mb-3 font-bold border-l-2 border-ls-gold pl-2">Time & Location</h4>
                                                 <div className="space-y-3 bg-white/5 p-4 rounded border border-white/5">
                                                     <div className="flex items-center gap-3">
                                                         <Calendar className="text-white/60" size={18} />
@@ -232,7 +232,7 @@ const UpcomingMeets = ({ isAdmin }) => {
                                             </div>
 
                                             <div>
-                                                <h4 className="text-xs uppercase tracking-widest text-neon-purple mb-3 font-bold border-l-2 border-neon-purple pl-2">Requirements & Command</h4>
+                                                <h4 className="text-xs uppercase tracking-widest text-ls-orange mb-3 font-bold border-l-2 border-ls-orange pl-2">Requirements & Command</h4>
                                                 <div className="space-y-3 bg-white/5 p-4 rounded border border-white/5">
                                                     {selectedMeet.car && (
                                                         <div className="flex items-center gap-3">

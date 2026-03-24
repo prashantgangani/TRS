@@ -173,18 +173,18 @@ const ManageCrewMembers = () => {
     );
 
     return (
-        <div className="min-h-screen bg-deep-black text-white font-sans selection:bg-neon-purple/50 pt-24 pb-20">
+        <div className="min-h-screen bg-deep-black text-white font-sans selection:bg-ls-orange/50 pt-24 pb-20">
             <div className="max-w-4xl mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-12"
                 >
-                    <button onClick={() => navigate('/smart-admin')} className="text-sm text-electric-blue hover:text-white transition-colors mb-4 inline-block">&larr; Back to Smart Admin</button>
+                    <button onClick={() => navigate('/smart-admin')} className="text-sm text-ls-gold hover:text-white transition-colors mb-4 inline-block">&larr; Back to Smart Admin</button>
                     <h1 className="text-4xl font-bold font-heading mb-4 text-white drop-shadow-lg flex items-center justify-between">
-                        <span>Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-electric-blue">Crew Models</span></span>
+                        <span>Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-orange to-ls-gold">Crew Models</span></span>
                         <div className="glassmorphism p-3 rounded-full border border-white/10">
-                            <Users className="text-neon-purple" size={28} />
+                            <Users className="text-ls-orange" size={28} />
                         </div>
                     </h1>
                     <p className="text-white/60">Create self-service logins for crew members. Generating a member automatically creates a default Garage Card linked to them.</p>
@@ -204,13 +204,13 @@ const ManageCrewMembers = () => {
                             animate={{ opacity: 1, x: 0 }}
                             className="glass-panel border border-white/10 rounded-xl p-6 h-fit"
                         >
-                            <h2 className="text-xl font-heading font-bold mb-6 flex items-center gap-2"><Plus size={18} className="text-electric-blue"/> New Member</h2>
+                            <h2 className="text-xl font-heading font-bold mb-6 flex items-center gap-2"><Plus size={18} className="text-ls-gold"/> New Member</h2>
                             <form onSubmit={handleCreateMember} className="space-y-4">
                                 <div>
                                     <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Username (Discord Tag)</label>
                                     <input 
                                         type="text" 
-                                        className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                                        className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-ls-orange transition-colors"
                                         placeholder="e.g. ghost_rider"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
@@ -221,7 +221,7 @@ const ManageCrewMembers = () => {
                                     <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Temporary Password</label>
                                     <input 
                                         type="password" 
-                                        className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                                        className="w-full bg-charcoal border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-ls-orange transition-colors"
                                         placeholder="••••••••"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
@@ -240,7 +240,7 @@ const ManageCrewMembers = () => {
                             animate={{ opacity: 1, x: 0, y: 0 }}
                             className="glass-panel border border-white/10 rounded-xl p-6 h-fit"
                         >
-                            <h2 className="text-xl font-heading font-bold mb-4 flex items-center gap-2"><RefreshCw size={18} className="text-neon-purple"/> Sync Limits</h2>
+                            <h2 className="text-xl font-heading font-bold mb-4 flex items-center gap-2"><RefreshCw size={18} className="text-ls-orange"/> Sync Limits</h2>
                             <p className="text-xs text-white/50 mb-6">Set how many times a crew member can push image updates to their Garage Card.</p>
                             
                             <div className="space-y-4">
@@ -250,14 +250,14 @@ const ManageCrewMembers = () => {
                                         <input 
                                             type="number" 
                                             min="1"
-                                            className="w-full bg-charcoal border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                                            className="w-full bg-charcoal border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-ls-orange transition-colors"
                                             value={garageLimit}
                                             onChange={(e) => setGarageLimit(e.target.value)}
                                         />
                                         <button 
                                             onClick={handleUpdateLimit}
                                             disabled={isSavingLimit}
-                                            className="px-4 py-2 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white rounded transition-colors flex items-center justify-center"
+                                            className="px-4 py-2 bg-ls-orange/20 text-ls-orange hover:bg-ls-orange hover:text-white rounded transition-colors flex items-center justify-center"
                                             title="Save Limit"
                                         >
                                             <Save size={18} />
@@ -290,8 +290,8 @@ const ManageCrewMembers = () => {
                             </span>
                         </div>
 
-                        <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-3 flex items-center gap-3 mb-6 shadow-md transition-all focus-within:border-electric-blue/50 focus-within:shadow-[0_0_15px_rgba(0,229,255,0.15)]">
-                            <Search size={18} className="text-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] ml-2" />
+                        <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-3 flex items-center gap-3 mb-6 shadow-md transition-all focus-within:border-ls-gold/50 focus-within:shadow-[0_0_15px_rgba(0,229,255,0.15)]">
+                            <Search size={18} className="text-ls-gold drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] ml-2" />
                             <input
                                 type="text"
                                 placeholder="Search active crew members..."
@@ -314,13 +314,13 @@ const ManageCrewMembers = () => {
                                             Status: <span className={member.isActive ? 'text-green-400' : 'text-red-400'}>{member.isActive ? 'ACTIVE' : 'INACTIVE'}</span>
                                         </div>
                                         <div className="text-xs text-white/50 flex items-center gap-2 mt-1">
-                                            Push Updates: <span className={(member.usedPushUpdates || 0) >= garageLimit ? 'text-red-400 font-bold' : 'text-neon-purple'}>{member.usedPushUpdates || 0} / {garageLimit}</span>
+                                            Push Updates: <span className={(member.usedPushUpdates || 0) >= garageLimit ? 'text-red-400 font-bold' : 'text-ls-orange'}>{member.usedPushUpdates || 0} / {garageLimit}</span>
                                         </div>
                                     </div>
                                     <div className="flex gap-3">
                                         <button 
                                             onClick={() => handleResetPassword(member._id)}
-                                            className="p-2 bg-white/5 hover:bg-electric-blue/20 text-white/60 hover:text-electric-blue rounded transition-colors"
+                                            className="p-2 bg-white/5 hover:bg-ls-gold/20 text-white/60 hover:text-ls-gold rounded transition-colors"
                                             title="Reset Password"
                                         >
                                             <Key size={16} />

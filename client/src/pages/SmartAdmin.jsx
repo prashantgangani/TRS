@@ -71,24 +71,24 @@ const SmartAdmin = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-deep-black text-white relative selection:bg-neon-purple/50 pt-32 pb-32">
+        <div className="min-h-screen bg-deep-black text-white relative selection:bg-ls-orange/50 pt-32 pb-32">
             <div className="max-w-4xl mx-auto px-6 md:px-12">
                 <motion.div 
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-16"
                 >
-                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-neon-purple border-neon-purple/30 mb-4 inline-flex items-center gap-2 shadow-[0_0_10px_rgba(176,38,255,0.2)]">
+                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-ls-orange border-ls-orange/30 mb-4 inline-flex items-center gap-2 shadow-[0_0_10px_rgba(176,38,255,0.2)]">
                         <Shield size={14} /> Super Admin Only
                     </span>
                     <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4 text-white drop-shadow-lg">
-                        Smart Admin <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-electric-blue">Panel</span>
+                        Smart Admin <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-orange to-ls-gold">Panel</span>
                     </h1>
                     <p className="text-white/60 max-w-xl mx-auto text-sm">
                         Toggle admin access to specific features across the crew system.
                     </p>
                     <div className="mt-8 flex justify-center">
-                        <Link to="/manage-crew-members" className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 hover:border-electric-blue hover:bg-electric-blue/10 rounded-full transition-all text-sm font-bold uppercase tracking-wider text-white">
+                        <Link to="/manage-crew-members" className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 hover:border-ls-gold hover:bg-ls-gold/10 rounded-full transition-all text-sm font-bold uppercase tracking-wider text-white">
                             <Users size={18} /> Manage Crew Logins
                         </Link>
                     </div>
@@ -106,21 +106,21 @@ const SmartAdmin = () => {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.1 }}
-                                className="glass-panel p-6 rounded-xl border border-white/5 bg-charcoal/40 flex items-center justify-between group hover:border-electric-blue/30 transition-colors"
+                                className="glass-panel p-6 rounded-xl border border-white/5 bg-charcoal/40 flex items-center justify-between group hover:border-ls-gold/30 transition-colors"
                             >
-                                <span className="text-lg font-bold font-heading uppercase tracking-wide text-white group-hover:text-electric-blue transition-colors">
+                                <span className="text-lg font-bold font-heading uppercase tracking-wide text-white group-hover:text-ls-gold transition-colors">
                                     {feature.name}
                                 </span>
                                 
                                 <button
                                     onClick={() => handleToggle(feature.key)}
-                                    className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 focus:outline-none ${isEnabled ? 'bg-electric-blue' : 'bg-white/20'}`}
+                                    className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 focus:outline-none ${isEnabled ? 'bg-ls-gold' : 'bg-white/20'}`}
                                 >
                                     <span className="sr-only">Toggle {feature.name}</span>
                                     <span
                                         className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300 flex items-center justify-center ${isEnabled ? 'translate-x-9' : 'translate-x-1'}`}
                                     >
-                                        {isEnabled ? <Check size={14} className="text-electric-blue" /> : <X size={14} className="text-gray-400" />}
+                                        {isEnabled ? <Check size={14} className="text-ls-gold" /> : <X size={14} className="text-gray-400" />}
                                     </span>
                                 </button>
                             </motion.div>

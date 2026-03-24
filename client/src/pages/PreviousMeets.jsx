@@ -146,9 +146,9 @@ const PreviousMeets = ({ isAdmin }) => {
 
                 {/* Cinematic GTA-Style Neon Divider */}
                 <div className="flex justify-center items-center mt-6 mb-8 gap-4 opacity-80">
-                    <div className="h-px w-24 md:w-32 bg-gradient-to-l from-neon-purple to-transparent"></div>
-                    <div className="h-2 w-2 rounded-full bg-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,1)]"></div>
-                    <div className="h-px w-24 md:w-32 bg-gradient-to-r from-electric-blue to-transparent"></div>
+                    <div className="h-px w-24 md:w-32 bg-gradient-to-l from-ls-orange to-transparent"></div>
+                    <div className="h-2 w-2 rounded-full bg-ls-gold drop-shadow-[0_0_8px_rgba(0,229,255,1)]"></div>
+                    <div className="h-px w-24 md:w-32 bg-gradient-to-r from-ls-gold to-transparent"></div>
                 </div>
 
                 <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto uppercase tracking-widest font-medium">
@@ -160,10 +160,10 @@ const PreviousMeets = ({ isAdmin }) => {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="mb-16 glass-panel p-6 rounded-lg border-2 border-neon-purple/30 max-w-3xl mx-auto relative"
+                    className="mb-16 glass-panel p-6 rounded-lg border-2 border-ls-orange/30 max-w-3xl mx-auto relative"
                 >
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-bold font-heading text-neon-purple flex items-center gap-2">
+                        <h3 className="text-xl font-bold font-heading text-ls-orange flex items-center gap-2">
                             {editingId ? <Edit2 size={20} /> : <Plus size={20} />} 
                             {editingId ? 'Edit Past Meet' : 'Admin Controls: Add Past Meet'}
                         </h3>
@@ -179,7 +179,7 @@ const PreviousMeets = ({ isAdmin }) => {
                             type="text"
                             placeholder="Car Theme Name (e.g. JDM Night, Midnight Tuners)"
                             required
-                            className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none transition-colors"
+                            className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none transition-colors"
                             value={formData.themeName}
                             onChange={e => setFormData({...formData, themeName: e.target.value})}
                         />
@@ -188,26 +188,26 @@ const PreviousMeets = ({ isAdmin }) => {
                                 type="url"
                                 placeholder="Image URL 1"
                                 required={!formData.url2 && !formData.url3}
-                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none transition-colors text-sm"
+                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none transition-colors text-sm"
                                 value={formData.url1}
                                 onChange={e => setFormData({...formData, url1: e.target.value})}
                             />
                             <input
                                 type="url"
                                 placeholder="Image URL 2 (Optional)"
-                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none transition-colors text-sm"
+                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none transition-colors text-sm"
                                 value={formData.url2}
                                 onChange={e => setFormData({...formData, url2: e.target.value})}
                             />
                             <input
                                 type="url"
                                 placeholder="Image URL 3 (Optional)"
-                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none transition-colors text-sm"
+                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none transition-colors text-sm"
                                 value={formData.url3}
                                 onChange={e => setFormData({...formData, url3: e.target.value})}
                             />
                         </div>
-                        <button disabled={isSubmitting} type="submit" className="w-full py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors disabled:opacity-50">
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 bg-ls-orange/20 text-ls-orange hover:bg-ls-orange hover:text-white border border-ls-orange font-bold tracking-widest uppercase rounded transition-colors disabled:opacity-50">
                             {isSubmitting ? 'Saving...' : (editingId ? 'Update Collection' : 'Add to Collection')}
                         </button>
                     </form>
@@ -264,7 +264,7 @@ const PreviousMeets = ({ isAdmin }) => {
 
                                             <button
                                                 onClick={() => handleEditClick(meet)}
-                                                className="p-3 bg-electric-blue/10 border border-electric-blue/30 text-electric-blue hover:bg-electric-blue hover:text-white rounded-lg transition-colors"
+                                                className="p-3 bg-ls-gold/10 border border-ls-gold/30 text-ls-gold hover:bg-ls-gold hover:text-white rounded-lg transition-colors"
                                                 title="Edit Previous Meet"
                                             >
                                                 <Edit2 size={18} />
@@ -293,7 +293,7 @@ const PreviousMeets = ({ isAdmin }) => {
                                             whileHover={{ rotateX: 2, rotateY: -2, z: 10, boxShadow: "0 25px 50px -12px rgba(176,38,255,0.3)" }}
                                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                         >
-                                            <div className="absolute inset-0 bg-gradient-to-br from-neon-purple via-charcoal to-electric-blue opacity-50 group-hover:opacity-100 transition-opacity duration-700 animate-pulse-slow"></div>
+                                            <div className="absolute inset-0 bg-gradient-to-br from-ls-orange via-charcoal to-ls-gold opacity-50 group-hover:opacity-100 transition-opacity duration-700 animate-pulse-slow"></div>
                                             <div className="absolute inset-[2px] rounded-tr-[22px] rounded-bl-[22px] bg-charcoal overflow-hidden relative">
                                                   <LazyImage
                                                       src={url}
@@ -314,7 +314,7 @@ const PreviousMeets = ({ isAdmin }) => {
                     <div className="mt-12 flex justify-center pb-8">
                         <button
                             onClick={() => setVisibleCount(prev => prev + 5)}
-                            className="px-8 py-4 border border-neon-purple/50 hover:bg-neon-purple/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm"
+                            className="px-8 py-4 border border-ls-orange/50 hover:bg-ls-orange/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm"
                         >
                             Load More Meets
                         </button>

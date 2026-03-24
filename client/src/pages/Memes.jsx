@@ -142,7 +142,7 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                         The Gallery
                     </span>
                     <h1 className="text-4xl md:text-6xl font-bold font-heading mb-4 text-white drop-shadow-lg">
-                        Crew <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF00FF] to-electric-blue">Memes</span>
+                        Crew <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF00FF] to-ls-gold">Memes</span>
                     </h1>
                     <p className="text-white/60 max-w-2xl mx-auto text-sm md:text-base">
                         The finest collection of Los Santos Underground memes.

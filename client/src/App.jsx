@@ -88,7 +88,7 @@ function App() {
             onComplete={() => setShowLoader(false)} 
           />
         )}
-        <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
+        <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-ls-orange/50">
           {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
           <Routes>
             {/* Force routing all unhandled smartadmin paths back to their control panel */}
@@ -108,7 +108,7 @@ function App() {
             onComplete={() => setShowLoader(false)} 
           />
         )}
-        <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-oracle-gold/50">
+        <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-ls-gold/50">
           {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
           <Routes>
             {/* Force routing all unhandled passwordmanager paths back to their control panel */}
@@ -127,7 +127,7 @@ function App() {
           onComplete={() => setShowLoader(false)} 
         />
       )}
-      <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-neon-purple/50">
+      <div className="relative w-full min-h-screen bg-deep-black text-white selection:bg-ls-orange/50">
         <ScrollToTop />
       {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
       <Routes>

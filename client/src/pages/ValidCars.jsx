@@ -166,7 +166,7 @@ const fetchCarsAndSettings = async () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-12 text-center"
             >
-                <h1 className="text-4xl md:text-5xl font-black font-heading text-glow mb-4">Meet <span className="text-neon-purple">Valid Cars</span></h1>
+                <h1 className="text-4xl md:text-5xl font-black font-heading text-glow mb-4">Meet <span className="text-ls-orange">Valid Cars</span></h1>
                 <p className="text-white/60 text-lg max-w-2xl mx-auto">
                     Check the list below to see which vehicles are permitted and which are restricted for the current meet.
                 </p>
@@ -183,7 +183,7 @@ const fetchCarsAndSettings = async () => {
                         target="_blank" 
                         rel="noopener noreferrer" 
                         download="Valid_Cars_List.pdf"
-                        className="flex items-center gap-2 px-6 py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors"
+                        className="flex items-center gap-2 px-6 py-3 bg-ls-orange/20 text-ls-orange hover:bg-ls-orange hover:text-white border border-ls-orange font-bold tracking-widest uppercase rounded transition-colors"
                     >
                         <Download size={20} />
                         Download Valid Cars PDF
@@ -199,7 +199,7 @@ const fetchCarsAndSettings = async () => {
                 >
                     <button
                         onClick={() => navigate('/admin/car-library')}
-                        className="group relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-neon-blue to-neon-purple text-white font-black tracking-widest uppercase rounded-lg overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)]"
+                        className="group relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-neon-blue to-ls-orange text-white font-black tracking-widest uppercase rounded-lg overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)]"
                     >
                         <div className="absolute inset-0 bg-white/20 group-hover:translate-x-[150%] -translate-x-[150%] transition-transform duration-500 ease-out skew-x-12"></div>
                         <FileText size={24} className="relative z-10 group-hover:rotate-12 transition-transform" />
@@ -212,9 +212,9 @@ const fetchCarsAndSettings = async () => {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="mb-8 glass-panel p-6 rounded-lg border-2 border-neon-purple/30 max-w-3xl mx-auto relative"
+                    className="mb-8 glass-panel p-6 rounded-lg border-2 border-ls-orange/30 max-w-3xl mx-auto relative"
                 >
-                    <h3 className="text-xl font-bold mb-4 font-heading text-neon-purple">
+                    <h3 className="text-xl font-bold mb-4 font-heading text-ls-orange">
                         Admin Controls: Upload Valid Cars PDF
                     </h3>
                     <form onSubmit={handlePdfSubmit} className="flex flex-col md:flex-row gap-4">
@@ -222,11 +222,11 @@ const fetchCarsAndSettings = async () => {
                             type="url" 
                             placeholder="Cloudinary PDF URL" 
                             required
-                            className="flex-1 bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none"
+                            className="flex-1 bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none"
                             value={newPdfUrl}
                             onChange={e => setNewPdfUrl(e.target.value)}
                         />
-                        <button type="submit" className="px-6 py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors whitespace-nowrap">
+                        <button type="submit" className="px-6 py-3 bg-ls-orange/20 text-ls-orange hover:bg-ls-orange hover:text-white border border-ls-orange font-bold tracking-widest uppercase rounded transition-colors whitespace-nowrap">
                             Save PDF URL
                         </button>
                         {pdfUrl && (
@@ -246,9 +246,9 @@ const fetchCarsAndSettings = async () => {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="mb-16 glass-panel p-6 rounded-lg border-2 border-neon-purple/30 max-w-3xl mx-auto relative"
+                    className="mb-16 glass-panel p-6 rounded-lg border-2 border-ls-orange/30 max-w-3xl mx-auto relative"
                 >
-                    <h3 className="text-xl font-bold mb-4 font-heading text-neon-purple">
+                    <h3 className="text-xl font-bold mb-4 font-heading text-ls-orange">
                         Admin Controls: {editingId ? 'Edit Car Details' : 'Add Car'}
                     </h3>
                     <form onSubmit={handleAddOrUpdate} className="space-y-4">
@@ -257,14 +257,14 @@ const fetchCarsAndSettings = async () => {
                                 type="text" 
                                 placeholder="Car Name" 
                                 required
-                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none"
+                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none"
                                 value={formData.carName}
                                 onChange={e => setFormData({...formData, carName: e.target.value})}
                             />
                             <input 
                                 type="url" 
                                 placeholder="Image URL (Optional)" 
-                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none"
+                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none"
                                 value={formData.imageUrl}
                                 onChange={e => setFormData({...formData, imageUrl: e.target.value})}
                             />
@@ -272,7 +272,7 @@ const fetchCarsAndSettings = async () => {
                         <textarea 
                             placeholder="Description (e.g. Allowed modifications, exact trim requirements)" 
                             required
-                            className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none h-24"
+                            className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-ls-orange outline-none h-24"
                             value={formData.description}
                             onChange={e => setFormData({...formData, description: e.target.value})}
                         />
@@ -296,7 +296,7 @@ const fetchCarsAndSettings = async () => {
                         </div>
                         
                         <div className="flex gap-4 mt-4">
-                            <button type="submit" className="flex-1 py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors">
+                            <button type="submit" className="flex-1 py-3 bg-ls-orange/20 text-ls-orange hover:bg-ls-orange hover:text-white border border-ls-orange font-bold tracking-widest uppercase rounded transition-colors">
                                 {editingId ? 'Update Car Details' : 'Add Car to List'}
                             </button>
                             {editingId && (
@@ -334,7 +334,7 @@ const fetchCarsAndSettings = async () => {
                                             <div className="relative h-64 overflow-hidden mask-image-b group-hover:mask-image-none transition-all duration-500 bg-deep-black/50 shrink-0">
                                                 {isAdmin && (
                                                     <div className="absolute top-4 right-4 z-20 flex gap-2">
-                                                        <button onClick={() => handleEdit(car)} className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md">
+                                                        <button onClick={() => handleEdit(car)} className="p-2 bg-black/60 hover:bg-ls-gold/80 text-white rounded-full transition-colors backdrop-blur-md">
                                                             <Edit2 size={16} />
                                                         </button>
                                                         <button onClick={() => handleDelete(car._id, car.carName)} className="p-2 bg-black/60 hover:bg-neon-red/80 text-white rounded-full transition-colors backdrop-blur-md">
@@ -399,7 +399,7 @@ const fetchCarsAndSettings = async () => {
                                             <div className="relative h-64 overflow-hidden mask-image-b group-hover:mask-image-none transition-all duration-500 bg-deep-black/50 shrink-0">
                                                 {isAdmin && (
                                                     <div className="absolute top-4 right-4 z-20 flex gap-2">
-                                                        <button onClick={() => handleEdit(car)} className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md">
+                                                        <button onClick={() => handleEdit(car)} className="p-2 bg-black/60 hover:bg-ls-gold/80 text-white rounded-full transition-colors backdrop-blur-md">
                                                             <Edit2 size={16} />
                                                         </button>
                                                         <button onClick={() => handleDelete(car._id, car.carName)} className="p-2 bg-black/60 hover:bg-neon-red/80 text-white rounded-full transition-colors backdrop-blur-md">

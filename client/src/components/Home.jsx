@@ -11,7 +11,7 @@ const DiscordTeaser = lazy(() => import('./DiscordTeaser'));
 
 const FallbackLoader = () => (
     <div className="flex justify-center items-center py-20">
-        <div className="w-8 h-8 border-2 border-white/10 border-t-electric-blue rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-2 border-white/10 border-t-ls-gold rounded-full animate-spin"></div>
     </div>
 );
 
