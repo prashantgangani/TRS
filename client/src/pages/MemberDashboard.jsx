@@ -109,8 +109,8 @@ const MemberDashboard = ({ setAuthContext }) => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            if (file.size > 800 * 1024) {
-                setMessage({ text: 'Image size should be less than 800KB', type: 'error' });
+            if (file.size > 1024 * 1024) {
+                setMessage({ text: 'Image size should be less than 1MB', type: 'error' });
                 return;
             }
             setFormData(prev => ({ ...prev, imageFile: file }));
@@ -211,7 +211,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                                             disabled={!!formData.imageFile}
                                         />
                                     </div>
-                                    <p className="text-white/30 text-xs mt-2">Upload a screenshot of the image of your vehicle (Max 800KB), or paste a direct URL.</p>
+                                    <p className="text-white/30 text-xs mt-2">Upload a screenshot of the image of your vehicle (Max 1MB), or paste a direct URL.</p>
                                 </div>
 
                                 <button
