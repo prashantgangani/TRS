@@ -6,7 +6,7 @@ const DiscordTeaser = () => {
     return (
         <section className="py-24 border-t border-white/5 bg-charcoal/50 relative overflow-hidden">
             {/* Background glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-64 bg-ls-orange/5 blur-[150px] -z-10 rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-64 bg-neon-purple/5 blur-[150px] -z-10 rounded-full"></div>
 
             <div className="max-w-5xl mx-auto px-6 md:px-12 text-center">
                 <motion.div
@@ -15,12 +15,12 @@ const DiscordTeaser = () => {
                     viewport={{ once: true }}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 glassmorphism mb-8"
                 >
-                    <Server size={14} className="text-ls-orange" />
+                    <Server size={14} className="text-neon-purple" />
                     <span className="text-xs font-bold uppercase tracking-widest text-white/80">Network Connected</span>
                 </motion.div>
 
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-                    Connect to the <span className="text-ls-orange text-glow-orange">Dispatch</span>
+                    Connect to the <span className="text-neon-purple text-glow-purple">Dispatch</span>
                 </h2>
 
                 <p className="text-white/60 text-lg max-w-2xl mx-auto mb-12">
@@ -44,23 +44,23 @@ const DiscordTeaser = () => {
                         <div className="flex gap-1.5">
                             <div className="w-3 h-3 rounded-full bg-white/20"></div>
                             <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                            <div className="w-3 h-3 rounded-full bg-ls-orange/50"></div>
+                            <div className="w-3 h-3 rounded-full bg-neon-purple/50"></div>
                         </div>
                     </div>
 
                     {/* Body */}
                     <div className="p-6 bg-[#0a0a0a]/90 font-mono text-sm space-y-4">
-                        <div className="text-ls-gold/80">SYSTEM: Connection established on port 443.</div>
+                        <div className="text-electric-blue/80">SYSTEM: Connection established on port 443.</div>
                         <div className="text-white/60">LOAD: Verifying driver credentials... [OK]</div>
                         <div className="text-white/60">MEMO: New meet scheduled. Topic: 'Midnight Muscle'. Date: SEC-05992.</div>
 
-                        <div className="border-l-2 border-ls-orange pl-4 py-2 my-4 bg-ls-orange/5">
-                            <div className="text-ls-orange font-bold mb-1">[ANNOUNCEMENT] @Driver</div>
+                        <div className="border-l-2 border-neon-purple pl-4 py-2 my-4 bg-neon-purple/5">
+                            <div className="text-neon-purple font-bold mb-1">[ANNOUNCEMENT] @Driver</div>
                             <div className="text-white/80">The garage doors are open. Read #rules before submitting your build in #showroom. Be ready for the weekend cruise.</div>
                         </div>
 
                         <div className="flex items-center gap-2 text-white/40 mt-6 pt-4 border-t border-white/10">
-                            <span className="text-ls-orange font-bold">_</span>
+                            <span className="text-neon-purple font-bold">_</span>
                             <span className="animate-pulse">Awaiting input...</span>
                         </div>
                     </div>
@@ -77,7 +77,7 @@ const DiscordTeaser = () => {
                         transition={{ delay: 0.4 }}
                         className="group relative w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-black font-bold uppercase tracking-widest rounded-sm overflow-hidden"
                     >
-                        <div className="absolute inset-0 bg-ls-orange translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                        <div className="absolute inset-0 bg-neon-purple translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                         <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-300">
                             <Send size={18} />
                             Join The Server

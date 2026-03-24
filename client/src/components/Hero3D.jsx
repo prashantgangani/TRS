@@ -200,8 +200,8 @@ const Hero3D = () => {
             <div className="absolute inset-0 bg-[#030303] -z-10"></div>
             
             {/* Ambient Background Glow mapping to layout */}
-            <div className="absolute top-1/2 right-1/4 w-[800px] h-[800px] bg-ls-orange/5 blur-[150px] rounded-full pointer-events-none -z-10 translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 right-1/2 w-[600px] h-[600px] bg-ls-gold/5 blur-[150px] rounded-full pointer-events-none -z-10 translate-x-1/2"></div>
+            <div className="absolute top-1/2 right-1/4 w-[800px] h-[800px] bg-neon-purple/5 blur-[150px] rounded-full pointer-events-none -z-10 translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute bottom-0 right-1/2 w-[600px] h-[600px] bg-electric-blue/5 blur-[150px] rounded-full pointer-events-none -z-10 translate-x-1/2"></div>
 
             {/* Left Side - Content */}
             <div className="w-full lg:w-[45%] lg:min-h-[100svh] flex flex-col justify-center px-6 sm:px-12 lg:pl-16 xl:pl-24 pt-12 pb-24 lg:py-0 z-20 relative shrink-0">
@@ -213,14 +213,14 @@ const Hero3D = () => {
                 >
                     <div className="flex gap-3 mb-6 flex-wrap">
                         <span className="glassmorphism px-3 py-1 rounded-sm text-[10px] sm:text-xs uppercase tracking-widest text-white/80 border-white/20">Night Drives</span>
-                        <span className="glassmorphism px-3 py-1 rounded-sm text-[10px] sm:text-xs uppercase tracking-widest text-white/80 border-ls-orange/50 text-ls-orange drop-shadow-[0_0_8px_rgba(176,38,255,0.5)]">Themed Meets</span>
-                        <span className="glassmorphism px-3 py-1 rounded-sm text-[10px] sm:text-xs uppercase tracking-widest text-white/80 border-ls-gold/50 text-ls-gold drop-shadow-[0_0_8px_rgba(0,229,255,0.5)]">GTA Online</span>
+                        <span className="glassmorphism px-3 py-1 rounded-sm text-[10px] sm:text-xs uppercase tracking-widest text-white/80 border-neon-purple/50 text-neon-purple drop-shadow-[0_0_8px_rgba(176,38,255,0.5)]">Themed Meets</span>
+                        <span className="glassmorphism px-3 py-1 rounded-sm text-[10px] sm:text-xs uppercase tracking-widest text-white/80 border-electric-blue/50 text-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.5)]">GTA Online</span>
                     </div>
 
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-heading leading-[1.1] mb-6 drop-shadow-2xl">
                         Where Los Santos <br />
                         Car Culture <br className="hidden lg:block"/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-orange to-ls-gold">Comes Alive</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-electric-blue">Comes Alive</span>
                     </h1>
 
                     <p className="text-base sm:text-lg lg:text-xl text-white/70 max-w-xl mb-10 leading-relaxed font-light">

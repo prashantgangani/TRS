@@ -7,17 +7,17 @@ const CountdownBlock = ({ label, value }) => {
     return (
         <motion.div 
             whileHover={{ y: -6, boxShadow: "0 10px 25px -5px rgba(0, 229, 255, 0.4)" }}
-            className="flex flex-col items-center justify-center bg-black/50 backdrop-blur-lg border border-ls-gold/30 rounded-xl py-6 px-4 md:px-8 shadow-[0_0_15px_rgba(0,229,255,0.15)] relative overflow-hidden group min-w-[90px] md:min-w-[120px]"
+            className="flex flex-col items-center justify-center bg-black/50 backdrop-blur-lg border border-electric-blue/30 rounded-xl py-6 px-4 md:px-8 shadow-[0_0_15px_rgba(0,229,255,0.15)] relative overflow-hidden group min-w-[90px] md:min-w-[120px]"
         >
             {/* Background Glow Pulse */}
             <motion.div 
                 animate={{ opacity: [0.1, 0.3, 0.1] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0 bg-gradient-to-br from-ls-gold/20 via-ls-orange/10 to-transparent"
+                className="absolute inset-0 bg-gradient-to-br from-electric-blue/20 via-neon-purple/10 to-transparent"
             ></motion.div>
             
             {/* Glowing circle behind numbers */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-ls-gold/20 rounded-full blur-xl group-hover:bg-ls-gold/40 transition-colors duration-500"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-electric-blue/20 rounded-full blur-xl group-hover:bg-electric-blue/40 transition-colors duration-500"></div>
             
             <div className="text-4xl md:text-6xl font-black font-heading text-white drop-shadow-[0_0_12px_rgba(0,229,255,0.8)] tabular-nums relative z-10 w-16 md:w-20 text-center flex justify-center perspective-[1000px]">
                 <AnimatePresence mode="popLayout">
@@ -33,7 +33,7 @@ const CountdownBlock = ({ label, value }) => {
                     </motion.span>
                 </AnimatePresence>
             </div>
-            <span className="text-[10px] md:text-sm font-bold uppercase tracking-widest text-ls-gold mt-3 relative z-10">
+            <span className="text-[10px] md:text-sm font-bold uppercase tracking-widest text-electric-blue mt-3 relative z-10">
                 {label}
             </span>
         </motion.div>
@@ -114,9 +114,9 @@ const CountdownTimer = () => {
     return (
         <section className="py-16 md:py-24 relative overflow-hidden bg-[#050505]">
             {/* Background Effects */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] bg-ls-gold/5 rounded-full blur-[120px] pointer-events-none"></div>
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-ls-gold/30 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-ls-orange/30 to-transparent"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] bg-electric-blue/5 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-electric-blue/30 to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-purple/30 to-transparent"></div>
 
             <div className="max-w-6xl mx-auto px-6 relative z-10">
                 <div className="text-center mb-10">
@@ -126,10 +126,10 @@ const CountdownTimer = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-sm md:text-base font-bold tracking-[0.3em] text-ls-gold uppercase mb-2 flex items-center justify-center gap-2">
-                            <Zap size={16} className="text-ls-gold" />
+                        <h2 className="text-sm md:text-base font-bold tracking-[0.3em] text-electric-blue uppercase mb-2 flex items-center justify-center gap-2">
+                            <Zap size={16} className="text-electric-blue" />
                             Next Crew Meet
-                            <Zap size={16} className="text-ls-gold" />
+                            <Zap size={16} className="text-electric-blue" />
                         </h2>
                         
                         <h1 className="text-4xl md:text-6xl font-black font-heading text-white uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] mb-4">
@@ -140,7 +140,7 @@ const CountdownTimer = () => {
                         <div className="flex justify-center items-center mt-2 mb-8">
                             <div className="h-0.5 w-12 bg-transparent"></div>
                             <motion.div 
-                                className="h-1 w-24 bg-gradient-to-r from-ls-gold via-ls-orange to-ls-gold rounded-full shadow-[0_0_10px_rgba(0,229,255,0.8)]"
+                                className="h-1 w-24 bg-gradient-to-r from-electric-blue via-neon-purple to-electric-blue rounded-full shadow-[0_0_10px_rgba(0,229,255,0.8)]"
                                 animate={{ width: ["60px", "120px", "60px"], opacity: [0.7, 1, 0.7] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                             />
@@ -169,13 +169,13 @@ const CountdownTimer = () => {
                         <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden relative">
                             {/* Animated glowing progress track */}
                             <motion.div 
-                                className="h-full bg-gradient-to-r from-ls-gold to-ls-orange"
+                                className="h-full bg-gradient-to-r from-electric-blue to-neon-purple"
                                 style={{ width: `${progressPercent}%` }}
                             />
                         </div>
                         {/* Car Icon Driving */}
                         <motion.div 
-                            className="absolute top-1/2 -translate-y-1/2 text-ls-gold drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]"
+                            className="absolute top-1/2 -translate-y-1/2 text-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]"
                             style={{ left: `calc(${progressPercent}% - 12px)` }}
                         >
                             <Car size={24} />
@@ -191,7 +191,7 @@ const CountdownTimer = () => {
                         className="bg-black/40 border border-white/5 rounded-lg p-5 max-w-md w-full text-center backdrop-blur-sm relative"
                     >
                         {/* Decorative subtle border top */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-ls-gold/50 to-transparent"></div>
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-electric-blue/50 to-transparent"></div>
                         
                         <div className="flex items-center justify-center gap-2 text-white/50">
                             <Clock size={16} />

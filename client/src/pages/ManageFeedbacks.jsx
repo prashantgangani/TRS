@@ -65,11 +65,11 @@ const ManageFeedbacks = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-16"
                 >
-                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-ls-gold border-ls-gold/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-electric-blue border-electric-blue/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,229,255,0.2)]">
                         Command Center
                     </span>
                     <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4 text-white drop-shadow-lg">
-                        Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-gold to-blue-500">Feedback</span>
+                        Manage <span className="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-blue-500">Feedback</span>
                     </h1>
                 </motion.div>
 
@@ -95,7 +95,7 @@ const ManageFeedbacks = () => {
                                         className={`glass-panel p-6 rounded-xl border flex flex-col md:flex-row justify-between items-start md:items-center gap-6 transition-all duration-500 ${
                                             feedback.reviewed 
                                                 ? 'border-green-500/30 bg-green-500/5' 
-                                                : 'border-white/10 hover:border-ls-gold/50'
+                                                : 'border-white/10 hover:border-electric-blue/50'
                                         }`}
                                     >
                                         <div className="flex-1 w-full text-left">
@@ -105,7 +105,7 @@ const ManageFeedbacks = () => {
                                                         <CheckCircle size={12} /> Reviewed
                                                     </span>
                                                 ) : (
-                                                    <span className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-ls-gold font-bold bg-ls-gold/10 px-2 py-1 rounded">
+                                                    <span className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-electric-blue font-bold bg-electric-blue/10 px-2 py-1 rounded">
                                                         <Clock size={12} /> Pending Review
                                                     </span>
                                                 )}

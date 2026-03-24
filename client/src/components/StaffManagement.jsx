@@ -350,7 +350,7 @@ const StaffManagement = () => {
                                             className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(255,51,102,0.1)] ${admin.role === 'smartadmin' ? 'text-ls-orange' : 'text-neon-red'}`}>
+                                                <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(255,51,102,0.1)] ${admin.role === 'smartadmin' ? 'text-neon-purple' : 'text-neon-red'}`}>
                                                     <ShieldAlert size={14} />
                                                 </div>
                                                 <div>
@@ -377,23 +377,23 @@ const StaffManagement = () => {
             {/* Additional Generation Terminals - Smart Admin */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Smart Admin Generation Terminal */}
-                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-ls-orange/30 bg-ls-orange/5">
+                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-neon-purple/30 bg-neon-purple/5">
                     <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-2 justify-center">
-                        <KeyRound className="text-ls-orange" size={20} /> Smart Admin Access
+                        <KeyRound className="text-neon-purple" size={20} /> Smart Admin Access
                     </h3>
                     <p className="text-[10px] text-center text-white/50 uppercase tracking-widest mb-6">Create credentials restricted strictly to the Smart Admin Panel.</p>
                     
                     <form onSubmit={(e) => handleAddAdmin(e, 'smartadmin')} className="space-y-4">
                         <div>
-                            <input required type="text" value={newSmartName} onChange={e => setNewSmartName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-orange text-center" placeholder="Smart Admin Alias" />
+                            <input required type="text" value={newSmartName} onChange={e => setNewSmartName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-neon-purple text-center" placeholder="Smart Admin Alias" />
                         </div>
                         <div>
-                            <input required type="password" value={newSmartPassword} onChange={e => setNewSmartPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-orange text-center" placeholder="••••••••" />
+                            <input required type="password" value={newSmartPassword} onChange={e => setNewSmartPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-neon-purple text-center" placeholder="••••••••" />
                         </div>
                         
                         {smartError && <p className="text-red-400 text-xs font-bold text-center">{smartError}</p>}
                         
-                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-ls-orange hover:bg-ls-orange/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(176,38,255,0.4)]">
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-neon-purple hover:bg-neon-purple/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(176,38,255,0.4)]">
                             {isSubmitting ? 'Encrypting...' : 'Generate Smart Admin'}
                         </button>
                     </form>
@@ -404,7 +404,7 @@ const StaffManagement = () => {
                     <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
                         <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
                             <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Smart Admin Network</h3>
-                            <span className="text-xs text-ls-orange font-bold px-2 py-1 bg-ls-orange/20 rounded">{admins.filter(a => a.role === 'smartadmin').length} Systems Online</span>
+                            <span className="text-xs text-neon-purple font-bold px-2 py-1 bg-neon-purple/20 rounded">{admins.filter(a => a.role === 'smartadmin').length} Systems Online</span>
                         </div>
                         
                         <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
@@ -423,7 +423,7 @@ const StaffManagement = () => {
                                             className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(176,38,255,0.1)] text-ls-orange">
+                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(176,38,255,0.1)] text-neon-purple">
                                                     <ShieldAlert size={14} />
                                                 </div>
                                                 <div>
@@ -434,7 +434,7 @@ const StaffManagement = () => {
                                             
                                             <button 
                                                 onClick={() => handleDelete(admin._id)}
-                                                className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-ls-orange bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
+                                                className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-neon-purple bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
                                             >
                                                 Revoke
                                             </button>
@@ -449,23 +449,23 @@ const StaffManagement = () => {
 
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Password Manager Generation Terminal */}
-                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-ls-gold/30 bg-ls-gold/5">
+                <div className="md:col-span-1 glass-panel p-6 rounded-xl border border-electric-blue/30 bg-electric-blue/5">
                     <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-2 justify-center">
-                        <KeyRound className="text-ls-gold" size={20} /> Password Manager Setup
+                        <KeyRound className="text-electric-blue" size={20} /> Password Manager Setup
                     </h3>
                     <p className="text-[10px] text-center text-white/50 uppercase tracking-widest mb-6">Create credentials restricted strictly to the Password Manager Panel.</p>
                     
                     <form onSubmit={(e) => handleAddAdmin(e, 'passwordmanager')} className="space-y-4">
                         <div>
-                            <input required type="text" value={newPassManagerName} onChange={e => setNewPassManagerName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold text-center" placeholder="Manager Alias" />
+                            <input required type="text" value={newPassManagerName} onChange={e => setNewPassManagerName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue text-center" placeholder="Manager Alias" />
                         </div>
                         <div>
-                            <input required type="password" value={newPassManagerPassword} onChange={e => setNewPassManagerPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold text-center" placeholder="••••••••" />
+                            <input required type="password" value={newPassManagerPassword} onChange={e => setNewPassManagerPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue text-center" placeholder="••••••••" />
                         </div>
                         
                         {passManagerError && <p className="text-red-400 text-xs font-bold text-center">{passManagerError}</p>}
                         
-                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-ls-gold hover:bg-ls-gold/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(255,215,0,0.4)]">
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-electric-blue hover:bg-electric-blue/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(255,215,0,0.4)]">
                             {isSubmitting ? 'Encrypting...' : 'Generate Password Manager'}
                         </button>
                     </form>
@@ -476,7 +476,7 @@ const StaffManagement = () => {
                     <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
                         <div className="bg-white/5 p-4 border-b border-white/10 flex justify-between items-center">
                             <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Password Manager Network</h3>
-                            <span className="text-xs text-ls-gold font-bold px-2 py-1 bg-ls-gold/20 rounded">{admins.filter(a => a.role === 'passwordmanager').length} Systems Online</span>
+                            <span className="text-xs text-electric-blue font-bold px-2 py-1 bg-electric-blue/20 rounded">{admins.filter(a => a.role === 'passwordmanager').length} Systems Online</span>
                         </div>
                         
                         <div className="p-4 flex-1 overflow-y-auto max-h-[300px] space-y-3">
@@ -495,7 +495,7 @@ const StaffManagement = () => {
                                             className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(255,215,0,0.1)] text-ls-gold">
+                                                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(255,215,0,0.1)] text-electric-blue">
                                                     <ShieldAlert size={14} />
                                                 </div>
                                                 <div>
@@ -506,7 +506,7 @@ const StaffManagement = () => {
                                             
                                             <button 
                                                 onClick={() => handleDelete(admin._id)}
-                                                className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-ls-gold bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
+                                                className="px-3 py-1.5 text-[10px] text-white/50 hover:text-white hover:bg-electric-blue bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold"
                                             >
                                                 Revoke
                                             </button>
@@ -599,11 +599,11 @@ const StaffManagement = () => {
 
             {/* Crew Member Access Module */}
             <div className="mt-16 text-center mb-8 border-t border-white/10 pt-16">
-                <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-ls-gold border-ls-gold/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,255,255,0.2)]">
+                <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-electric-blue border-electric-blue/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,255,255,0.2)]">
                     Crew Matrix
                 </span>
                 <h2 className="text-3xl font-bold font-heading text-white flex items-center justify-center gap-3 drop-shadow-lg">
-                    <Users className="text-ls-gold" size={32} /> Crew Member Access
+                    <Users className="text-electric-blue" size={32} /> Crew Member Access
                 </h2>
                 <p className="text-[10px] uppercase tracking-widest text-white/50 mt-2">Manage restricted credentials allowing members to sync their own Garage Cards.</p>
             </div>
@@ -612,34 +612,34 @@ const StaffManagement = () => {
                 {/* Crew Member Generation Terminal */}
                 <div className="md:col-span-1 space-y-6">
                     {/* Crew Member Generation Terminal */}
-                    <div className="glass-panel p-6 rounded-xl border border-ls-gold/30 bg-ls-gold/5">
+                    <div className="glass-panel p-6 rounded-xl border border-electric-blue/30 bg-electric-blue/5">
                         <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-6 justify-center">
-                            <KeyRound className="text-ls-gold" size={20} /> Grant Sync Access
+                            <KeyRound className="text-electric-blue" size={20} /> Grant Sync Access
                         </h3>
                     
                     <form onSubmit={handleAddMember} className="space-y-4">
                         <div>
                             <label className="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Assign Alias</label>
-                            <input required type="text" value={newMemberName} onChange={e => setNewMemberName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold" placeholder="Discord Tag" />
+                            <input required type="text" value={newMemberName} onChange={e => setNewMemberName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" placeholder="Discord Tag" />
                         </div>
                         <div>
                             <label className="block text-[10px] uppercase tracking-widest text-white/50 mb-2">Assign Passcode</label>
-                            <input required type="password" value={newMemberPassword} onChange={e => setNewMemberPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold" placeholder="••••••••" />
+                            <input required type="password" value={newMemberPassword} onChange={e => setNewMemberPassword(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" placeholder="••••••••" />
                         </div>
                         
                         {memberError && <p className="text-red-400 text-xs font-bold">{memberError}</p>}
-                        {memberSuccess && <p className="text-ls-gold text-xs font-bold">{memberSuccess}</p>}
+                        {memberSuccess && <p className="text-electric-blue text-xs font-bold">{memberSuccess}</p>}
                         
-                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-ls-gold hover:bg-ls-gold/80 text-black text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(0,255,255,0.4)]">
+                        <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-2 bg-electric-blue hover:bg-electric-blue/80 text-black text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(0,255,255,0.4)]">
                             {isSubmitting ? 'Provisioning...' : 'Generate Member Setup'}
                         </button>
                     </form>
                 </div>
 
                 {/* Sync Limits Controller */}
-                <div className="glass-panel p-6 rounded-xl border border-ls-gold/30 bg-ls-gold/5">
+                <div className="glass-panel p-6 rounded-xl border border-electric-blue/30 bg-electric-blue/5">
                     <h3 className="text-lg font-bold font-heading text-white flex items-center gap-2 mb-6 justify-center">
-                        <ShieldAlert className="text-ls-gold" size={20} /> Sync Limits
+                        <ShieldAlert className="text-electric-blue" size={20} /> Sync Limits
                     </h3>
                     <div className="space-y-4">
                         <div>
@@ -650,12 +650,12 @@ const StaffManagement = () => {
                                     min="1" 
                                     value={garageLimit} 
                                     onChange={e => setGarageLimit(Number(e.target.value))} 
-                                    className="flex-1 bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold" 
+                                    className="flex-1 bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" 
                                 />
                                 <button 
                                     onClick={handleUpdateLimit}
                                     disabled={isSavingLimit}
-                                    className="bg-ls-gold/20 hover:bg-ls-gold/40 text-ls-gold border border-ls-gold/50 px-4 py-2 rounded transition-colors flex items-center justify-center disabled:opacity-50"
+                                    className="bg-electric-blue/20 hover:bg-electric-blue/40 text-electric-blue border border-electric-blue/50 px-4 py-2 rounded transition-colors flex items-center justify-center disabled:opacity-50"
                                     title="Save Limit"
                                 >
                                     <Save size={18} />
@@ -684,19 +684,19 @@ const StaffManagement = () => {
                     <div className="glass-panel rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
                         <div className="bg-white/5 p-4 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <h3 className="font-bold text-sm uppercase tracking-widest text-white/80">Active Crew Network</h3>
-                            <span className="text-xs text-ls-gold font-bold px-2 py-1 bg-ls-gold/20 rounded whitespace-nowrap">{crewMembers.length} Accounts Active</span>
+                            <span className="text-xs text-electric-blue font-bold px-2 py-1 bg-electric-blue/20 rounded whitespace-nowrap">{crewMembers.length} Accounts Active</span>
                         </div>
                         
                         {/* Search Bar */}
                         <div className="p-4 border-b border-white/5 bg-black/20">
                             <div className="relative flex items-center">
-                                <Search className="absolute left-3 text-ls-gold/50" size={16} />
+                                <Search className="absolute left-3 text-electric-blue/50" size={16} />
                                 <input
                                     type="text"
                                     placeholder="Search crew members by alias..."
                                     value={searchCrew}
                                     onChange={(e) => setSearchCrew(e.target.value)}
-                                    className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-ls-gold/50 transition-colors placeholder:text-white/30"
+                                    className="w-full bg-black/40 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-electric-blue/50 transition-colors placeholder:text-white/30"
                                 />
                             </div>
                         </div>
@@ -719,19 +719,19 @@ const StaffManagement = () => {
                                             className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded hover:border-white/20 transition-colors"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(0,255,255,0.1)] text-ls-gold`}>
+                                                <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-[0_0_10px_rgba(0,255,255,0.1)] text-electric-blue`}>
                                                     <Users size={14} />
                                                 </div>
                                                 <div>
                                                     <div className="text-white font-bold">{member.username}</div>
-                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">STATUS: <span className={member.isActive ? 'text-green-400' : 'text-red-400'}>{member.isActive ? 'ONLINE' : 'OFFLINE'}</span> <span className="mx-2 text-white/20">|</span> PUSHES: <span className={(member.usedPushUpdates || 0) >= garageLimit ? 'text-red-400 font-bold' : 'text-ls-gold'}>{member.usedPushUpdates || 0} / {garageLimit}</span></div>
+                                                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-mono">STATUS: <span className={member.isActive ? 'text-green-400' : 'text-red-400'}>{member.isActive ? 'ONLINE' : 'OFFLINE'}</span> <span className="mx-2 text-white/20">|</span> PUSHES: <span className={(member.usedPushUpdates || 0) >= garageLimit ? 'text-red-400 font-bold' : 'text-electric-blue'}>{member.usedPushUpdates || 0} / {garageLimit}</span></div>
                                                 </div>
                                             </div>
                                             
                                             <div className="flex gap-2">
                                                 <button 
                                                     onClick={() => handleResetMemberPassword(member._id)}
-                                                    className="px-3 py-1.5 text-[10px] text-white/50 hover:text-ls-gold hover:bg-ls-gold/10 bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold flex items-center gap-1"
+                                                    className="px-3 py-1.5 text-[10px] text-white/50 hover:text-electric-blue hover:bg-electric-blue/10 bg-black border border-white/10 rounded uppercase tracking-widest transition-colors font-bold flex items-center gap-1"
                                                 >
                                                     <KeyRound size={12} /> Reset
                                                 </button>

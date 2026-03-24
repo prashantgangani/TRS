@@ -16,7 +16,7 @@ const CrewIdentity = () => {
                     >
                         <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-tight">
                             Built Around the Meet, <br />
-                            <span className="text-ls-orange text-glow-orange">Not the Madness.</span>
+                            <span className="text-neon-purple text-glow-purple">Not the Madness.</span>
                         </h2>
                         <div className="space-y-6 text-white/70 text-lg">
                             <p>
@@ -28,11 +28,11 @@ const CrewIdentity = () => {
                         </div>
 
                         <div className="mt-12 grid grid-cols-2 gap-6">
-                            <div className="border-l-2 border-ls-orange pl-4">
+                            <div className="border-l-2 border-neon-purple pl-4">
                                 <div className="text-3xl font-bold text-white mb-1">No PvP</div>
                                 <div className="text-sm uppercase tracking-widest text-white/50">During Meets</div>
                             </div>
-                            <div className="border-l-2 border-ls-gold pl-4">
+                            <div className="border-l-2 border-electric-blue pl-4">
                                 <div className="text-3xl font-bold text-white mb-1">Clean</div>
                                 <div className="text-sm uppercase tracking-widest text-white/50">Smooth Drives</div>
                             </div>
@@ -64,7 +64,7 @@ const CrewIdentity = () => {
                             className="filter brightness-50 contrast-125 saturate-50"
                         />
 
-                        <div className="absolute bottom-8 right-8 z-30 flex items-center gap-3 glass-panel px-6 py-4 rounded-sm border-l-4 border-l-ls-orange">
+                        <div className="absolute bottom-8 right-8 z-30 flex items-center gap-3 glass-panel px-6 py-4 rounded-sm border-l-4 border-l-neon-purple">
                             <div className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center bg-white/5">
                                 <span className="font-heading font-bold">UM</span>
                             </div>

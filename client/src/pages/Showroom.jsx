@@ -106,9 +106,9 @@ const Showroom = ({ isAdmin }) => {
     };
 
     return (
-        <div className="min-h-screen bg-deep-black text-white relative selection:bg-ls-orange/50 pt-32 pb-32">
+        <div className="min-h-screen bg-deep-black text-white relative selection:bg-neon-purple/50 pt-32 pb-32">
             {/* Background Details */}
-            <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-ls-gold/5 to-transparent pointer-events-none -z-10"></div>
+            <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-electric-blue/5 to-transparent pointer-events-none -z-10"></div>
 
             <div className="max-w-7xl mx-auto px-6 md:px-12">
                 {/* Header */}
@@ -118,11 +118,11 @@ const Showroom = ({ isAdmin }) => {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-20"
                 >
-                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-ls-gold border-ls-gold/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-electric-blue border-electric-blue/30 mb-4 inline-block shadow-[0_0_10px_rgba(0,229,255,0.2)]">
                         Hall of Fame
                     </span>
                     <h1 className="text-4xl md:text-6xl font-bold font-heading mb-4 text-white drop-shadow-lg">
-                        The <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-gold to-ls-orange">Showroom</span>
+                        The <span className="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-neon-purple">Showroom</span>
                     </h1>
                     <p className="text-white/60 max-w-2xl mx-auto text-sm md:text-base">
                         The absolute pinnacle of our car meets. These rides represent the highest tier of creativity, tuning, and dedication in Los Santos.
@@ -136,21 +136,21 @@ const Showroom = ({ isAdmin }) => {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="glass-panel p-8 md:p-12 rounded-xl border-2 border-dashed border-ls-gold/50 bg-ls-gold/5 relative max-w-4xl mx-auto"
+                            className="glass-panel p-8 md:p-12 rounded-xl border-2 border-dashed border-electric-blue/50 bg-electric-blue/5 relative max-w-4xl mx-auto"
                         >
-                            <h3 className="text-2xl font-bold mb-6 font-heading text-ls-gold flex items-center gap-3">
+                            <h3 className="text-2xl font-bold mb-6 font-heading text-electric-blue flex items-center gap-3">
                                 <Plus size={24} /> {editingId ? 'Edit Showroom Build' : 'Submit New Showroom Build'}
                             </h3>
                             <form onSubmit={handleAddOrUpdateCar} className="space-y-4">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input required type="text" placeholder="Meet Theme (e.g. Neon Nights)" value={meetTheme} onChange={e => setMeetTheme(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-ls-gold" />
-                                    <input required type="text" placeholder="Car Name (e.g. Annis Remus)" value={carName} onChange={e => setCarName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-ls-gold" />
+                                    <input required type="text" placeholder="Meet Theme (e.g. Neon Nights)" value={meetTheme} onChange={e => setMeetTheme(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-electric-blue" />
+                                    <input required type="text" placeholder="Car Name (e.g. Annis Remus)" value={carName} onChange={e => setCarName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-electric-blue" />
                                 </div>
-                                <input required type="text" placeholder="Car Owner/Builder" value={carOwner} onChange={e => setCarOwner(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-ls-gold" />
-                                <input type="text" placeholder="Image Name/Path (e.g. /images/car1.jpg)" value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-ls-gold" />
-                                <textarea required placeholder="Machine Details & Lore" value={description} onChange={e => setDescription(e.target.value)} rows="3" className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-ls-gold resize-none"></textarea>
+                                <input required type="text" placeholder="Car Owner/Builder" value={carOwner} onChange={e => setCarOwner(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-electric-blue" />
+                                <input type="text" placeholder="Image Name/Path (e.g. /images/car1.jpg)" value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-electric-blue" />
+                                <textarea required placeholder="Machine Details & Lore" value={description} onChange={e => setDescription(e.target.value)} rows="3" className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-electric-blue resize-none"></textarea>
 
-                                <button disabled={isSubmitting} type="submit" className="w-full py-4 mt-4 bg-ls-gold hover:bg-ls-gold/80 text-deep-black text-sm font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                                <button disabled={isSubmitting} type="submit" className="w-full py-4 mt-4 bg-electric-blue hover:bg-electric-blue/80 text-deep-black text-sm font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)]">
                                     {isSubmitting ? (editingId ? 'Updating...' : 'Uploading to Garage...') : (editingId ? 'Update Build' : 'Feature Build')}
                                 </button>
                                 {editingId && (
@@ -190,7 +190,7 @@ const Showroom = ({ isAdmin }) => {
                                         />
                                         {isAdmin && (
                                             <div className="absolute top-4 right-4 z-20 flex gap-2">
-                                                <button onClick={() => handleEdit(car)} className="p-2 bg-black/60 hover:bg-ls-gold/80 text-white rounded-full transition-colors backdrop-blur-md">
+                                                <button onClick={() => handleEdit(car)} className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md">
                                                     <Edit2 size={16} />
                                                 </button>
                                                 <button onClick={() => handleDelete(car._id)} className="p-2 bg-black/60 hover:bg-neon-red/80 text-white rounded-full transition-colors backdrop-blur-md">
@@ -199,17 +199,17 @@ const Showroom = ({ isAdmin }) => {
                                             </div>
                                         )}
                                         <div className="absolute inset-0 bg-gradient-to-t from-deep-black/60 via-transparent to-transparent"></div>
-                                        <div className="absolute inset-0 bg-ls-orange/5 mix-blend-overlay"></div>
+                                        <div className="absolute inset-0 bg-neon-purple/5 mix-blend-overlay"></div>
                                     </div>
 
                                     {/* Content Section */}
                                     <div className="w-full lg:w-[45%] p-8 md:p-12 lg:p-16 flex flex-col justify-center relative bg-charcoal/60 backdrop-blur-md">
-                                        <div className="absolute -inset-10 bg-ls-gold/5 blur-[100px] rounded-full pointer-events-none -z-10 group-hover:bg-ls-gold/10 transition-colors duration-500"></div>
+                                        <div className="absolute -inset-10 bg-electric-blue/5 blur-[100px] rounded-full pointer-events-none -z-10 group-hover:bg-electric-blue/10 transition-colors duration-500"></div>
 
                                         <div className="mb-6">
                                             <p className="text-[10px] sm:text-xs text-white/40 uppercase tracking-[0.2em] font-semibold mb-3">Meet Theme</p>
-                                            <div className="px-3 py-1.5 border border-ls-orange/50 bg-ls-orange/10 rounded-sm inline-block">
-                                                <span className="text-ls-orange font-bold tracking-widest uppercase text-[10px] sm:text-xs drop-shadow-[0_0_5px_rgba(176,38,255,0.6)]">{car.meetTheme}</span>
+                                            <div className="px-3 py-1.5 border border-neon-purple/50 bg-neon-purple/10 rounded-sm inline-block">
+                                                <span className="text-neon-purple font-bold tracking-widest uppercase text-[10px] sm:text-xs drop-shadow-[0_0_5px_rgba(176,38,255,0.6)]">{car.meetTheme}</span>
                                             </div>
                                         </div>
 
@@ -223,7 +223,7 @@ const Showroom = ({ isAdmin }) => {
                                         </div>
 
                                         <div>
-                                            <p className="text-[10px] text-ls-gold uppercase tracking-widest mb-3 font-bold border-l-2 border-ls-gold pl-2">Machine Details</p>
+                                            <p className="text-[10px] text-electric-blue uppercase tracking-widest mb-3 font-bold border-l-2 border-electric-blue pl-2">Machine Details</p>
                                             <p className="text-white/70 text-sm leading-relaxed">
                                                 {car.description}
                                             </p>
@@ -235,7 +235,7 @@ const Showroom = ({ isAdmin }) => {
                                 <div className="mt-12 flex justify-center w-full">
                                     <button
                                         onClick={() => setVisibleCount(prev => prev + 10)}
-                                        className="px-8 py-4 border border-white/20 hover:border-ls-gold hover:text-ls-gold transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                                        className="px-8 py-4 border border-white/20 hover:border-electric-blue hover:text-electric-blue transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
                                     >
                                         Load More
                                     </button>

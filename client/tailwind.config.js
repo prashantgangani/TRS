@@ -11,8 +11,11 @@ export default {
         'charcoal': '#1a1a1a',
         'ls-orange': '#F05E23', // Los Santos Customs vibe
         'asphalt-gray': '#2A2A2A', // Street underground vibe
-        'neon-red': '#E4002B', // A deeper tail-light red 
+        'neon-red': '#E4002B', // A deeper tail-light red
         'ls-gold': '#F2A900', // Classic GTA gold
+        'neon-purple': '#b026ff',
+        'electric-blue': '#00e5ff',
+        'oracle-gold': '#FFD700',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

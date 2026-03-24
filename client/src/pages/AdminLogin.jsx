@@ -54,7 +54,7 @@ const AdminLogin = ({ setAuthContext }) => {
 
     return (
         <div className="min-h-screen bg-deep-black flex items-center justify-center p-6 relative">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-ls-gold/5 blur-[150px] rounded-full pointer-events-none -z-10"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-electric-blue/5 blur-[150px] rounded-full pointer-events-none -z-10"></div>
             
             <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -62,10 +62,10 @@ const AdminLogin = ({ setAuthContext }) => {
                 className="w-full max-w-md glass-panel p-8 md:p-12 rounded-xl relative overflow-hidden"
             >
                 {/* Decorative top border */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-ls-gold to-transparent"></div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-electric-blue to-transparent"></div>
                 
                 <div className="text-center mb-8">
-                    <Shield className="w-12 h-12 text-ls-gold mx-auto mb-4 drop-shadow-[0_0_10px_rgba(0,229,255,0.4)]" />
+                    <Shield className="w-12 h-12 text-electric-blue mx-auto mb-4 drop-shadow-[0_0_10px_rgba(0,229,255,0.4)]" />
                     <h2 className="text-2xl md:text-3xl font-black font-heading tracking-tight mb-2">RESTRICTED ACCESS</h2>
                     <p className="text-white/50 text-sm tracking-widest uppercase">The Royal Sorcerers</p>
                 </div>
@@ -78,7 +78,7 @@ const AdminLogin = ({ setAuthContext }) => {
                             type="text" 
                             value={name} 
                             onChange={e => setName(e.target.value)} 
-                            className="w-full bg-black/60 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-ls-gold transition-colors" 
+                            className="w-full bg-black/60 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-electric-blue transition-colors" 
                             placeholder="Enter Name"
                         />
                     </div>
@@ -90,7 +90,7 @@ const AdminLogin = ({ setAuthContext }) => {
                             type="password" 
                             value={password} 
                             onChange={e => setPassword(e.target.value)} 
-                            className="w-full bg-black/60 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-ls-gold transition-colors" 
+                            className="w-full bg-black/60 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-electric-blue transition-colors" 
                             placeholder="••••••••"
                         />
                     </div>
@@ -104,7 +104,7 @@ const AdminLogin = ({ setAuthContext }) => {
                     <button 
                         disabled={loading}
                         type="submit" 
-                        className={`w-full py-4 text-deep-black text-sm font-bold uppercase tracking-widest rounded transition-all shadow-[0_0_15px_rgba(0,229,255,0.3)] ${loading ? 'bg-ls-gold/50 cursor-not-allowed' : 'bg-ls-gold hover:bg-ls-gold/80 hover:shadow-[0_0_25px_rgba(0,229,255,0.6)]'}`}
+                        className={`w-full py-4 text-deep-black text-sm font-bold uppercase tracking-widest rounded transition-all shadow-[0_0_15px_rgba(0,229,255,0.3)] ${loading ? 'bg-electric-blue/50 cursor-not-allowed' : 'bg-electric-blue hover:bg-electric-blue/80 hover:shadow-[0_0_25px_rgba(0,229,255,0.6)]'}`}
                     >
                         {loading ? 'Authenticating...' : 'Access Terminal'}
                     </button>

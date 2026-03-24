@@ -123,7 +123,7 @@ const MemberDashboard = ({ setAuthContext }) => {
     }
 
     return (
-        <div className="min-h-screen bg-deep-black text-white selection:bg-ls-orange/50 pt-24 pb-20">
+        <div className="min-h-screen bg-deep-black text-white selection:bg-neon-purple/50 pt-24 pb-20">
             <div className="max-w-6xl mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -132,7 +132,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                 >
                     <div>
                         <h1 className="text-3xl font-bold font-heading mb-2 text-white drop-shadow-lg uppercase tracking-widest">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-orange to-ls-gold">Garage</span> Terminal
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-electric-blue">Garage</span> Terminal
                         </h1>
                         <p className="text-white/40 text-sm uppercase tracking-wider">Welcome back, {localStorage.getItem('trs_username')}</p>
                     </div>
@@ -169,14 +169,14 @@ const MemberDashboard = ({ setAuthContext }) => {
                             className="glass-panel border border-white/10 rounded-2xl p-6 md:p-8"
                         >
                             <h2 className="text-xl font-heading font-bold mb-6 flex items-center gap-2 uppercase tracking-widest">
-                                <Save size={18} className="text-ls-gold"/> Data Matrix
+                                <Save size={18} className="text-electric-blue"/> Data Matrix
                             </h2>
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
                                     <label className="block text-xs uppercase tracking-wider text-white/50 mb-2">Build Designation</label>
                                     <input 
                                         type="text" 
-                                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-ls-orange transition-all text-sm"
+                                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-neon-purple transition-all text-sm"
                                         placeholder="e.g. Pegassi Zentorno - Time Attack Build"
                                         value={formData.carName}
                                         onChange={(e) => setFormData(prev => ({...prev, carName: e.target.value}))}
@@ -191,7 +191,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                                         <input
                                             type="file"
                                             accept="image/jpeg, image/png, image/webp"
-                                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-ls-orange transition-all text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-ls-orange/20 file:text-ls-orange hover:file:bg-ls-orange/30"
+                                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neon-purple transition-all text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-neon-purple/20 file:text-neon-purple hover:file:bg-neon-purple/30"
                                             onChange={handleImageChange}
                                         />
                                         <div className="flex items-center gap-2">
@@ -201,7 +201,7 @@ const MemberDashboard = ({ setAuthContext }) => {
                                         </div>
                                         <input
                                             type="url"
-                                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-ls-orange transition-all text-sm disabled:opacity-50"
+                                            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-neon-purple transition-all text-sm disabled:opacity-50"
                                             placeholder="https://..."
                                             value={formData.imageUrl}
                                             onChange={(e) => {
@@ -231,9 +231,9 @@ const MemberDashboard = ({ setAuthContext }) => {
                             className="w-full"
                         >
                             <h2 className="text-sm font-heading font-medium mb-4 flex items-center gap-2 uppercase tracking-widest text-white/60">
-                                <Camera size={14} className="text-ls-orange"/> Live Preview
+                                <Camera size={14} className="text-neon-purple"/> Live Preview
                             </h2>
-                            <div className="group relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-ls-gold/30 bg-[#0a0a0a]">
+                            <div className="group relative aspect-[16/11] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-500 transform hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,229,255,0.15)] border border-white/5 hover:border-electric-blue/30 bg-[#0a0a0a]">
                                 <LazyImage
                                     src={previewUrl || formData.imageUrl}
                                     variant="detail"
@@ -244,13 +244,13 @@ const MemberDashboard = ({ setAuthContext }) => {
                             
                                 {/* Subtle Gradient Overlays */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
-                                <div className="absolute inset-0 bg-gradient-to-tr from-ls-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 bg-gradient-to-tr from-electric-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
                                 {/* Content */}
                                 <div className="absolute bottom-0 left-0 w-full p-6 pt-16 z-20 flex flex-col justify-end transform transition-transform duration-500 group-hover:-translate-y-1">
                                     <div className="flex items-center gap-3 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <div className="w-8 h-[2px] bg-ls-gold shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
-                                        <p className="text-[11px] text-ls-gold uppercase tracking-[0.25em] font-black truncate">
+                                        <div className="w-8 h-[2px] bg-electric-blue shadow-[0_0_8px_rgba(0,229,255,0.8)]"></div>
+                                        <p className="text-[11px] text-electric-blue uppercase tracking-[0.25em] font-black truncate">
                                             {garageCard?.builtBy || "OWNER"}
                                         </p>
                                     </div>

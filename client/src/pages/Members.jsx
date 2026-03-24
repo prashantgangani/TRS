@@ -26,7 +26,7 @@ const Members = ({ isSuperAdmin }) => {
     const [name, setName] = useState('');
     const [role, setRole] = useState('');
     const [image, setImage] = useState('');
-    const [color, setColor] = useState('from-ls-orange to-purple-900');
+    const [color, setColor] = useState('from-neon-purple to-purple-900');
     const [editingId, setEditingId] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -64,7 +64,7 @@ const Members = ({ isSuperAdmin }) => {
                     const updatedMember = await response.json();
                     setMembers(members.map(m => m._id === editingId ? updatedMember : m));
                     setEditingId(null);
-                    setName(''); setRole(''); setImage(''); setColor('from-ls-orange to-purple-900');
+                    setName(''); setRole(''); setImage(''); setColor('from-neon-purple to-purple-900');
                 }
             } else {
                 const response = await fetch(`${API_URL}/members`, {
@@ -74,7 +74,7 @@ const Members = ({ isSuperAdmin }) => {
                 });
                 if (response.ok) {
                     fetchMembers();
-                    setName(''); setRole(''); setImage(''); setColor('from-ls-orange to-purple-900');
+                    setName(''); setRole(''); setImage(''); setColor('from-neon-purple to-purple-900');
                 }
             }
         } catch (error) {
@@ -89,7 +89,7 @@ const Members = ({ isSuperAdmin }) => {
         setName(member.name);
         setRole(member.role);
         setImage(member.image || '');
-        setColor(member.color || 'from-ls-orange to-purple-900');
+        setColor(member.color || 'from-neon-purple to-purple-900');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -146,8 +146,8 @@ const Members = ({ isSuperAdmin }) => {
     return (
         <section className="min-h-screen bg-deep-black pt-32 pb-24 px-6 md:px-12 relative overflow-hidden">
             {/* Background Effects */}
-            <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-ls-orange/5 to-transparent pointer-events-none -z-10"></div>
-            <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] bg-ls-gold/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+            <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-neon-purple/5 to-transparent pointer-events-none -z-10"></div>
+            <div className="absolute top-[20%] right-[-10%] w-[50vw] h-[50vw] bg-electric-blue/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
@@ -157,11 +157,11 @@ const Members = ({ isSuperAdmin }) => {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16"
                 >
-                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-ls-orange border-ls-orange/30 mb-4 inline-block shadow-[0_0_10px_rgba(176,38,255,0.2)]">
+                    <span className="glassmorphism px-3 py-1 rounded-sm text-xs uppercase tracking-widest text-neon-purple border-neon-purple/30 mb-4 inline-block shadow-[0_0_10px_rgba(176,38,255,0.2)]">
                         The Roster
                     </span>
                     <h1 className="text-4xl md:text-6xl font-bold font-heading mb-4 text-white drop-shadow-lg">
-                        Meet The <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-orange to-ls-gold">Crew</span>
+                        Meet The <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-electric-blue">Crew</span>
                     </h1>
                     <p className="text-white/60 max-w-2xl mx-auto text-sm md:text-base">
                         The drivers, builders, and organizers that keep the Los Santos underground scene alive. These are the elite members of The Royal Sorcerers.
@@ -176,31 +176,31 @@ const Members = ({ isSuperAdmin }) => {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="glass-panel p-6 rounded-lg border-2 border-dashed border-ls-gold/50 bg-ls-gold/5 relative flex flex-col justify-center"
+                            className="glass-panel p-6 rounded-lg border-2 border-dashed border-electric-blue/50 bg-electric-blue/5 relative flex flex-col justify-center"
                         >
-                            <h3 className="text-xl font-bold mb-4 font-heading text-ls-gold flex items-center gap-2 drop-shadow-md">
+                            <h3 className="text-xl font-bold mb-4 font-heading text-electric-blue flex items-center gap-2 drop-shadow-md">
                                 <Plus size={20} /> {editingId ? 'Modify Member File' : 'Appoint New Member'}
                             </h3>
                             <form onSubmit={handleAddOrUpdateMember} className="space-y-3">
-                                <input required type="text" placeholder="Alias (e.g. GhostRider99)" value={name} onChange={e => setName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold" />
-                                <input required type="text" placeholder="Crew Rank (e.g. Muscle)" value={role} onChange={e => setRole(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold" />
-                                <input type="text" placeholder="Crew Image Link (e.g. /images/me.jpg)" value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-ls-gold" />
+                                <input required type="text" placeholder="Alias (e.g. GhostRider99)" value={name} onChange={e => setName(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" />
+                                <input required type="text" placeholder="Crew Rank (e.g. Muscle)" value={role} onChange={e => setRole(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" />
+                                <input type="text" placeholder="Crew Image Link (e.g. /images/me.jpg)" value={image} onChange={e => setImage(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-electric-blue" />
                                 
-                                <select value={color} onChange={e => setColor(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white/70 focus:outline-none focus:border-ls-gold outline-none cursor-pointer">
-                                    <option value="from-ls-orange to-purple-900">Purple Aura</option>
-                                    <option value="from-ls-gold to-blue-900">Blue Aura</option>
+                                <select value={color} onChange={e => setColor(e.target.value)} className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-sm text-white/70 focus:outline-none focus:border-electric-blue outline-none cursor-pointer">
+                                    <option value="from-neon-purple to-purple-900">Purple Aura</option>
+                                    <option value="from-electric-blue to-blue-900">Blue Aura</option>
                                     <option value="from-red-500 to-red-900">Red Aura</option>
                                     <option value="from-emerald-500 to-emerald-900">Green Aura</option>
-                                    <option value="from-ls-gold to-yellow-900">Gold Aura</option>
+                                    <option value="from-electric-blue to-yellow-900">Gold Aura</option>
                                 </select>
                                 
-                                <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-4 bg-ls-gold hover:bg-ls-gold/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(0,240,255,0.4)]">
+                                <button disabled={isSubmitting} type="submit" className="w-full py-3 mt-4 bg-electric-blue hover:bg-electric-blue/80 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors shadow-[0_0_15px_rgba(0,240,255,0.4)]">
                                     {isSubmitting ? (editingId ? 'Updating...' : 'Appointing...') : (editingId ? 'Update Record' : 'Register Member')}
                                 </button>
                                 {editingId && (
                                     <button type="button" onClick={() => {
                                         setEditingId(null);
-                                        setName(''); setRole(''); setImage(''); setColor('from-ls-orange to-purple-900');
+                                        setName(''); setRole(''); setImage(''); setColor('from-neon-purple to-purple-900');
                                     }} className="w-full py-2 mt-2 bg-black/50 border border-white/20 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest rounded transition-colors">
                                         Cancel Edit
                                     </button>
@@ -218,10 +218,10 @@ const Members = ({ isSuperAdmin }) => {
                             {/* SuperAdmin Hierarchy Controls */}
                             {isSuperAdmin && (
                                 <div className="absolute -left-12 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
-                                    <button onClick={() => handleMove(index, 'up')} disabled={index === 0} className="w-8 h-8 rounded-full bg-black/80 border border-white/20 text-white flex items-center justify-center hover:bg-ls-gold hover:text-white disabled:opacity-30 transition-colors">
+                                    <button onClick={() => handleMove(index, 'up')} disabled={index === 0} className="w-8 h-8 rounded-full bg-black/80 border border-white/20 text-white flex items-center justify-center hover:bg-electric-blue hover:text-white disabled:opacity-30 transition-colors">
                                         <ArrowUp size={16} />
                                     </button>
-                                    <button onClick={() => handleMove(index, 'down')} disabled={index === members.length - 1} className="w-8 h-8 rounded-full bg-black/80 border border-white/20 text-white flex items-center justify-center hover:bg-ls-gold hover:text-white disabled:opacity-30 transition-colors">
+                                    <button onClick={() => handleMove(index, 'down')} disabled={index === members.length - 1} className="w-8 h-8 rounded-full bg-black/80 border border-white/20 text-white flex items-center justify-center hover:bg-electric-blue hover:text-white disabled:opacity-30 transition-colors">
                                         <ArrowDown size={16} />
                                     </button>
                                 </div>
@@ -237,7 +237,7 @@ const Members = ({ isSuperAdmin }) => {
                                 <div className="relative h-64 overflow-hidden mask-image-b group-hover:mask-image-none transition-all duration-500 bg-deep-black/50">
                                     {isSuperAdmin && (
                                         <div className="absolute top-4 right-4 z-20 flex gap-2">
-                                            <button onClick={() => handleEdit(member)} className="p-2 bg-black/60 hover:bg-ls-gold/80 text-white rounded-full transition-colors backdrop-blur-md">
+                                            <button onClick={() => handleEdit(member)} className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md">
                                                 <Edit2 size={16} />
                                             </button>
                                             <button onClick={() => handleDeleteMember(member._id)} className="p-2 bg-black/60 hover:bg-neon-red/80 text-white rounded-full transition-colors backdrop-blur-md">
@@ -263,7 +263,7 @@ const Members = ({ isSuperAdmin }) => {
                                         <p className="text-[10px] text-white/40 uppercase tracking-wider mb-0.5"></p>
                                         <h3 className="text-2xl font-bold font-heading text-white mb-1 group-hover:text-glow transition-all">{member.name}</h3>
                                     </div>
-                                    <p className="text-ls-orange text-xs font-bold uppercase tracking-widest mb-4 inline-block drop-shadow-[0_0_8px_rgba(176,38,255,0.4)]">
+                                    <p className="text-neon-purple text-xs font-bold uppercase tracking-widest mb-4 inline-block drop-shadow-[0_0_8px_rgba(176,38,255,0.4)]">
                                         {member.role}
                                     </p>
                                 </div>
@@ -278,7 +278,7 @@ const Members = ({ isSuperAdmin }) => {
                       <div className="mt-12 flex justify-center w-full">
                           <button
                               onClick={() => setVisibleCount(prev => prev + 12)}
-                              className="px-8 py-4 border border-white/20 hover:border-ls-gold hover:text-ls-gold transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
+                              className="px-8 py-4 border border-white/20 hover:border-electric-blue hover:text-electric-blue transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
                           >
                               Load More
                           </button>

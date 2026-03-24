@@ -68,7 +68,7 @@ const PasswordManager = () => {
     );
 
     return (
-        <div className="min-h-screen bg-deep-black text-white font-sans selection:bg-ls-gold/50 pt-24 pb-20">
+        <div className="min-h-screen bg-deep-black text-white font-sans selection:bg-electric-blue/50 pt-24 pb-20">
             <div className="max-w-4xl mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -76,9 +76,9 @@ const PasswordManager = () => {
                     className="mb-12"
                 >
                     <h1 className="text-4xl font-bold font-heading mb-4 text-white drop-shadow-lg flex items-center justify-between">
-                        <span>Password <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-gold to-yellow-500">Manager</span></span>
+                        <span>Password <span className="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-yellow-500">Manager</span></span>
                         <div className="glassmorphism p-3 rounded-full border border-white/10">
-                            <Users className="text-ls-gold" size={28} />
+                            <Users className="text-electric-blue" size={28} />
                         </div>
                     </h1>
                     <p className="text-white/60">Secure vault for resetting crew member passwords.</p>
@@ -97,13 +97,13 @@ const PasswordManager = () => {
                 >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                         <h2 className="text-xl font-heading font-bold uppercase tracking-wider">Crew Members</h2>
-                        <span className="bg-[#2a2211] text-ls-gold font-sans px-3 py-1.5 rounded-md text-sm font-bold border border-ls-gold/20 w-fit">
+                        <span className="bg-[#2a2211] text-electric-blue font-sans px-3 py-1.5 rounded-md text-sm font-bold border border-electric-blue/20 w-fit">
                             {members.length} Total Members
                         </span>
                     </div>
 
-                    <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-3 flex items-center gap-3 mb-6 shadow-md transition-all focus-within:border-ls-gold/50 focus-within:shadow-[0_0_15px_rgba(255,215,0,0.15)]">
-                        <Search size={18} className="text-ls-gold drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] ml-2" />
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-3 flex items-center gap-3 mb-6 shadow-md transition-all focus-within:border-electric-blue/50 focus-within:shadow-[0_0_15px_rgba(255,215,0,0.15)]">
+                        <Search size={18} className="text-electric-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.6)] ml-2" />
                         <input
                             type="text"
                             placeholder="Search member username..."
@@ -122,11 +122,11 @@ const PasswordManager = () => {
                             filteredMembers.map(member => (
                                 <div key={member._id} className="glass-panel p-5 rounded-xl border border-white/10 flex items-center justify-between group">
                                     <div>
-                                        <div className="font-bold text-lg text-ls-gold">{member.username}</div>
+                                        <div className="font-bold text-lg text-electric-blue">{member.username}</div>
                                     </div>
                                     <button 
                                         onClick={() => handleResetPassword(member._id, member.username)}
-                                        className="px-4 py-2 bg-white/5 hover:bg-ls-gold/20 text-white/80 hover:text-ls-gold rounded border border-white/10 hover:border-ls-gold/50 transition-all flex items-center gap-2 text-sm"
+                                        className="px-4 py-2 bg-white/5 hover:bg-electric-blue/20 text-white/80 hover:text-electric-blue rounded border border-white/10 hover:border-electric-blue/50 transition-all flex items-center gap-2 text-sm"
                                     >
                                         <Key size={14} /> Reset 
                                     </button>

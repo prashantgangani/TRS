@@ -107,8 +107,8 @@ const Hero = ({ isAdmin }) => {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] opacity-30 pointer-events-none -z-20 mask-image-radial-center"></div>
 
             {/* Ambient Neon Glows behind the scene */}
-            <div className="absolute top-[20%] right-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-ls-orange/15 blur-[120px] rounded-full pointer-events-none -z-10 translate-x-1/2 -translate-y-1/2 opacity-70"></div>
-            <div className="absolute bottom-[-10%] right-[30%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-ls-gold/15 blur-[100px] rounded-full pointer-events-none -z-10 translate-x-1/2 opacity-70"></div>
+            <div className="absolute top-[20%] right-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-neon-purple/15 blur-[120px] rounded-full pointer-events-none -z-10 translate-x-1/2 -translate-y-1/2 opacity-70"></div>
+            <div className="absolute bottom-[-10%] right-[30%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-electric-blue/15 blur-[100px] rounded-full pointer-events-none -z-10 translate-x-1/2 opacity-70"></div>
 
             {/* subtle Vignette */}
             <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] pointer-events-none -z-10"></div>
@@ -129,7 +129,7 @@ const Hero = ({ isAdmin }) => {
                 >
                     <motion.div variants={itemVariants} className="flex gap-2 sm:gap-3 mb-6 sm:mb-8 flex-wrap items-center">
                         <div className="flex items-center gap-2 pr-4 border-r border-white/20">
-                            <span className="w-2 h-2 rounded-full bg-ls-orange animate-pulse shadow-[0_0_10px_#b026ff]"></span>
+                            <span className="w-2 h-2 rounded-full bg-neon-purple animate-pulse shadow-[0_0_10px_#b026ff]"></span>
                             <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white/50">Elite Night Drive Society</span>
                         </div>
                         <span className="glassmorphism px-3 py-1.5 rounded-sm text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-white/90 border border-white/10 shadow-sm">
@@ -139,16 +139,16 @@ const Hero = ({ isAdmin }) => {
 
                     {/* Main Heading */}
                     <motion.div variants={itemVariants} className="relative mb-6">
-                        <div className="absolute -left-6 top-2 bottom-2 w-1 bg-gradient-to-b from-ls-orange via-ls-gold to-transparent hidden sm:block rounded-full shadow-[0_0_15px_rgba(0,229,255,0.5)]"></div>
+                        <div className="absolute -left-6 top-2 bottom-2 w-1 bg-gradient-to-b from-neon-purple via-electric-blue to-transparent hidden sm:block rounded-full shadow-[0_0_15px_rgba(0,229,255,0.5)]"></div>
                         <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-heading leading-[1.1] drop-shadow-2xl text-white tracking-tight">
                             Where Los Santos <br className="hidden sm:block" />
                             Car Culture <br className="hidden lg:block" />
                             <span className="relative inline-block mt-1 sm:mt-2">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-ls-orange to-ls-gold relative z-10 animate-gradient-x bg-[length:200%_auto]">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-electric-blue relative z-10 animate-gradient-x bg-[length:200%_auto]">
                                     Comes Alive
                                 </span>
                                 {/* Text glow behind */}
-                                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-ls-orange to-ls-gold blur-[20px] opacity-80 pointer-events-none mix-blend-screen animate-pulse-slow">Comes Alive</span>
+                                <span className="absolute inset-0 text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-electric-blue blur-[20px] opacity-80 pointer-events-none mix-blend-screen animate-pulse-slow">Comes Alive</span>
                             </span>
                         </h1>
                     </motion.div>
@@ -169,11 +169,11 @@ const Hero = ({ isAdmin }) => {
                         </div>
 
                         <div className="w-full sm:w-auto flex flex-col items-center sm:items-start gap-2">
-                            <span className="text-[10px] uppercase tracking-widest text-ls-gold/60 font-bold ml-1">Network Access</span>
-                            <button className="w-full sm:w-auto px-6 md:px-10 py-4 glass-panel border border-white/10 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-sm hover:border-ls-orange/50 transition-all hover:bg-ls-orange/10 group relative overflow-hidden">
+                            <span className="text-[10px] uppercase tracking-widest text-electric-blue/60 font-bold ml-1">Network Access</span>
+                            <button className="w-full sm:w-auto px-6 md:px-10 py-4 glass-panel border border-white/10 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-sm hover:border-neon-purple/50 transition-all hover:bg-neon-purple/10 group relative overflow-hidden">
                                 <span className="relative z-10 flex items-center justify-center gap-3">
                                     Explore the Crew
-                                    <span className="inline-block group-hover:translate-x-2 transition-transform text-ls-orange">→</span>
+                                    <span className="inline-block group-hover:translate-x-2 transition-transform text-neon-purple">→</span>
                                 </span>
                             </button>
                         </div>
@@ -226,7 +226,7 @@ const Hero = ({ isAdmin }) => {
                         className="absolute left-[0%] top-[15%] w-[45%] lg:w-[48%] z-10 group transform transition-all duration-500 hover:-translate-y-4 hover:translate-z-10"
                         style={{ transform: 'translateZ(-40px)' }}
                     >
-                        <div className="absolute -inset-2 bg-gradient-to-r from-ls-gold/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute -inset-2 bg-gradient-to-r from-electric-blue/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div className="relative w-full aspect-[4/3] bg-black rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden">
                             <img src="/leftside.jpg" alt="Night Drive Atmosphere" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-40 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[2px] group-hover:blur-0" />
 
@@ -243,7 +243,7 @@ const Hero = ({ isAdmin }) => {
                         className="absolute right-[5%] top-[5%] w-[40%] lg:w-[42%] z-20 group transform transition-all duration-500 hover:-translate-y-4 hover:translate-z-20"
                         style={{ transform: 'translateZ(-20px)' }}
                     >
-                        <div className="absolute -inset-2 bg-gradient-to-l from-ls-orange/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute -inset-2 bg-gradient-to-l from-neon-purple/40 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div className="relative w-full aspect-square sm:aspect-[4/3] bg-black rounded-lg shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-white/5 overflow-hidden">
                             <img src="/rightside.png" alt="Meet Scene" className="w-full h-full object-cover object-center mix-blend-luminosity opacity-50 group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 blur-[1px] group-hover:blur-0 scale-x-[-1]" />
 
@@ -261,7 +261,7 @@ const Hero = ({ isAdmin }) => {
                         style={{ transform: 'translateZ(20px)' }}
                     >
                         {/* Dynamic Core Shadow/Underglow */}
-                        <div className="absolute -inset-3 bg-gradient-to-br from-ls-orange rounded-xl opacity-30 blur-2xl group-hover:opacity-70 group-hover:blur-3xl transition-all duration-700"></div>
+                        <div className="absolute -inset-3 bg-gradient-to-br from-neon-purple rounded-xl opacity-30 blur-2xl group-hover:opacity-70 group-hover:blur-3xl transition-all duration-700"></div>
 
                         <div className="relative w-full aspect-[4/5] sm:aspect-square bg-[#0a0a0a] rounded-xl shadow-[0_30px_60px_rgba(0,0,0,0.9)] border border-white/20 group-hover:border-white/40 overflow-hidden">
                             <OptimizedImage src={heroData.featuredBuildImage} variant="hero" loading="eager" alt="Featured Build" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-[1.5s] ease-out saturate-150 contrast-125 bg-black" />
@@ -286,13 +286,13 @@ const Hero = ({ isAdmin }) => {
                         </div>
 
                         {/* Floating Micro-Panel: Top Left "Tonight's Theme" attached to featured card */}
-                        <div className="absolute -left-8 sm:-left-12 -top-6 sm:-top-8 glass-panel border border-ls-orange/30 p-3 rounded-lg shadow-2xl backdrop-blur-xl z-50 transform translate-z-20 scale-90 sm:scale-100 group-hover:-translate-y-1 transition-transform duration-500 delay-100">
+                        <div className="absolute -left-8 sm:-left-12 -top-6 sm:-top-8 glass-panel border border-neon-purple/30 p-3 rounded-lg shadow-2xl backdrop-blur-xl z-50 transform translate-z-20 scale-90 sm:scale-100 group-hover:-translate-y-1 transition-transform duration-500 delay-100">
                             <div className="flex items-center gap-2 mb-1">
                                 <div className="w-2 h-2 rounded-full bg-neon-red animate-pulse"></div>
                                 <span className="text-[9px] uppercase tracking-widest font-bold text-white/60">Live Radar</span>
                             </div>
                             <h4 className="text-xs font-bold text-white tracking-widest uppercase mb-0.5">This Week's Meet</h4>
-                            <p className="text-ls-orange text-sm font-black font-heading tracking-tight drop-shadow-[0_0_5px_rgba(176,38,255,0.5)]">{heroData.tonightsMeetTitle}</p>
+                            <p className="text-neon-purple text-sm font-black font-heading tracking-tight drop-shadow-[0_0_5px_rgba(176,38,255,0.5)]">{heroData.tonightsMeetTitle}</p>
                             <p className="text-[10px] text-white/40 mt-1">{heroData.tonightsMeetLocation} • {heroData.tonightsMeetTime}</p>
                         </div>
                     </motion.div>
@@ -310,12 +310,12 @@ const Hero = ({ isAdmin }) => {
                         </div>
                         <div className="w-[1px] h-6 sm:h-8 bg-white/10"></div>
                         <div className="flex flex-col items-center">
-                            <span className="text-sm sm:text-base font-black text-ls-gold">8</span>
+                            <span className="text-sm sm:text-base font-black text-electric-blue">8</span>
                             <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-white/40 whitespace-nowrap">Meets Scheduled</span>
                         </div>
                         <div className="w-[1px] h-6 sm:h-8 bg-white/10"></div>
                         <div className="flex flex-col items-center">
-                            <span className="text-sm sm:text-base font-black text-ls-orange">126</span>
+                            <span className="text-sm sm:text-base font-black text-neon-purple">126</span>
                             <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-white/40 whitespace-nowrap">Featured Builds</span>
                         </div>
                     </motion.div>
@@ -346,7 +346,7 @@ const Hero = ({ isAdmin }) => {
                             setEditForm(heroData);
                             setIsEditing(true);
                         }}
-                        className="bg-ls-orange p-3 rounded-full shadow-[0_0_20px_rgba(176,38,255,0.6)] hover:scale-110 active:scale-95 transition-all flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-5 border border-white/20"
+                        className="bg-neon-purple p-3 rounded-full shadow-[0_0_20px_rgba(176,38,255,0.6)] hover:scale-110 active:scale-95 transition-all flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-5 border border-white/20"
                     >
                         <Edit2 size={14} /> Admin: Edit Hero
                     </button>
@@ -376,21 +376,21 @@ const Hero = ({ isAdmin }) => {
                             </button>
 
                             <h2 className="text-2xl font-black font-heading tracking-tight mb-8 text-glow">
-                                Dispatch Console: <span className="text-ls-orange font-black">Hero Update</span>
+                                Dispatch Console: <span className="text-neon-purple font-black">Hero Update</span>
                             </h2>
 
                             <form onSubmit={handleSave} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* This Week's Meet Info */}
                                     <div className="space-y-4">
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-ls-orange border-b border-white/10 pb-2">Meet Radar</h3>
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-neon-purple border-b border-white/10 pb-2">Meet Radar</h3>
                                         <div>
                                             <label className="block text-[10px] uppercase tracking-widest text-white/40 font-bold mb-2">Meet Theme</label>
                                             <input
                                                 type="text"
                                                 value={editForm.tonightsMeetTitle}
                                                 onChange={(e) => setEditForm({ ...editForm, tonightsMeetTitle: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-ls-orange outline-none"
+                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-neon-purple outline-none"
                                             />
                                         </div>
                                         <div>
@@ -399,7 +399,7 @@ const Hero = ({ isAdmin }) => {
                                                 type="text"
                                                 value={editForm.tonightsMeetLocation}
                                                 onChange={(e) => setEditForm({ ...editForm, tonightsMeetLocation: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-ls-orange outline-none"
+                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-neon-purple outline-none"
                                                 placeholder="e.g. Vinewood Hills"
                                             />
                                         </div>
@@ -409,7 +409,7 @@ const Hero = ({ isAdmin }) => {
                                                 type="text"
                                                 value={editForm.tonightsMeetTime}
                                                 onChange={(e) => setEditForm({ ...editForm, tonightsMeetTime: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-ls-orange outline-none"
+                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-neon-purple outline-none"
                                                 placeholder="e.g. 10:30 PM"
                                             />
                                         </div>
@@ -417,14 +417,14 @@ const Hero = ({ isAdmin }) => {
 
                                     {/* Featured Build Info */}
                                     <div className="space-y-4">
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-ls-gold border-b border-white/10 pb-2">Featured Showcase</h3>
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-electric-blue border-b border-white/10 pb-2">Featured Showcase</h3>
                                         <div>
                                             <label className="block text-[10px] uppercase tracking-widest text-white/40 font-bold mb-2">Build Name</label>
                                             <input
                                                 type="text"
                                                 value={editForm.featuredBuildName}
                                                 onChange={(e) => setEditForm({ ...editForm, featuredBuildName: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-ls-gold outline-none"
+                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-electric-blue outline-none"
                                             />
                                         </div>
                                         <div>
@@ -433,7 +433,7 @@ const Hero = ({ isAdmin }) => {
                                                 type="text"
                                                 value={editForm.featuredBuildOwner}
                                                 onChange={(e) => setEditForm({ ...editForm, featuredBuildOwner: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-ls-gold outline-none"
+                                                className="w-full bg-white/5 border border-white/10 rounded-sm p-3 text-sm focus:border-electric-blue outline-none"
                                             />
                                         </div>
                                     </div>

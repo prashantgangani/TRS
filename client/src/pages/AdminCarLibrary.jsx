@@ -206,7 +206,7 @@ const AdminCarLibrary = ({ isAdmin }) => {
                 <div className="flex flex-col sm:flex-row gap-4">
                     <button
                         onClick={handleImportFromValidCars}
-                        className="group relative flex items-center justify-center gap-2 px-6 py-3 bg-black text-ls-orange font-bold uppercase tracking-wider rounded-lg border-2 border-ls-orange hover:bg-ls-orange hover:text-white transition-all shadow-[0_0_15px_rgba(255,0,255,0.2)] hover:shadow-[0_0_25px_rgba(255,0,255,0.5)] overflow-hidden"
+                        className="group relative flex items-center justify-center gap-2 px-6 py-3 bg-black text-neon-purple font-bold uppercase tracking-wider rounded-lg border-2 border-neon-purple hover:bg-neon-purple hover:text-white transition-all shadow-[0_0_15px_rgba(255,0,255,0.2)] hover:shadow-[0_0_25px_rgba(255,0,255,0.5)] overflow-hidden"
                     >
                         <div className="absolute w-[200%] h-full bg-white/10 group-hover:translate-x-full -translate-x-full transition-transform duration-700 ease-in-out skew-x-12"></div>
                         <DownloadCloud size={20} className="relative z-10 group-hover:-translate-y-1 transition-transform" />
@@ -257,7 +257,7 @@ const AdminCarLibrary = ({ isAdmin }) => {
                         animate={{ opacity: 1, scale: 1 }}
                         className="bg-black/90 glass-panel border border-neon-blue/50 rounded-xl p-8 w-full max-w-lg shadow-[0_0_30px_rgba(0,255,255,0.2)] relative"
                     >
-                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-neon-blue via-ls-orange to-neon-blue rounded-t-xl"></div>
+                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-blue rounded-t-xl"></div>
                         <h2 className="text-3xl font-black mb-6 font-heading text-glow">
                             {editingCar ? 'Edit Library Car' : 'Add New Library Car'}
                         </h2>
@@ -303,7 +303,7 @@ const AdminCarLibrary = ({ isAdmin }) => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-3 bg-ls-gold text-black font-bold uppercase tracking-widest text-sm rounded hover:bg-white hover:shadow-[0_0_15px_rgba(0,229,255,0.6)] transition-all"
+                                    className="flex-1 py-3 bg-electric-blue text-black font-bold uppercase tracking-widest text-sm rounded hover:bg-white hover:shadow-[0_0_15px_rgba(0,229,255,0.6)] transition-all"
                                 >
                                     {editingCar ? 'Update Car' : 'Save Car'}
                                 </button>
@@ -322,7 +322,7 @@ const AdminCarLibrary = ({ isAdmin }) => {
                         key={car._id} 
                         className="group relative h-full flex flex-col"
                     >
-                        <div className="absolute -inset-0.5 bg-gradient-to-br from-neon-blue to-ls-orange rounded-lg blur opacity-20 group-hover:opacity-50 transition duration-500"></div>
+                        <div className="absolute -inset-0.5 bg-gradient-to-br from-neon-blue to-neon-purple rounded-lg blur opacity-20 group-hover:opacity-50 transition duration-500"></div>
                         <div className="relative h-full bg-black/80 rounded-lg overflow-hidden border border-neon-blue/30 group-hover:border-neon-blue/60 transition-colors flex flex-col shadow-xl">
                             {car.imageUrl ? (
                                 <div className="h-48 overflow-hidden relative mask-image-b group-hover:mask-image-none transition-all duration-500 shrink-0">

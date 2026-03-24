@@ -48,13 +48,13 @@ const MemberLogin = ({ setAuthContext }) => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="glass-panel p-8 md:p-12 rounded-2xl relative overflow-hidden shadow-2xl shadow-ls-orange/5 border border-white/5"
+                    className="glass-panel p-8 md:p-12 rounded-2xl relative overflow-hidden shadow-2xl shadow-neon-purple/5 border border-white/5"
                 >
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-ls-orange/10 rounded-full blur-[80px] -z-10 translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-neon-purple/10 rounded-full blur-[80px] -z-10 translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
                     <div className="flex flex-col items-center justify-center mb-8">
                         <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                            <LogIn size={24} className="text-ls-orange" />
+                            <LogIn size={24} className="text-neon-purple" />
                         </div>
                         <h2 className="text-3xl font-heading font-medium text-white tracking-widest text-center">CREW LOGIN</h2>
                         <p className="text-sm text-white/40 mt-3 text-center uppercase tracking-widest">Update Your Garage Card</p>
@@ -74,7 +74,7 @@ const MemberLogin = ({ setAuthContext }) => {
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white/90 placeholder-white/20 focus:outline-none focus:border-ls-orange/50 focus:bg-white/5 transition-all text-sm"
+                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white/90 placeholder-white/20 focus:outline-none focus:border-neon-purple/50 focus:bg-white/5 transition-all text-sm"
                                 placeholder="Your discord tag"
                                 required
                             />
@@ -86,7 +86,7 @@ const MemberLogin = ({ setAuthContext }) => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white/90 placeholder-white/20 focus:outline-none focus:border-ls-orange/50 focus:bg-white/5 transition-all text-sm mb-2"
+                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white/90 placeholder-white/20 focus:outline-none focus:border-neon-purple/50 focus:bg-white/5 transition-all text-sm mb-2"
                                 placeholder="••••••••"
                                 required
                             />
@@ -95,7 +95,7 @@ const MemberLogin = ({ setAuthContext }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-4 bg-ls-orange hover:bg-ls-orange/90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(176,38,255,0.3)] hover:shadow-[0_0_30px_rgba(176,38,255,0.5)] flex items-center justify-center gap-2 tracking-widest text-sm disabled:opacity-50 mt-4"
+                            className="w-full py-4 bg-neon-purple hover:bg-neon-purple/90 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(176,38,255,0.3)] hover:shadow-[0_0_30px_rgba(176,38,255,0.5)] flex items-center justify-center gap-2 tracking-widest text-sm disabled:opacity-50 mt-4"
                         >
                             {loading ? 'AUTHENTICATING...' : 'ACCESS SYNC'}
                         </button>
