@@ -207,7 +207,7 @@ const Memes = ({ isAdmin, isSuperAdmin }) => {
                                     </div>
 
                                     {canEdit && (
-                                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 p-2 rounded-lg backdrop-blur-sm border border-white/10">
+                                        <div className="absolute top-4 right-4 flex gap-2 opacity-100 z-10 transition-opacity bg-black/60 p-2 rounded-lg backdrop-blur-sm border border-white/10">
                                             <button onClick={() => handleMove(index, 'up')} disabled={index === 0} className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
                                                 <ArrowUp size={16} />
                                             </button>
