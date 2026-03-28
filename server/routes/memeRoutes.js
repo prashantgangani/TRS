@@ -66,6 +66,17 @@ router.put('/:id', async (req, res) => {
 
     const updatedMeme = await meme.save();
 
+    // Attempt to log if possible
+    try {
+      if(req.body.adminUsername) {
+        await Log.create({
+          action: 'Updated Meme',
+          details: `Image URL: ${meme.imageUrl}`,
+          admin: req.body.adminUsername
+        });
+      }
+    } catch(e) {}
+
     res.json(updatedMeme);
   } catch (error) {
     res.status(400).json({ message: error.message });
