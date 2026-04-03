@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Target, Plus, Car, User, Clock, ShieldAlert, X, Info, Edit2, Trash2 } from 'lucide-react';
+import { Calendar, MapPin, Target, Plus, Car, User, Clock, ShieldAlert, X, Info, Edit2, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { API_URL } from '../config';
@@ -12,6 +12,32 @@ const UpcomingMeets = ({ isAdmin }) => {
     const [loading, setLoading] = useState(true);
     const [selectedMeet, setSelectedMeet] = useState(null);
     const navigate = useNavigate();
+
+    const moveMeet = async (index, direction) => {
+        if (!isAdmin) return;
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= meets.length) return;
+
+        const newMeets = [...meets];
+        const temp = newMeets[index];
+        newMeets[index] = newMeets[newIndex];
+        newMeets[newIndex] = temp;
+        
+        setMeets(newMeets);
+
+        try {
+            const orderedIds = newMeets.map(m => m._id);
+            await fetch(`${API_URL}/meets/update-order`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderedIds })
+            });
+            await logAdminAction('Rearranged Meets', `Moved ${temp.theme} ${direction}`);
+        } catch (err) {
+            console.error("Failed to reorder meets:", err);
+            // Optionally, revert the state if the update fails
+        }
+    };
 
     // Prevent background scrolling when modal is open
     useEffect(() => {
@@ -99,10 +125,11 @@ const UpcomingMeets = ({ isAdmin }) => {
                     meets.map((meet, index) => (
                     <motion.div
                         key={meet._id || index}
+                        layout
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
-                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        transition={{ duration: 0.6, delay: index * 0.1, layout: { duration: 0.3 } }}
                         className="glass-panel p-6 rounded-sm group hover:border-neon-purple/50 transition-colors duration-500 overflow-hidden relative flex flex-col"
                     >
                         {/* Background Image on Card */}
@@ -116,6 +143,22 @@ const UpcomingMeets = ({ isAdmin }) => {
 
                         {isAdmin && (
                             <div className="absolute top-4 right-4 z-20 flex gap-2">
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); moveMeet(index, 'up'); }} 
+                                    disabled={index === 0} 
+                                    className="p-2 bg-black/60 hover:bg-neon-purple/80 text-white rounded-full transition-colors backdrop-blur-md z-30 relative disabled:opacity-30 disabled:cursor-not-allowed"
+                                    title="Move Earlier"
+                                >
+                                    <ChevronLeft size={16} />
+                                </button>
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); moveMeet(index, 'down'); }} 
+                                    disabled={index === meets.length - 1} 
+                                    className="p-2 bg-black/60 hover:bg-neon-purple/80 text-white rounded-full transition-colors backdrop-blur-md z-30 relative disabled:opacity-30 disabled:cursor-not-allowed"
+                                    title="Move Later"
+                                >
+                                    <ChevronRight size={16} />
+                                </button>
                                 <button onClick={(e) => { 
                                     e.stopPropagation(); 
                                     navigate('/admin/add-meet', { state: { editMeet: meet } }); 

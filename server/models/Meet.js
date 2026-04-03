@@ -11,8 +11,9 @@ const meetSchema = new mongoose.Schema({
     host: { type: String, required: true },
     description: { type: String, required: true },
     rules: { type: String, required: true },
-    image: { type: String, required: false }
+    image: { type: String, required: false },
+    order: { type: Number, default: 0 }
 }, { timestamps: true });
 
-meetSchema.index({ date: 1 });
+meetSchema.index({ order: 1, date: 1 });
 module.exports = mongoose.model('Meet', meetSchema);

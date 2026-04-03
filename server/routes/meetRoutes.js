@@ -5,9 +5,9 @@ const router = express.Router();
 // GET all upcoming meets
 router.get('/', async (req, res) => {
     try {
-        // Sort by date so upcoming are first
+        // Sort by order then date so upcoming are first
         const { limit } = req.query;
-        let query = Meet.find().sort({ date: 1 }).lean();
+        let query = Meet.find().sort({ order: 1, date: 1 }).lean();
         if (limit) {
             query = query.limit(parseInt(limit, 10));
         }
@@ -47,6 +47,29 @@ router.delete('/:id', async (req, res) => {
     try {
         await Meet.findByIdAndDelete(req.params.id);
         res.json({ message: 'Meet deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// PUT to update meet order
+router.put('/update-order', async (req, res) => {
+    try {
+        const { orderedIds } = req.body;
+        if (!orderedIds || !Array.isArray(orderedIds)) {
+            return res.status(400).json({ message: 'Invalid payload' });
+        }
+        
+        // Update each meet with its new order index
+        const bulkOps = orderedIds.map((id, index) => ({
+            updateOne: {
+                filter: { _id: id },
+                update: { order: index }
+            }
+        }));
+
+        await Meet.bulkWrite(bulkOps);
+        res.json({ message: 'Order updated successfully' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
