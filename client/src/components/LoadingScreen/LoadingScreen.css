@@ -18,7 +18,7 @@
   overflow: hidden;
   background:
     linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
-    url('/bg1.png') center/cover no-repeat;
+    url('/bg17.png') center/cover no-repeat;
   color: var(--trs-text);
   transition: opacity 0.9s ease, transform 0.9s ease, filter 0.9s ease;
   font-family: monospace;
