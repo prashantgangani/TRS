@@ -110,7 +110,7 @@ const PreviousMeets = ({ isAdmin }) => {
             themeName: meet.themeName,
             imageUrl: urlToUse
         });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Remove scroll to top
     };
 
     const cancelEdit = () => {
@@ -154,7 +154,7 @@ const PreviousMeets = ({ isAdmin }) => {
                 </p>
             </motion.div>
 
-            {isAdmin && (
+            {isAdmin && !editingId && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -254,13 +254,13 @@ const PreviousMeets = ({ isAdmin }) => {
                                                 </button>
                                             </div>
 
-                                            <button
-                                                onClick={() => handleEditClick(meet)}
-                                                className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md"
-                                                title="Edit Previous Meet"
-                                            >
-                                                <Edit2 size={16} />
-                                            </button>
+                                                <button
+                                                    onClick={() => handleEditClick(meet)}
+                                                    className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md"
+                                                    title="Edit Previous Meet"
+                                                >
+                                                    <Edit2 size={16} />
+                                                </button>
                                             <button
                                                 onClick={() => handleDelete(meet._id, meet.themeName)}
                                                 className="p-2 bg-black/60 hover:bg-neon-red/80 text-white rounded-full transition-colors backdrop-blur-md"
@@ -295,30 +295,68 @@ const PreviousMeets = ({ isAdmin }) => {
                                         </span>
                                     </div>
                                 </div>
+                            {isAdmin && editingId === meet._id && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="p-6 bg-black/60 border-t border-white/10"
+                                >
+                                    <form onSubmit={handleAddOrEdit} className="space-y-4">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h3 className="text-neon-purple font-bold tracking-widest uppercase">Edit Meet</h3>
+                                            <button type="button" onClick={cancelEdit} className="text-white/50 hover:text-white"><X size={18} /></button>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Car Theme Name"
+                                            required
+                                            className="w-full bg-black/50 border border-white/10 rounded px-4 py-2 text-white focus:border-neon-purple outline-none"
+                                            value={formData.themeName}
+                                            onChange={e => setFormData({...formData, themeName: e.target.value})}
+                                        />
+                                        <input
+                                            type="url"
+                                            placeholder="High-Res Image URL"
+                                            required
+                                            className="w-full bg-black/50 border border-white/10 rounded px-4 py-2 text-white focus:border-neon-purple outline-none text-sm"
+                                            value={formData.imageUrl}
+                                            onChange={e => setFormData({...formData, imageUrl: e.target.value})}
+                                        />
+                                        <div className="flex gap-2 pt-2">
+                                            <button disabled={isSubmitting} type="submit" className="flex-1 py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors disabled:opacity-50">
+                                                {isSubmitting ? 'Saving...' : 'Update Meet'}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </motion.div>
+                            )}
                             </motion.div>
                         );
                     })}
                 </div>
-                {meets.length > visibleCount && (
-                    <div className="mt-12 flex justify-center pb-8">
-                        <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                const currentScrollY = window.scrollY;
-                                setVisibleCount(prev => prev + 5);
-                                setTimeout(() => {
-                                    window.scrollTo({
-                                        top: currentScrollY,
-                                        behavior: "instant"
-                                    });
-                                }, 5);
-                            }}
-                            className="px-8 py-4 border border-neon-purple/50 hover:bg-neon-purple/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm"
-                        >
-                            Load More Meets
-                        </button>
-                    </div>
-                )}
+                        {meets.length > visibleCount && (
+                            <div className="mt-16 flex justify-center w-full relative z-20 pb-16">
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const currentScrollY = window.scrollY;
+                                        setVisibleCount(prev => prev + 5);
+                                        setTimeout(() => {
+                                            window.scrollTo({
+                                                top: currentScrollY,
+                                                behavior: "instant"
+                                            });
+                                        }, 5);
+                                    }}
+                                    className="px-8 py-4 border border-white/20 hover:border-neon-purple hover:bg-neon-purple/10 transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white flex items-center justify-center gap-3 backdrop-blur-md shadow-[0_0_15px_rgba(176,38,255,0.2)] hover:shadow-[0_0_25px_rgba(176,38,255,0.4)]"
+                                >
+                                    <span className="w-1.5 h-1.5 rounded-full bg-neon-purple animate-pulse"></span>
+                                    Load More Meets
+                                    <span className="w-1.5 h-1.5 rounded-full bg-neon-purple animate-pulse delay-100"></span>
+                                </button>
+                            </div>
+                        )}
                 </>
             )}
         </div>
