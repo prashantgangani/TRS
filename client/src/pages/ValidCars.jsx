@@ -369,7 +369,17 @@ const fetchCarsAndSettings = async () => {
                             </div>                              {validCarsList.length > visibleValidCount && (
                                   <div className="mt-8 flex justify-center">
                                       <button
-                                          onClick={() => setVisibleValidCount(prev => prev + 12)}
+                                          onClick={(e) => {
+                                              e.preventDefault();
+                                              const currentScrollY = window.scrollY;
+                                              setVisibleValidCount(prev => prev + 12);
+                                              setTimeout(() => {
+                                                  window.scrollTo({
+                                                      top: currentScrollY,
+                                                      behavior: "instant"
+                                                  });
+                                              }, 5);
+                                          }}
                                           className="px-6 py-3 border border-white/20 hover:border-green-400 hover:text-green-400 transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
                                       >
                                           Load More
@@ -435,7 +445,17 @@ const fetchCarsAndSettings = async () => {
                             {invalidCarsList.length > visibleInvalidCount && (
                                 <div className="mt-8 flex justify-center">
                                     <button
-                                        onClick={() => setVisibleInvalidCount(prev => prev + 12)}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            const currentScrollY = window.scrollY;
+                                            setVisibleInvalidCount(prev => prev + 12);
+                                            setTimeout(() => {
+                                                window.scrollTo({
+                                                    top: currentScrollY,
+                                                    behavior: "instant"
+                                                });
+                                            }, 5);
+                                        }}
                                         className="px-6 py-3 border border-white/20 hover:border-neon-red hover:text-neon-red transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
                                     >
                                         Load More

@@ -8,12 +8,12 @@ import { logAdminAction } from '../utils/logger';
 const PreviousMeets = ({ isAdmin }) => {
     const [meets, setMeets] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({ themeName: '', url1: '', url2: '', url3: '' });
+    const [formData, setFormData] = useState({ themeName: '', imageUrl: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [editingId, setEditingId] = useState(null);
 
     // Limit initial loaded meets for bandwidth
-    const [visibleCount, setVisibleCount] = useState(5); // 5 meets, each has up to 3 images
+    const [visibleCount, setVisibleCount] = useState(5); // 5 meets
 
     useEffect(() => {
         fetchMeets();
@@ -65,10 +65,10 @@ const PreviousMeets = ({ isAdmin }) => {
         e.preventDefault();
         setIsSubmitting(true);
         
-        const imageUrls = [formData.url1, formData.url2, formData.url3].filter(Boolean);
         const payload = {
             themeName: formData.themeName,
-            imageUrls
+            imageUrl: formData.imageUrl,
+            imageUrls: [formData.imageUrl].filter(Boolean)
         };
 
         try {
@@ -80,7 +80,7 @@ const PreviousMeets = ({ isAdmin }) => {
                 });
                 if (res.ok) {
                     await logAdminAction('Edited Previous Meet', `Theme: ${formData.themeName}`);
-                    setFormData({ themeName: '', url1: '', url2: '', url3: '' });
+                    setFormData({ themeName: '', imageUrl: '' });
                     setEditingId(null);
                     fetchMeets();
                 }
@@ -92,7 +92,7 @@ const PreviousMeets = ({ isAdmin }) => {
                 });
                 if (res.ok) {
                     await logAdminAction('Added Previous Meet', `Theme: ${formData.themeName}`);
-                    setFormData({ themeName: '', url1: '', url2: '', url3: '' });
+                    setFormData({ themeName: '', imageUrl: '' });
                     fetchMeets();
                 }
             }
@@ -105,19 +105,17 @@ const PreviousMeets = ({ isAdmin }) => {
 
     const handleEditClick = (meet) => {
         setEditingId(meet._id);
-        const urls = meet.imageUrls && meet.imageUrls.length > 0 ? meet.imageUrls : [meet.imageUrl];
+        const urlToUse = meet.imageUrl || (meet.imageUrls && meet.imageUrls.length > 0 ? meet.imageUrls[0] : '');
         setFormData({
             themeName: meet.themeName,
-            url1: urls[0] || '',
-            url2: urls[1] || '',
-            url3: urls[2] || ''
+            imageUrl: urlToUse
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const cancelEdit = () => {
         setEditingId(null);
-        setFormData({ themeName: '', url1: '', url2: '', url3: '' });
+        setFormData({ themeName: '', imageUrl: '' });
     };
 
     const handleDelete = async (id, themeName) => {
@@ -183,28 +181,14 @@ const PreviousMeets = ({ isAdmin }) => {
                             value={formData.themeName}
                             onChange={e => setFormData({...formData, themeName: e.target.value})}
                         />
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 gap-4">
                             <input
                                 type="url"
-                                placeholder="Image URL 1"
-                                required={!formData.url2 && !formData.url3}
+                                placeholder="High-Res Image URL"
+                                required
                                 className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none transition-colors text-sm"
-                                value={formData.url1}
-                                onChange={e => setFormData({...formData, url1: e.target.value})}
-                            />
-                            <input
-                                type="url"
-                                placeholder="Image URL 2 (Optional)"
-                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none transition-colors text-sm"
-                                value={formData.url2}
-                                onChange={e => setFormData({...formData, url2: e.target.value})}
-                            />
-                            <input
-                                type="url"
-                                placeholder="Image URL 3 (Optional)"
-                                className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white focus:border-neon-purple outline-none transition-colors text-sm"
-                                value={formData.url3}
-                                onChange={e => setFormData({...formData, url3: e.target.value})}
+                                value={formData.imageUrl}
+                                onChange={e => setFormData({...formData, imageUrl: e.target.value})}
                             />
                         </div>
                         <button disabled={isSubmitting} type="submit" className="w-full py-3 bg-neon-purple/20 text-neon-purple hover:bg-neon-purple hover:text-white border border-neon-purple font-bold tracking-widest uppercase rounded transition-colors disabled:opacity-50">
@@ -220,9 +204,7 @@ const PreviousMeets = ({ isAdmin }) => {
                 <div className="text-center text-white/50 py-10 uppercase tracking-widest">No previous meets logged yet.</div>
             ) : (                <>                <div className="flex flex-col space-y-20 md:space-y-28">
                       {meets.slice(0, visibleCount).map((meet, idx) => {
-                        const urls = meet.imageUrls && meet.imageUrls.length > 0 
-                            ? meet.imageUrls 
-                            : [meet.imageUrl || 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000'];
+                        const url = meet.imageUrl || (meet.imageUrls && meet.imageUrls.length > 0 ? meet.imageUrls[0] : 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000');
 
                         return (
                             <motion.div
@@ -231,80 +213,87 @@ const PreviousMeets = ({ isAdmin }) => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-10%" }}
                                 transition={{ duration: 0.6, ease: "easeOut" }}
-                                className="w-full"
+                                className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} bg-charcoal/40 border border-white/5 rounded-xl overflow-hidden shadow-2xl group lg:max-h-[400px]`}
                             >
-                                {/* Master Topic/Title Area */}
-                                <div className="flex flex-col md:flex-row md:items-end justify-between border-b-2 border-white/5 pb-4 mb-8">
-                                    <h3 className="text-3xl md:text-5xl font-black font-heading text-white uppercase tracking-wider drop-shadow-[0_0_12px_rgba(0,0,0,1)]">
-                                        {meet.themeName}
-                                    </h3>
+                                {/* Image Section */}
+                                <div className="w-full lg:w-[50%] h-[300px] lg:h-[400px] relative overflow-hidden shrink-0">
+                                     {/* Ambient Glow */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/20 via-transparent to-electric-blue/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 mix-blend-overlay z-10"></div>
+                                    
+                                    {/* Scanline Effect */}
+                                    <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:100%_4px] z-10 mix-blend-overlay opacity-30"></div>
+                                    
+                                    <LazyImage
+                                        src={url}
+                                        variant="detail"
+                                        alt={`${meet.themeName} Showcase`}
+                                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 filter saturate-75 group-hover:saturate-100"
+                                        fallbackSrc='https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000'
+                                    />
                                     
                                     {/* Admin Action Tray */}
                                     {isAdmin && (
-                                        <div className="flex items-center gap-2 mt-4 md:mt-0">
+                                        <div className="absolute top-4 right-4 z-20 flex gap-2">
                                             {/* Position Arrows */}
-                                            <div className="flex mr-4 bg-black/40 rounded-lg border border-white/10 overflow-hidden">
+                                            <div className="flex mr-2 bg-black/60 rounded-full backdrop-blur-md overflow-hidden">
                                                 <button
                                                     onClick={() => handleMove(idx, 'up')}
                                                     disabled={idx === 0}
-                                                    className="p-2 text-white/50 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+                                                    className="p-2 text-white/70 hover:text-white hover:bg-white/20 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
                                                     title="Move Up"
                                                 >
-                                                    <ChevronUp size={20} />
+                                                    <ChevronUp size={16} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleMove(idx, 'down')}
                                                     disabled={idx === meets.length - 1}
-                                                    className="p-2 text-white/50 hover:text-white hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-transparent transition-colors border-l border-white/10"
+                                                    className="p-2 text-white/70 hover:text-white hover:bg-white/20 disabled:opacity-30 disabled:hover:bg-transparent transition-colors border-l border-white/10"
                                                     title="Move Down"
                                                 >
-                                                    <ChevronDown size={20} />
+                                                    <ChevronDown size={16} />
                                                 </button>
                                             </div>
 
                                             <button
                                                 onClick={() => handleEditClick(meet)}
-                                                className="p-3 bg-electric-blue/10 border border-electric-blue/30 text-electric-blue hover:bg-electric-blue hover:text-white rounded-lg transition-colors"
+                                                className="p-2 bg-black/60 hover:bg-electric-blue/80 text-white rounded-full transition-colors backdrop-blur-md"
                                                 title="Edit Previous Meet"
                                             >
-                                                <Edit2 size={18} />
+                                                <Edit2 size={16} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(meet._id, meet.themeName)}
-                                                className="p-3 bg-neon-red/10 border border-neon-red/30 text-neon-red hover:bg-neon-red hover:text-white rounded-lg transition-colors"
+                                                className="p-2 bg-black/60 hover:bg-neon-red/80 text-white rounded-full transition-colors backdrop-blur-md"
                                                 title="Delete Previous Meet"
                                             >
-                                                <Trash2 size={18} />
+                                                <Trash2 size={16} />
                                             </button>
                                         </div>
                                     )}
                                 </div>
 
-                                {/* Dynamic Grid Render based on image count */}
-                                <div className={`grid gap-6 md:gap-10 perspective-[1000px] ${
-                                    urls.length === 1 ? 'grid-cols-1' :
-                                    urls.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
-                                    'grid-cols-1 md:grid-cols-3'
-                                }`}>
-                                    {urls.map((url, i) => (
-                                        <motion.div
-                                            key={`${meet._id}-img-${i}`}
-                                            className="group relative w-full h-[200px] md:h-[270px] rounded-tr-3xl rounded-bl-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] p-[2px]"
-                                            whileHover={{ rotateX: 2, rotateY: -2, z: 10, boxShadow: "0 25px 50px -12px rgba(176,38,255,0.3)" }}
-                                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                        >
-                                            <div className="absolute inset-0 bg-gradient-to-br from-neon-purple via-charcoal to-electric-blue opacity-50 group-hover:opacity-100 transition-opacity duration-700 animate-pulse-slow"></div>
-                                            <div className="absolute inset-[2px] rounded-tr-[22px] rounded-bl-[22px] bg-charcoal overflow-hidden relative">
-                                                  <LazyImage
-                                                      src={url}
-                                                      variant="card"
-                                                      alt={`${meet.themeName} Plaque ${i + 1}`}
-                                                      className="transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.03]"
-                                                      fallbackSrc='https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=1000'
-                                                />
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                {/* Text Section */}
+                                <div className="w-full lg:w-[50%] p-6 md:p-8 lg:p-10 flex flex-col justify-center relative bg-charcoal/80 h-[300px] lg:h-[400px]">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className="h-0.5 w-10 bg-neon-purple shadow-[0_0_10px_rgba(176,38,255,1)]"></div>
+                                        <p className="text-white/80 font-medium tracking-[0.2em] uppercase text-xs sm:text-sm font-heading">
+                                            Event Memory
+                                        </p>
+                                    </div>
+                                    
+                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black font-heading text-white uppercase tracking-wider mb-4">
+                                        {meet.themeName}
+                                    </h3>
+                                    
+                                    <p className="text-white/60 text-sm md:text-sm lg:text-base leading-relaxed mb-6">
+                                        A look back at the incredible rides and memories from the {meet.themeName} event. Each meet pushes the limits of style and performance.
+                                    </p>
+
+                                    <div className="mt-auto">
+                                        <span className="inline-block px-3 py-1.5 border border-white/10 rounded-sm text-[10px] sm:text-xs tracking-widest uppercase text-white/40">
+                                            Archived Meet
+                                        </span>
+                                    </div>
                                 </div>
                             </motion.div>
                         );
@@ -313,7 +302,17 @@ const PreviousMeets = ({ isAdmin }) => {
                 {meets.length > visibleCount && (
                     <div className="mt-12 flex justify-center pb-8">
                         <button
-                            onClick={() => setVisibleCount(prev => prev + 5)}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const currentScrollY = window.scrollY;
+                                setVisibleCount(prev => prev + 5);
+                                setTimeout(() => {
+                                    window.scrollTo({
+                                        top: currentScrollY,
+                                        behavior: "instant"
+                                    });
+                                }, 5);
+                            }}
                             className="px-8 py-4 border border-neon-purple/50 hover:bg-neon-purple/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm"
                         >
                             Load More Meets

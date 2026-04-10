@@ -286,7 +286,6 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                             <AnimatePresence>
                                 {filteredCars.slice(0, visibleCount).map((car, i) => (
                                     <motion.div
-                                        layout
                                         key={car._id}
                                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                                         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -360,7 +359,17 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                         {visibleCount < filteredCars.length && (
                             <div className="mt-12 flex justify-center">
                                 <button
-                                    onClick={() => setVisibleCount(prev => prev + 12)}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const currentScrollY = window.scrollY;
+                                        setVisibleCount(prev => prev + 12);
+                                        setTimeout(() => {
+                                            window.scrollTo({
+                                                top: currentScrollY,
+                                                behavior: "instant"
+                                            });
+                                        }, 5);
+                                    }}
                                     className="px-8 py-4 border border-white/20 hover:border-electric-blue hover:text-electric-blue transition-all uppercase tracking-widest text-sm font-bold rounded-sm text-white"
                                 >
                                     Load More
