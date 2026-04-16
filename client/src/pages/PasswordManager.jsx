@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Key, Users, Search } from 'lucide-react';
+import { Key, Users, Search, ArrowLeft, LogOut } from 'lucide-react';
 import { API_URL } from '../config';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const PasswordManager = () => {
     const [members, setMembers] = useState([]);
@@ -70,6 +70,18 @@ const PasswordManager = () => {
     return (
         <div className="min-h-screen bg-deep-black text-white font-sans selection:bg-electric-blue/50 pt-24 pb-20">
             <div className="max-w-4xl mx-auto px-6">
+                <div className="flex justify-between mb-8">
+                    {localStorage.getItem('trs_role') === 'superadmin' ? (
+                        <Link to="/controls" className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:border-electric-blue hover:bg-electric-blue/10 rounded-full transition-all text-xs font-bold uppercase tracking-wider text-white">
+                            <ArrowLeft size={16} /> Back to Controls
+                        </Link>
+                    ) : (
+                        <button onClick={() => { localStorage.clear(); navigate('/admin-login'); }} className="inline-flex items-center gap-2 px-4 py-2 bg-neon-red/10 border border-neon-red/30 hover:border-neon-red hover:bg-neon-red/20 rounded-full transition-all text-xs font-bold uppercase tracking-wider text-white">
+                            <LogOut size={16} /> Logout
+                        </button>
+                    )}
+                </div>
+
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}

@@ -14,6 +14,7 @@ const settingsSchema = new mongoose.Schema({
     validCarsPdfUrl: { type: String, default: '' },
     memberLoginEnabled: { type: Boolean, default: false },
     allowAdminCarArrange: { type: Boolean, default: true },
+    hideGarageCars: { type: Boolean, default: true },
     garageUpdateLimit: { type: Number, default: 3 }
 }, { timestamps: true });
 

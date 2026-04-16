@@ -16,7 +16,9 @@ import AdminLogs from './pages/AdminLogs';
 import ValidCars from './pages/ValidCars';
 import AdminCarLibrary from './pages/AdminCarLibrary';
 import PreviousMeets from './pages/PreviousMeets';
-import SmartAdmin from './pages/SmartAdmin';
+import SmartAdminPanel from './pages/SmartAdminPanel';
+import Controls from './pages/Controls';
+import StaffCredentials from './pages/StaffCredentials';
 import PasswordManager from './pages/PasswordManager';
 import ManageCrewMembers from './pages/ManageCrewMembers';
 import MemberLogin from './pages/MemberLogin';
@@ -77,6 +79,7 @@ function App() {
   const canManageTimezones = isSuperAdmin || (isAdmin && settings?.manageTimezones !== false);
   const canManagePreviousMeets = isSuperAdmin || (isAdmin && settings?.managePreviousMeets !== false);
   const canArrangeGarage = isSuperAdmin || (isAdmin && settings?.allowAdminCarArrange !== false);
+  const canHideGarageCars = isSuperAdmin || (isAdmin && settings?.hideGarageCars !== false);
   const canManageMemes = isSuperAdmin || (isAdmin && settings?.manageMemes !== false);
 
   if (isSmartAdmin) {
@@ -92,7 +95,7 @@ function App() {
           {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
           <Routes>
             {/* Force routing all unhandled smartadmin paths back to their control panel */}
-            <Route path="*" element={<SmartAdmin />} />
+            <Route path="*" element={<SmartAdminPanel />} />
           </Routes>
         </div>
       </>
@@ -132,7 +135,8 @@ function App() {
       {location.pathname !== "/password-manager" && <Navbar role={role} setRole={setRole} />}
       <Routes>
         <Route path="/" element={<Home canEditHero={canEditHero} canPublishMeet={canPublishMeet} />} />
-        <Route path="/garage" element={<Garage isAdmin={canManageGarage} isSuperAdmin={isSuperAdmin} canArrangeGarage={canArrangeGarage} />} />
+        <Route path="/garage" element={<Garage isAdmin={canManageGarage} isSuperAdmin={isSuperAdmin} canArrangeGarage={canArrangeGarage} canHideGarageCars={canHideGarageCars} />} />
+        <Route path="/garage/hidden" element={<Garage isAdmin={canManageGarage} isSuperAdmin={isSuperAdmin} canArrangeGarage={canArrangeGarage} canHideGarageCars={canHideGarageCars} isHiddenMode={true} />} />
         <Route path="/members" element={<Members isSuperAdmin={isSuperAdmin} />} />
         <Route path="/laws" element={<Laws isAdmin={canManageLaws} isSuperAdmin={isSuperAdmin} />} />
         <Route path="/timezones" element={<Timezones isAdmin={canManageTimezones} isSuperAdmin={isSuperAdmin} />} />
@@ -146,7 +150,9 @@ function App() {
         <Route path="/feedback" element={<SubmitFeedback />} />
         <Route path="/manage-feedbacks" element={isAdmin ? <ManageFeedbacks /> : <Home />} />
         <Route path="/logs" element={isSuperAdmin ? <AdminLogs /> : <Home />} />
-        <Route path="/smart-admin" element={isSuperAdmin ? <SmartAdmin /> : <Home />} />
+        <Route path="/controls" element={isSuperAdmin ? <Controls /> : <Home />} />
+        <Route path="/smart-admin" element={isSuperAdmin ? <SmartAdminPanel /> : <Home />} />
+        <Route path="/staff-credentials" element={isSuperAdmin ? <StaffCredentials /> : <Home />} />
         <Route path="/password-manager" element={isSuperAdmin || role === 'passwordmanager' ? <PasswordManager /> : <Home />} />
         <Route path="/manage-crew-members" element={isSuperAdmin ? <ManageCrewMembers /> : <Home />} />
         <Route path="/member-login" element={<MemberLogin setAuthContext={setRole} />} />

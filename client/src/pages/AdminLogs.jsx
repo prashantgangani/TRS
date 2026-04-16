@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trash2, AlertTriangle, Terminal, Activity } from 'lucide-react';
+import { Trash2, AlertTriangle, Terminal, Activity, ArrowLeft } from 'lucide-react';
 import { API_URL } from '../config';
+import { Link } from 'react-router-dom';
 
 const AdminLogs = () => {
     const [logs, setLogs] = useState([]);
@@ -55,6 +56,12 @@ const AdminLogs = () => {
             {/* Background */}
             <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-electric-blue/5 to-transparent pointer-events-none -z-10"></div>
             
+            <div className="max-w-6xl mx-auto mb-8">
+                <Link to="/controls" className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:border-[#FFD700] hover:bg-[#FFD700]/10 rounded-full transition-all text-xs font-bold uppercase tracking-wider text-white">
+                    <ArrowLeft size={16} /> Back to Controls
+                </Link>
+            </div>
+
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <motion.div

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Plus, Trash2, Edit2, X, Search, Shuffle, MoveLeft, MoveRight } from 'lucide-react';
+import { Plus, Trash2, Edit2, X, Search, Shuffle, MoveLeft, MoveRight, EyeOff, Eye, RefreshCw } from 'lucide-react';
 import { API_URL } from '../config';
 import { logAdminAction } from '../utils/logger';
 import LazyImage from '../components/LazyImage';
 
-const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
+const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage, canHideGarageCars, isHiddenMode }) => {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,10 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const response = await fetch(`${API_URL}/featured-cars`);
+                const url = isHiddenMode 
+                    ? `${API_URL}/featured-cars?hidden=true` 
+                    : `${API_URL}/featured-cars?hidden=false`;
+                const response = await fetch(url);
                 const data = await response.json();
                 setCars(data);
                 setLoading(false);
@@ -41,7 +44,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
             }
         };
         fetchCars();
-    }, []);
+    }, [isHiddenMode]);
 
     const handleAddOrUpdateCar = async (e) => {
         e.preventDefault();
@@ -161,6 +164,37 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
         }
     };
 
+    const handleToggleHide = async (car) => {
+        try {
+            const payload = { isHidden: !car.isHidden };
+            const response = await fetch(`${API_URL}/featured-cars/${car._id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (response.ok) {
+                await logAdminAction(car.isHidden ? 'Unhid Garage Car' : 'Hid Garage Car', `Car: ${car.carName} | Owner: ${car.builtBy}`);
+                // Remove from view immediately, or update it if we weren't filtering them exactly, but since we are on separate pages, hiding removes it from current view:
+                setCars(cars.filter(c => c._id !== car._id));
+            }
+        } catch (error) {
+            console.error("Error toggling hide status:", error);
+        }
+    };
+
+    const handleUnhideAll = async () => {
+        if (!window.confirm("Are you sure you want to unhide all cards?")) return;
+        try {
+            const response = await fetch(`${API_URL}/featured-cars/unhide-all`, { method: 'PUT' });
+            if (response.ok) {
+                await logAdminAction('Unhid All Garage Cars', 'Admin clicked unhide all cards in hidden garage mode');
+                setCars([]); // since we unhid all, there are no hidden cars anymore
+            }
+        } catch (error) {
+            console.error("Error unhiding all:", error);
+        }
+    };
+
     const filteredCars = cars.filter(car =>
         car.builtBy.toLowerCase().includes(searchOwner.toLowerCase())
     );
@@ -182,15 +216,33 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                             className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-electric-blue to-neon-purple hidden md:block"
                         />
                         <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 font-heading uppercase italic text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 drop-shadow-lg">
-                            The <span className="text-electric-blue drop-shadow-[0_0_15px_rgba(0,229,255,0.5)] text-glow-blue">Garage</span>
+                            {isHiddenMode ? 'Hidden' : 'The'} <span className="text-electric-blue drop-shadow-[0_0_15px_rgba(0,229,255,0.5)] text-glow-blue">{isHiddenMode ? 'Cars' : 'Garage'}</span>
                         </h1>
                         <p className="text-white/60 text-lg md:text-xl font-light tracking-wide max-w-xl">
-                            A curated selection of the most aggressive and meticulously crafted builds from the underground.
+                            {isHiddenMode ? 'Currently hidden garage builds.' : 'A curated selection of the most aggressive and meticulously crafted builds from the underground.'}
                         </p>
                     </div>
 
                     <div className="flex items-center gap-4 flex-wrap pb-2">
-                        {isSuperAdmin && (
+                        {isHiddenMode && canHideGarageCars && (
+                            <button
+                                onClick={handleUnhideAll}
+                                className="px-6 py-3 bg-neon-purple text-white hover:bg-neon-purple/90 transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2 shadow-[0_0_15px_rgba(176,38,255,0.5)]"
+                            >
+                                <RefreshCw size={18} />
+                                Unhide All
+                            </button>
+                        )}
+                        {!isHiddenMode && canHideGarageCars && (
+                            <Link
+                                to="/garage/hidden"
+                                className="px-6 py-3 border border-neon-purple/50 bg-neon-purple/10 hover:bg-neon-purple/20 text-white transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2"
+                            >
+                                <EyeOff size={18} />
+                                Hidden Cars
+                            </Link>
+                        )}
+                        {isSuperAdmin && !isHiddenMode && (
                             <button
                                 onClick={handleShuffle}
                                 disabled={isSavingOrder}
@@ -200,7 +252,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                 {isSavingOrder ? 'Wait...' : 'Shuffle'}
                             </button>
                         )}
-                        {isAdmin && (
+                        {isAdmin && !isHiddenMode && (
                             <button
                                 onClick={() => setIsFormOpen(!isFormOpen)}
                                 className="px-6 py-3 bg-white hover:bg-white/90 text-deep-black transition-all uppercase tracking-widest text-sm font-bold rounded-sm flex items-center gap-2"
@@ -209,9 +261,15 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                 {isFormOpen ? 'Cancel' : 'Add Build'}
                             </button>
                         )}
-                        <Link to="/showroom" className="px-6 py-3 border border-white/20 hover:border-white hover:bg-white/5 transition-all uppercase tracking-widest text-sm font-bold rounded-sm inline-block group whitespace-nowrap">
-                            Full Showroom <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
-                        </Link>
+                        {!isHiddenMode ? (
+                            <Link to="/showroom" className="px-6 py-3 border border-white/20 hover:border-white hover:bg-white/5 transition-all uppercase tracking-widest text-sm font-bold rounded-sm inline-block group whitespace-nowrap">
+                                Full Showroom <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+                            </Link>
+                        ) : (
+                            <Link to="/garage" className="px-6 py-3 border border-white/20 hover:border-white hover:bg-white/5 transition-all uppercase tracking-widest text-sm font-bold rounded-sm inline-block group whitespace-nowrap">
+                                Back to Garage <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+                            </Link>
+                        )}
                     </div>
                 </div>
 
@@ -308,6 +366,11 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                             {/* Admin Controls */}
                                             {isAdmin && (
                                                 <div className="absolute top-5 right-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
+                                                    {canHideGarageCars && (
+                                                        <button onClick={() => handleToggleHide(car)} className="p-3 bg-black/60 hover:bg-neon-purple text-white rounded-xl transition-all backdrop-blur-md shadow-lg" title={car.isHidden ? 'Unhide Car' : 'Hide Car'}>
+                                                            {car.isHidden ? <Eye size={16} /> : <EyeOff size={16} />}
+                                                        </button>
+                                                    )}
                                                     <button onClick={() => handleEdit(car)} className="p-3 bg-black/60 hover:bg-white text-white hover:text-black rounded-xl transition-all backdrop-blur-md shadow-lg">
                                                         <Edit2 size={16} />
                                                     </button>
@@ -318,7 +381,7 @@ const Garage = ({ isAdmin, isSuperAdmin, canArrangeGarage }) => {
                                             )}
 
                                             {/* Arrange Controls */}
-                                            {canArrangeGarage && (
+                                            {canArrangeGarage && !isHiddenMode && (
                                                 <div className="absolute top-5 left-5 z-30 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-[-10px] group-hover:translate-y-0 duration-300">
                                                     <button
                                                         onClick={() => handleMove(car._id, 'left')}

@@ -6,7 +6,8 @@ const featuredCarSchema = new mongoose.Schema({
     image: { type: String, required: true },
     imagePublicId: { type: String, default: null },
     ownerMemberId: { type: mongoose.Schema.Types.ObjectId, ref: 'Member', default: null },
-    order: { type: Number, default: 0 }
+    order: { type: Number, default: 0 },
+    isHidden: { type: Boolean, default: false }
 }, { timestamps: true });
 
 featuredCarSchema.index({ order: 1, createdAt: -1 });

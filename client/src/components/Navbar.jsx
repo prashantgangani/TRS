@@ -105,10 +105,7 @@ const Navbar = ({ role, setRole }) => {
                         <Link to="/manage-feedbacks" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/manage-feedbacks' ? 'text-green-400 text-glow-green' : 'text-white/70 hover:text-white hover:text-glow'}`}>Manage Feedbacks</Link>
                     )}
                     {role === 'superadmin' && (
-                        <>
-                            <Link to="/logs" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/logs' ? 'text-[#FFD700] text-glow-blue' : 'text-white/70 hover:text-white hover:text-glow'}`}>Logs</Link>
-                            <Link to="/smart-admin" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/smart-admin' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Controls</Link>
-                        </>
+                        <Link to="/controls" onClick={() => setActiveHash('')} className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap ${location.pathname === '/controls' ? 'text-neon-purple text-glow-purple' : 'text-white/70 hover:text-white hover:text-glow'}`}>Controls</Link>
                     )}
                     {role === 'smartadmin' && (
                         <span className={`text-sm uppercase tracking-widest transition-all whitespace-nowrap text-neon-purple text-glow-purple`}>Smart Controls</span>
@@ -164,10 +161,7 @@ const Navbar = ({ role, setRole }) => {
                         <Link to="/manage-feedbacks" className={`text-sm uppercase tracking-widest ${location.pathname === '/manage-feedbacks' ? 'text-green-400' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Manage Feedbacks</Link>
                     )}
                     {role === 'superadmin' && (
-                        <>
-                            <Link to="/logs" className={`text-sm uppercase tracking-widest ${location.pathname === '/logs' ? 'text-[#FFD700]' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Logs</Link>
-                            <Link to="/smart-admin" className={`text-sm uppercase tracking-widest ${location.pathname === '/smart-admin' ? 'text-neon-purple' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Controls</Link>
-                        </>
+                        <Link to="/controls" className={`text-sm uppercase tracking-widest ${location.pathname === '/controls' ? 'text-neon-purple' : 'text-white/80 hover:text-white'}`} onClick={() => { setMobileMenuOpen(false); setActiveHash(''); }}>Controls</Link>
                     )}
                     {role === 'smartadmin' && (
                         <span className={`text-sm uppercase tracking-widest text-neon-purple`} onClick={() => setMobileMenuOpen(false)}>Smart Controls</span>

@@ -5,8 +5,16 @@ const router = express.Router();
 // GET all featured cars
 router.get('/', async (req, res) => {
     try {
-        const { limit } = req.query;
-        let query = FeaturedCar.find().sort({ order: 1, createdAt: -1 }).lean();
+        const { limit, hidden } = req.query;
+        
+        let filter = {};
+        if (hidden === 'true') {
+            filter.isHidden = true;
+        } else if (hidden === 'false') {
+            filter.isHidden = { $ne: true };
+        } // if undefined, return all or we can make it return non-hidden by default
+
+        let query = FeaturedCar.find(filter).sort({ order: 1, createdAt: -1 }).lean();
         if (limit) {
             query = query.limit(parseInt(limit, 10));
         }
@@ -22,7 +30,8 @@ router.post('/', async (req, res) => {
     const car = new FeaturedCar({
         carName: req.body.carName,
         builtBy: req.body.builtBy,
-        image: req.body.image
+        image: req.body.image,
+        isHidden: req.body.isHidden || false
     });
 
     try {
@@ -30,6 +39,16 @@ router.post('/', async (req, res) => {
         res.status(201).json(newCar);
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+});
+
+// PUT to unhide all cars
+router.put('/unhide-all', async (req, res) => {
+    try {
+        await FeaturedCar.updateMany({}, { isHidden: false });
+        res.json({ message: 'All cars unhidden' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 

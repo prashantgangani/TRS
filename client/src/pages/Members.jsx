@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, ArrowUp, ArrowDown, Edit2 } from 'lucide-react';
 import { API_URL } from '../config';
-import StaffManagement from '../components/StaffManagement';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -297,11 +296,7 @@ const Members = ({ isSuperAdmin }) => {
             </div>
 
             {/* SUPERADMIN STAFF MANAGEMENT */}
-            {isSuperAdmin && (
-                <div className="max-w-7xl mx-auto mt-20">
-                    <StaffManagement />
-                </div>
-            )}
+            {/* Staff clearance removed, moved to Staff Credentials */}
         </section>
     );
 };

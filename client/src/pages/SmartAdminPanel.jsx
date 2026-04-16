@@ -4,7 +4,7 @@ import { Shield, Check, X, Users } from 'lucide-react';
 import { API_URL } from '../config';
 import { Link } from 'react-router-dom';
 
-const SmartAdmin = () => {
+const SmartAdminPanel = () => {
     const [settings, setSettings] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -32,7 +32,8 @@ const SmartAdmin = () => {
         // Handle defaults based on key since older db entries might not have them
         const defaultValues = {
             memberLoginEnabled: false,
-            allowAdminCarArrange: true
+            allowAdminCarArrange: true,
+            hideGarageCars: true
         };
         const currentValue = Object.prototype.hasOwnProperty.call(settings, key) ? settings[key] : (defaultValues[key] !== undefined ? defaultValues[key] : true);
         const newSettings = { ...settings, [key]: !currentValue };
@@ -67,7 +68,8 @@ const SmartAdmin = () => {
         { key: 'manageMasterLibrary', name: 'Master Car Library Access' },
         { key: 'manageMemes', name: 'Manage Memes' },
         { key: 'memberLoginEnabled', name: 'Member Login' },
-        { key: 'allowAdminCarArrange', name: 'Admin Arrange Garage Cars' }
+        { key: 'allowAdminCarArrange', name: 'Admin Arrange Garage Cars' },
+        { key: 'hideGarageCars', name: 'Admin Hide Garage Cars' }
     ];
 
     return (
@@ -88,15 +90,15 @@ const SmartAdmin = () => {
                         Toggle admin access to specific features across the crew system.
                     </p>
                     <div className="mt-8 flex justify-center">
-                        <Link to="/manage-crew-members" className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 hover:border-electric-blue hover:bg-electric-blue/10 rounded-full transition-all text-sm font-bold uppercase tracking-wider text-white">
-                            <Users size={18} /> Manage Crew Logins
+                        <Link to="/controls" className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 hover:border-neon-purple hover:bg-neon-purple/10 rounded-full transition-all text-sm font-bold uppercase tracking-wider text-white">
+                            Back to Controls
                         </Link>
                     </div>
                 </motion.div>
 
                 <div className="space-y-4">
                     {features.map((feature, i) => {
-                        const defaultValues = { memberLoginEnabled: false, allowAdminCarArrange: true };
+                        const defaultValues = { memberLoginEnabled: false, allowAdminCarArrange: true, hideGarageCars: true };
                         const isEnabled = Object.prototype.hasOwnProperty.call(settings, feature.key) 
                             ? settings[feature.key]
                             : (defaultValues[feature.key] !== undefined ? defaultValues[feature.key] : true);
@@ -132,4 +134,4 @@ const SmartAdmin = () => {
     );
 };
 
-export default SmartAdmin;
+export default SmartAdminPanel;
