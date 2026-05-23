@@ -159,7 +159,7 @@ function App() {
         <Route path="/member-dashboard" element={role === 'member' ? <MemberDashboard setAuthContext={setRole} /> : <Home />} />
       </Routes>
       <footer className="w-full py-8 border-t border-white/5 text-center text-white/40 text-sm">
-        <p>&copy; {new Date().getFullYear()} Underground Meets. A GTA Online Crew.</p>
+        <p>&copy; The Royal Sorcerers - 2024.</p>
       </footer>
     </div>
     </>
