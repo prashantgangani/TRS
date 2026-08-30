@@ -17,7 +17,8 @@
   z-index: 99999;
   overflow: hidden;
   background:
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+    linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.72)),
+    radial-gradient(circle at center, rgba(13, 16, 25, 0.8), rgba(7, 8, 18, 0.92) 55%, rgba(4, 5, 11, 1) 100%),
     url('/bg17.png') center/cover no-repeat;
   color: var(--trs-text);
   transition: opacity 0.9s ease, transform 0.9s ease, filter 0.9s ease;

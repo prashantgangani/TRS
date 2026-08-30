@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import SplashCursor from "../SplashCursor";
 import "./LoadingScreen.css";
 
 const messages = [
@@ -154,6 +155,17 @@ export default function LoadingScreen({ isLoading, onComplete }) {
       className={`trs-loader ${closing ? "trs-loader--closing" : ""} ${boosted ? "trs-loader--boosted" : ""}`}
       aria-live="polite"
     >
+      <SplashCursor
+        DENSITY_DISSIPATION={2.5}
+        VELOCITY_DISSIPATION={2.5}
+        PRESSURE={0.2}
+        CURL={42}
+        SPLAT_RADIUS={0.65}
+        SPLAT_FORCE={15000}
+        COLOR_UPDATE_SPEED={18}
+        RAINBOW_MODE
+      />
+
       <div
         className="trs-loader__mouse-glow"
         style={{
