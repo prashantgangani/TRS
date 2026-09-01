@@ -61,7 +61,7 @@ const CrewIdentity = () => {
                         <LazyImage
                             src="/meet.png"
                             alt="Car Meet Atmosphere"
-                            className="filter brightness-50 contrast-125 saturate-50"
+                            className="filter brightness-100 contrast-125 saturate-60"
                         />
 
                         <div className="absolute bottom-8 right-8 z-30 flex items-center gap-3 glass-panel px-6 py-4 rounded-sm border-l-4 border-l-neon-purple">

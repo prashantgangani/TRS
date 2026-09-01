@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Layers, Star, LayoutGrid } from 'lucide-react';
 
 const FeaturedCars = () => {
+    const navigate = useNavigate();
     // Subtle float animation
     const floatAnim = {
         animate: (i) => ({
@@ -87,12 +88,20 @@ const FeaturedCars = () => {
 
                         {/* CTA Buttons */}
                         <div className="flex flex-wrap items-center gap-4">
-                            <Link to="/garage" className="px-8 py-3.5 bg-electric-blue hover:bg-white text-deep-black font-bold uppercase tracking-widest text-sm rounded transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)] text-center flex-1 sm:flex-none">
+                            <button
+                                type="button"
+                                onClick={() => navigate('/garage')}
+                                className="px-8 py-3.5 bg-electric-blue hover:bg-white text-deep-black font-bold uppercase tracking-widest text-sm rounded transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.6)] text-center flex-1 sm:flex-none"
+                            >
                                 Enter Garage
-                            </Link>
-                            <Link to="/showroom" className="px-8 py-3.5 bg-transparent border border-electric-blue/50 hover:bg-electric-blue/10 text-electric-blue font-bold uppercase tracking-widest text-sm rounded transition-all backdrop-blur-md hover:shadow-[inset_0_0_15px_rgba(0,229,255,0.2)] text-center flex-1 sm:flex-none">
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => navigate('/showroom')}
+                                className="px-8 py-3.5 bg-transparent border border-electric-blue/50 hover:bg-electric-blue/10 text-electric-blue font-bold uppercase tracking-widest text-sm rounded transition-all backdrop-blur-md hover:shadow-[inset_0_0_15px_rgba(0,229,255,0.2)] text-center flex-1 sm:flex-none"
+                            >
                                 View Showroom
-                            </Link>
+                            </button>
                         </div>
                     </motion.div>
 

@@ -1,3 +1,5 @@
+// https://1stwebdesigner.com/18-creative-custom-cursors/ ---8th cursor 
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import SplashCursor from "../SplashCursor";
 import "./LoadingScreen.css";

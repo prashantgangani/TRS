@@ -25,6 +25,7 @@ import MemberLogin from './pages/MemberLogin';
 import MemberDashboard from './pages/MemberDashboard';
 import Memes from './pages/Memes';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
+import CustomCursor from './components/CustomCursor';
 import { API_URL } from './config';
 
 function App() {
@@ -124,6 +125,7 @@ function App() {
 
   return (
     <>
+      {!showLoader && <CustomCursor enabled={true} />}
       {showLoader && (
         <LoadingScreen 
           isLoading={isAppLoading} 
